@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "scroll",
     position: "absolute",
-    bottom: "9.5%",
+    bottom: "14%",
     marginLeft: "5%",
     backgroundColor: "rgba(255, 255, 255, 1)",
     borderTopLeftRadius: 6,
