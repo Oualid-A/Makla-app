@@ -27,7 +27,7 @@ export default function Snack() {
         title="Card Title"
         subtitle="Card Subtitle"
         left={(props) => <Avatar.Icon {...props} icon="folder" />}
-        right={(props) => (
+        right={(props) => ( 
           <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
         )}
       />
