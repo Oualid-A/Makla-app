@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 const LoginForm = () => {
   const navigation = useNavigation();
   const handleLoginPress = () => {
-    navigation.navigate("Snack"); 
+    navigation.navigate("LandingPage"); 
   };
   return (
     <ScrollView
@@ -32,7 +32,6 @@ const LoginForm = () => {
           placeholder: "Enter a phone number...",
         }}
       />
-
       <TextInput
         outlineColor="gray"
         activeOutlineColor="gray"
@@ -241,7 +240,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "scroll",
     position: "absolute",
-    bottom: "14%",
+    bottom: "20%",
+    zIndex:1,
     marginLeft: "5%",
     backgroundColor: "rgba(255, 255, 255, 1)",
     borderTopLeftRadius: 6,
@@ -270,6 +270,7 @@ const styles = StyleSheet.create({
   login: {
     marginTop: 5,
     overflow: "scroll",
+    zIndex:2
   },
   nb: {
     fontSize: 11,

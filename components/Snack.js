@@ -1,8 +1,18 @@
-import { StyleSheet, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  View,
+} from "react-native";
 import * as React from "react";
-import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { Avatar, Card, IconButton } from "react-native-paper";
+import { Appbar, Avatar, Button, Card, IconButton } from "react-native-paper";
+import logo from "../assets/KFC_logo.svg.png";
+import logo2 from "../assets/macdo.png";
+import logo3 from "../assets/brimo.jpg";
+import logo4 from "../assets/pizzaHut.png";
 
 export default function Snack() {
   const navigation = useNavigation();
@@ -24,134 +34,85 @@ export default function Snack() {
         <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
       </Appbar.Header>
       <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4 }}>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card style={styles.card}>
-            <Card.Title
-              title="KFC"
-              subtitle="Kintaki Checken"
-              left={(props) => <Avatar.Icon {...props} icon="food" />}
-              right={(props) => <IconButton {...props} icon="dots-vertical" />}
-            />
-          </Card>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ShowMenu}>
-          <Card.Title
-            style={styles.card}
-            title="Card Title"
-            subtitle="Card Subtitle"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => (
-              <IconButton {...props} icon="dots-vertical" onPress={() => {}} />
-            )}
-          />
-        </TouchableOpacity>
+        <View style={styles.contenair}>
+          <View style={styles.coverContainer}>
+            <Image source={logo} style={styles.coverImage} />
+          </View>
+          <View style={styles.snack}>
+            <Text style={styles.title}>Kentucky Fried Chicken</Text>
+          </View>
+          <View>
+            <Button
+              mode="contained"
+              onPress={ShowMenu}
+              style={styles.addToCartButton}
+              textColor="#fff"
+            >
+              Voir le Menu
+            </Button>
+          </View>
+        </View>
+        <View style={styles.contenair}>
+          <View style={styles.coverContainer}>
+            <Image source={logo2} style={styles.coverImage} />
+          </View>
+          <View style={styles.snack}>
+            <Text style={styles.title}>Macdonald's</Text>
+          </View>
+          <View>
+            <Button
+              mode="contained"
+              onPress={ShowMenu}
+              style={styles.addToCartButton}
+              textColor="#fff"
+            >
+              Voir le Menu
+            </Button>
+          </View>
+        </View>
+        <View style={styles.contenair}>
+          <View style={styles.coverContainer}>
+            <Image source={logo3} style={styles.coverImage} />
+          </View>
+          <View style={styles.snack}>
+            <Text style={styles.title}>Brimo Chicken</Text>
+          </View>
+          <View>
+            <Button
+              mode="contained"
+              onPress={ShowMenu}
+              style={styles.addToCartButton}
+              textColor="#fff"
+            >
+              Voir le Menu
+            </Button>
+          </View>
+        </View>
+        <View style={styles.contenair}>
+          <View style={styles.coverContainer}>
+            <Image source={logo4} style={styles.coverImage} />
+          </View>
+          <View style={styles.snack}>
+            <Text style={styles.title}>Pizza Hut</Text>
+          </View>
+          <View>
+            <Button
+              mode="contained"
+              onPress={ShowMenu}
+              style={styles.addToCartButton}
+              textColor="#fff"
+            >
+              Voir le Menu
+            </Button>
+          </View>
+        </View>
       </ScrollView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  contenair: {
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
@@ -163,5 +124,44 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 2,
     borderRadius: 20,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 10,
+    marginLeft:10,
+    marginRight:10,
+    marginTop:10
+  },
+  coverContainer: {
+    width: "20%",
+    aspectRatio: 1,
+    borderRadius: 99999,
+    overflow: "hidden",
+    borderWidth: 0.5,
+    borderColor: "gray",
+  },
+  coverImage: {
+    flex: 1,
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
+  },
+
+  title: {
+    fontSize: 20,
+    color: "#000",
+    fontWeight: "bold",
+  },
+  snack: {
+    flex: 1,
+    justifyContent: "space-between",
+    flexDirection: "column",
+    alignItems: "stretch",
+    marginLeft: "3%",
+  },
+  addToCartButton: {
+    backgroundColor: "rgba(250, 74, 12, 1)",
+    borderWidth: 0,
   },
 });
