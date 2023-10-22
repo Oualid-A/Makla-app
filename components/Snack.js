@@ -13,6 +13,7 @@ import logo from "../assets/KFC_logo.svg.png";
 import logo2 from "../assets/macdo.png";
 import logo3 from "../assets/brimo.jpg";
 import logo4 from "../assets/pizzaHut.png";
+import Footer from "./compenent-items/Footer";
 
 export default function Snack() {
   const navigation = useNavigation();
@@ -107,6 +108,7 @@ export default function Snack() {
           </View>
         </View>
       </ScrollView>
+      <Footer/>
     </>
   );
 }
