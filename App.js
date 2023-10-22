@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Snack from './components/Snack';
 import Menu from './components/Menu';
 import Informations from './components/Informations';
+import Map from './components/Map';
 
 
 const Stack = createStackNavigator();
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="Menu" component={Menu} />
         <Stack.Screen name="Informations" component={Informations} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="Map" component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
   );

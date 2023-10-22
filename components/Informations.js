@@ -5,6 +5,8 @@ import { Appbar, Avatar, Button, Card, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import avatar from "../assets/ilyass.jpg";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { ScrollView } from "react-native-gesture-handler";
+import Collapsible from "react-native-collapsible";
 
 export default function Informations() {
   const navigation = useNavigation();
@@ -12,11 +14,6 @@ export default function Informations() {
     navigation.navigate("Menu");
   };
 
-  const _goBack = () => navigation.navigate("Login");
-
-  const _handleSearch = () => console.log("Searching");
-
-  const _handleMore = () => console.log("Shown more");
   return (
     <View style={{ flex: 1 }}>
       <Appbar.Header>
@@ -25,45 +22,63 @@ export default function Informations() {
           style={{ alignItems: "flex-start" }}
         />
       </Appbar.Header>
-      <View style={styles.contenair}>
-        <View style={styles.image}>
-          <Image source={avatar} style={styles.avatar} />
-          <View style={styles.info}>
-            <Text style={styles.name}>Ilyass MAHAMRAN</Text>
-            <Text style={styles.role}>Client</Text>
+      <ScrollView>
+        <View style={styles.contenair}>
+          <View style={styles.image}>
+            <Image source={avatar} style={styles.avatar} />
+            <View style={styles.info}>
+              <Text style={styles.name}>Ilyass MAHAMRAN</Text>
+              <Text style={styles.role}>Client</Text>
+            </View>
+            <Ionicons
+              name="settings-outline"
+              size={30}
+              color="rgba(250, 74, 12, 1)"
+              paddingHorizontal={10}
+            />
+          </View>
+          <View style={styles.card}>
+            <Ionicons
+              name="location-outline"
+              size={30}
+              color="rgba(250, 74, 12, 1)"
+            />
+            <View style={styles.links}>
+              <Text style={styles.linkName}>Localisation</Text>
+            </View>
+          </View>
+          <View style={styles.card}>
+            <Ionicons
+              name="notifications-outline"
+              size={30}
+              color="rgba(250, 74, 12, 1)"
+            />
+            <View style={styles.links}>
+              <Text style={styles.linkName}>Notifications</Text>
+            </View>
+          </View>
+          <View style={styles.card}>
+            <Ionicons
+              name="time-outline"
+              size={30}
+              color="rgba(250, 74, 12, 1)"
+            />
+            <View style={styles.links}>
+              <Text style={styles.linkName}>Historique des ordres</Text>
+            </View>
+          </View>
+          <View style={styles.card}>
+            <Ionicons
+              name="log-out-outline"
+              size={30}
+              color="rgba(250, 74, 12, 1)"
+            />
+            <View style={styles.links}>
+              <Text style={styles.linkName}>Déconnecter</Text>
+            </View>
           </View>
         </View>
-        <View style={styles.card}>
-          <Ionicons
-            name="location-outline"
-            size={30}
-            color="rgba(250, 74, 12, 1)"
-          />
-          <View style={styles.links}>
-            <Text style={styles.linkName}>Localisation</Text>
-          </View>
-        </View>
-        <View style={styles.card}>
-          <Ionicons
-            name="notifications-outline"
-            size={30}
-            color="rgba(250, 74, 12, 1)"
-          />
-          <View style={styles.links}>
-            <Text style={styles.linkName}>Notifications</Text>
-          </View>
-        </View>
-        <View style={styles.card}>
-          <Ionicons
-            name="time-outline"
-            size={30}
-            color="rgba(250, 74, 12, 1)"
-          />
-          <View style={styles.links}>
-            <Text style={styles.linkName}>Historique des ordres</Text>
-          </View>
-        </View>
-      </View>
+      </ScrollView>
       <Footer />
     </View>
   );
@@ -77,7 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: 99999,
   },
   image: {
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
     marginTop: 25,
@@ -88,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 10,
     height: "auto",
   },
-  card:{
+  card: {
     flexDirection: "row",
     marginBottom: 15,
     backgroundColor: "white",
@@ -96,12 +111,11 @@ const styles = StyleSheet.create({
     width: "94%",
     padding: 10,
     height: "auto",
-    elevation:2,
-    
+    elevation: 2,
   },
   info: {
     flexDirection: "column",
-    paddingHorizontal: 14,
+    marginRight: 20,
   },
   role: {
     fontSize: 16,
@@ -123,9 +137,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  contenair:{
-    flexDirection:"column",
-    justifyContent:"space-around",
-    alignItems:"center"
-  }
+  contenair: {
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
 });

@@ -15,13 +15,16 @@ export default function Footer() {
   const handleInfoPress = () => {
     navigation.navigate("Informations");
   };
+  const handleMapPress = () => {
+    navigation.navigate("Map");
+  };
   return (
     <View style={styles.footer}>
-        <TouchableOpacity onPress={handleHomePress} ><Ionicons name="search" size={30} color="black" /></TouchableOpacity>
-        <TouchableOpacity onPress={handleHomePress}  ><Ionicons name="map-sharp" size={30} color="black" /></TouchableOpacity>
-        <TouchableOpacity  onPress={handleHomePress} style={styles.map}><Ionicons name="home" size={40} color="black" /></TouchableOpacity>
-        <TouchableOpacity  onPress={handleSnackPress}><Ionicons name="fast-food" size={30} color="black" /></TouchableOpacity>
-        <TouchableOpacity  onPress={handleInfoPress}><Ionicons name="person" size={30} color="black" /></TouchableOpacity>
+        <TouchableOpacity onPress={handleHomePress} ><Ionicons name="search" size={30} color="rgba(250, 100, 12, 1)" /></TouchableOpacity>
+        <TouchableOpacity onPress={handleMapPress}  ><Ionicons name="map-outline" size={30} color="rgba(250, 100, 12, 1)" /></TouchableOpacity>
+        <TouchableOpacity  onPress={handleHomePress} ><Ionicons name="home-outline" size={30} color="rgba(250, 100, 12, 1)" /></TouchableOpacity>
+        <TouchableOpacity  onPress={handleSnackPress}><Ionicons name="fast-food-outline" size={30} color="rgba(250, 100, 12, 1)" /></TouchableOpacity>
+        <TouchableOpacity  onPress={handleInfoPress}><Ionicons name="person-outline" size={30} color="rgba(250, 100, 12, 1)" /></TouchableOpacity>
       </View>
   )
 }
