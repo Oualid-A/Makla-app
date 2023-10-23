@@ -1,6 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import burger from "../../assets/macdo.png";
+import burger from "../../assets/burger.png";
+import pizza from "../../assets/pizza_log.png";
+import salad from "../../assets/salad.png";
+import soda from "../../assets/soda.png";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function Categories() {
@@ -17,7 +20,7 @@ export default function Categories() {
       </Text>
       <ScrollView horizontal={true}>
         <View style={styles.cuisine}>
-          <View style={styles.cuisineItems}>
+          <View style={styles.cuisineItems} >
             <Image source={burger} style={styles.cuisineImage} />
             <Text
               style={{
@@ -30,7 +33,7 @@ export default function Categories() {
             </Text>
           </View>
           <View style={styles.cuisineItems}>
-            <Image source={burger} style={styles.cuisineImage} />
+            <Image source={pizza} style={styles.cuisineImage} />
             <Text
               style={{
                 fontSize: 18,
@@ -42,7 +45,7 @@ export default function Categories() {
             </Text>
           </View>
           <View style={styles.cuisineItems}>
-            <Image source={burger} style={styles.cuisineImage} />
+            <Image source={salad} style={styles.cuisineImage} />
             <Text
               style={{
                 fontSize: 18,
@@ -54,7 +57,7 @@ export default function Categories() {
             </Text>
           </View>
           <View style={styles.cuisineItems}>
-            <Image source={burger} style={styles.cuisineImage} />
+            <Image source={soda} style={styles.cuisineImage} />
             <Text
               style={{
                 fontSize: 18,

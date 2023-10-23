@@ -8,6 +8,7 @@ import Snack from './components/Snack';
 import Menu from './components/Menu';
 import Informations from './components/Informations';
 import Map from './components/Map';
+import Details from './components/Details';
 
 
 const Stack = createStackNavigator();
@@ -15,13 +16,14 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Login">
+      <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Menu">
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Snack" component={Snack} />
         <Stack.Screen name="Menu" component={Menu} />
         <Stack.Screen name="Informations" component={Informations} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -15,14 +15,14 @@ import paila from "../assets/paila.jpg";
 import { Icon } from "react-native-elements";
 import logo1 from "../assets/KFC_logo.svg.png";
 import logo2 from "../assets/macdo.png";
-
+import Footer from "./compenent-items/Footer";
 
 export default function Menu() {
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(0);
 
-  const ShowMenu = () => {
-    navigation.navigate("Menu");
+  const handleDetais = () => {
+    navigation.navigate("Details");
   };
 
   const _goBack = () => navigation.navigate("Snack");
@@ -52,18 +52,20 @@ export default function Menu() {
       <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4 }}>
         <View style={styles.contenair}>
           <View style={styles.header}>
-            <View style={styles.coverContainer}>
+            <View style={styles.coverContainer} >
               <Image source={logo} style={styles.coverImage} />
             </View>
             <View style={styles.snack}>
               <Text style={styles.title}>Pizza Fruit de mer</Text>
               <Text style={styles.price}>59 MAD</Text>
             </View>
+              <TouchableOpacity onPress={handleDetais}>
             <View style={styles.logoContainer}>
+
               <Image source={logo1} style={styles.logoImage} />
             </View>
+              </TouchableOpacity>
           </View>
-
           <View style={styles.cardBtn}>
             <View style={styles.cardbtn_div}>
               <IconButton
@@ -80,7 +82,7 @@ export default function Menu() {
                 iconColor="white"
               />
             </View>
-            <View width={150}></View>
+            <View width={"35%"}></View>
             <View>
               <Button
                 onPress={() => console.log("Add to Cart")}
@@ -122,7 +124,7 @@ export default function Menu() {
                 iconColor="white"
               />
             </View>
-            <View width={150}></View>
+            <View width={"35%"}></View>
             <View>
               <Button
                 onPress={() => console.log("Add to Cart")}
@@ -135,6 +137,7 @@ export default function Menu() {
           </View>
         </View>
       </ScrollView>
+      <Footer/>
     </>
   );
 }
@@ -190,6 +193,7 @@ const styles = StyleSheet.create({
   addToCartButton: {
     backgroundColor: "rgba(250, 74, 12, 1)",
     borderWidth: 0,
+    width:"100%",
   },
   cardBtn: {
     flex: 1,
@@ -230,7 +234,7 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "contain",
   },
-  cardbtn_div:{
+  cardbtn_div: {
     backgroundColor: "rgba(250, 74, 12, 1)",
     flex: 1,
     flexDirection: "row",
@@ -240,5 +244,5 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: "10%",
     height: "auto",
-  }
+  },
 });
