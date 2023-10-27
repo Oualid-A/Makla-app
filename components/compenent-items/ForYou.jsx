@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import tacos from "../../assets/plat_india.jpg";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Appbar, Avatar, Button, Card, IconButton } from "react-native-paper";
-import logo from "../../assets/KFC_logo.svg.png";
-import logo1 from "../../assets/pizzaHut.png";
-import logo2 from "../../assets/macdo.png";
+
+const forYouData = [
+  { name: "Kentucky Fried Chicken", logo: require("../../assets/KFC_logo.svg.png") },
+  { name: "McDonald's", logo: require("../../assets/pizzaHut.png") },
+  { name: "Pizza Hut", logo: require("../../assets/macdo.png") },
+];
 
 export default function ForYou() {
   return (
@@ -24,57 +25,25 @@ export default function ForYou() {
         </TouchableOpacity>
       </View>
       <ScrollView>
-        <View style={{ marginTop: 5, marginBottom: 5 }}>
-          <View style={styles.contenair}>
-            <View style={styles.coverContainer}>
-              <Image source={logo} style={styles.coverImage} />
-            </View>
-            <View style={styles.snack}>
-              <Text style={styles.title2}>Kentucky Fried Chicken</Text>
-            </View>
-            <View>
-              <Ionicons
-                name="arrow-forward-circle-sharp"
-                size={40}
-                color={"rgba(250, 74, 12, 100)"}
-              ></Ionicons>
-            </View>
-          </View>
-        </View>
-        <View style={{ marginBottom: 5 }}>
-          <View style={styles.contenair}>
-            <View style={styles.coverContainer}>
-              <Image source={logo2} style={styles.coverImage} />
-            </View>
-            <View style={styles.snack}>
-              <Text style={styles.title2}>McDonald's</Text>
-            </View>
-            <View>
-              <Ionicons
-                name="arrow-forward-circle-sharp"
-                size={40}
-                color={"rgba(250, 74, 12, 100)"}
-              ></Ionicons>
+        {forYouData.map((item, index) => (
+          <View style={{ marginTop: 5, marginBottom: 5 }} key={index}>
+            <View style={styles.contenair}>
+              <View style={styles.coverContainer}>
+                <Image source={item.logo} style={styles.coverImage} />
+              </View>
+              <View style={styles.snack}>
+                <Text style={styles.title2}>{item.name}</Text>
+              </View>
+              <View>
+                <Ionicons
+                  name="arrow-forward-circle-sharp"
+                  size={40}
+                  color={"rgba(250, 74, 12, 100)"}
+                ></Ionicons>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={{ marginBottom: 5 }}>
-          <View style={styles.contenair}>
-            <View style={styles.coverContainer}>
-              <Image source={logo1} style={styles.coverImage} />
-            </View>
-            <View style={styles.snack}>
-              <Text style={styles.title2}>Pizza Hut</Text>
-            </View>
-            <View>
-              <Ionicons
-                name="arrow-forward-circle-sharp"
-                size={40}
-                color={"rgba(250, 74, 12, 100)"}
-              ></Ionicons>
-            </View>
-          </View>
-        </View>
+        ))}
       </ScrollView>
     </View>
   );

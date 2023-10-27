@@ -7,21 +7,22 @@ import {
   View,
 } from "react-native";
 import Footer from "./compenent-items/Footer";
-import burger from "../assets/burger.png";
-import table from "../assets/food_bg.jpg";
 import { IconButton } from "react-native-paper";
 import Carousel from "react-native-snap-carousel";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import table from "../assets/food_bg.jpg";
 
-export default function Details() {
-  const pictures = [burger, burger, burger];
+
+export default function Details({ route }) {
+  const { product } = route.params;
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.detail}>
           <ImageBackground source={table} style={styles.background}>
             <Carousel
-              data={pictures}
+              data={product.images}
               renderItem={({ item }) => (
                 <ImageBackground source={item} style={styles.pics} />
               )}
@@ -37,7 +38,7 @@ export default function Details() {
               icon="minus"
               iconColor="white"
             />
-            <Text style={styles.quantity}>1</Text>
+            <Text style={styles.quantity}>{product.quantity}</Text>
             <IconButton
               style={styles.iconButton}
               icon="plus"
@@ -45,29 +46,35 @@ export default function Details() {
             />
           </View>
           <View style={styles.about}>
-            <Text style={{ fontSize: 25, fontWeight: 700, marginLeft: 15 }}>
-              Burger
-            </Text>
-            <Text
-              style={{
-                fontSize: 25,
-                fontWeight: 700,
-                marginLeft: 15,
-                color: "rgba(250, 100, 12, 1)",
-              }}
-            >
-              Prix : 45 MAD
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                marginLeft: 10,
-                marginTop: 5,
-                alignItems: "center",
-              }}
-            >
-              <Ionicons name="location" size={25} color="#9d9d9d" />
-              <Text style={styles.location}>Hey Al-Qods Oujda</Text>
+            <View>
+              <Text style={{ fontSize: 25, fontWeight: 700, marginLeft: 15 }}>
+                {product.name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 25,
+                  fontWeight: 700,
+                  marginLeft: 15,
+                  color: "rgba(250, 100, 12, 1)",
+                }}
+              >
+                Prix : {product.price} MAD
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 10,
+                  marginTop: 5,
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="location" size={25} color="#9d9d9d" />
+                <Text style={styles.location}>{product.location}</Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row", alignItems: "center", marginRight: 10 }}>
+              <Ionicons name="star" size={26} color="#fcbc0b" />
+              <Text style={{ fontSize: 20, paddingHorizontal: 8 }}>{product.rating}</Text>
             </View>
           </View>
           <Text
@@ -81,8 +88,7 @@ export default function Details() {
             Description
           </Text>
           <Text style={styles.description}>
-            Craquez pour le mythe ! Trois morceaux de viande de bœuf grillées en
-            un seul burger. Relevez le défi et tripler votre dose de saveurs !
+            {product.description}
           </Text>
         </View>
       </ScrollView>
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-    overflow: "hidden", // Add this property
+    overflow: "hidden", 
   },
   description: {
     fontSize: 16,
@@ -145,11 +151,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     padding: 10,
-    // fontWeight:700
+    marginLeft:5
   },
   location: {
     paddingHorizontal: 5,
     fontSize: 14,
     color: "#9d9d9d",
   },
+  about:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+    alignItems:"flex-start",
+  }
 });

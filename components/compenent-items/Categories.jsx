@@ -1,73 +1,30 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import burger from "../../assets/burger.png";
-import pizza from "../../assets/pizza_log.png";
-import salad from "../../assets/salad.png";
-import soda from "../../assets/soda.png";
 import { ScrollView } from "react-native-gesture-handler";
+
+const categoryData = [
+  { name: "Burger", image: require("../../assets/burger.png") },
+  { name: "Pizza", image: require("../../assets/pizza_log.png") },
+  { name: "Salade", image: require("../../assets/salad.png") },
+  { name: "Soda", image: require("../../assets/soda.png") },
+];
 
 export default function Categories() {
   return (
     <View>
-      <Text
-        style={{
-          fontSize: 20,
-          marginLeft: "5%",
-          fontWeight: "700",
-        }}
-      >
+      <Text style={{ fontSize: 20, marginLeft: "5%", fontWeight: "700" }}>
         Cuisine
       </Text>
       <ScrollView horizontal={true}>
-        <View style={styles.cuisine}>
-          <View style={styles.cuisineItems} >
-            <Image source={burger} style={styles.cuisineImage} />
-            <Text
-              style={{
-                fontSize: 18,
-                marginHorizontal: 10,
-                fontWeight: 400,
-              }}
-            >
-              Burger
+      <View style={styles.cuisine}>
+        {categoryData.map((category, index) => (
+          <View style={styles.cuisineItems} key={index}>
+            <Image source={category.image} style={styles.cuisineImage} />
+            <Text style={{ fontSize: 18, marginHorizontal: 10, fontWeight: 400 }}>
+              {category.name}
             </Text>
           </View>
-          <View style={styles.cuisineItems}>
-            <Image source={pizza} style={styles.cuisineImage} />
-            <Text
-              style={{
-                fontSize: 18,
-                marginHorizontal: 10,
-                fontWeight: 400,
-              }}
-            >
-              Pizza
-            </Text>
-          </View>
-          <View style={styles.cuisineItems}>
-            <Image source={salad} style={styles.cuisineImage} />
-            <Text
-              style={{
-                fontSize: 18,
-                marginHorizontal: 10,
-                fontWeight: 400,
-              }}
-            >
-              Salade
-            </Text>
-          </View>
-          <View style={styles.cuisineItems}>
-            <Image source={soda} style={styles.cuisineImage} />
-            <Text
-              style={{
-                fontSize: 18,
-                marginHorizontal: 10,
-                fontWeight: 400,
-              }}
-            >
-              Soda
-            </Text>
-          </View>
+        ))}
         </View>
       </ScrollView>
     </View>

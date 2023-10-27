@@ -7,72 +7,55 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import tacos from "../../assets/plat_india.jpg";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+const popularData = [
+  {
+    name: "Plats populaires",
+    image: require("../../assets/plat_india.jpg"),
+    price: "50 MAD",
+    rating: 4.8,
+    location: "Hey Al-Qods Oujda",
+  },
+  {
+    name: "Plats populaires",
+    image: require("../../assets/plat_india.jpg"),
+    price: "50 MAD",
+    rating: 4.8,
+    location: "Hey Al-Qods Oujda",
+  },
+]
 export default function Popular() {
   return (
     <View>
-      <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
-        <Text style={styles.title}>Populaire</Text>
-        <TouchableOpacity style={styles.seeAllButton}>
-          <Text style={styles.seeAllText}>Voir tout</Text>
-        </TouchableOpacity>
-      </View>
-      <ScrollView horizontal={true}>
-        <View style={styles.popular}>
-          <View style={styles.popularItems}>
-            <Image source={tacos} style={styles.popularItemsImage} />
-            <View style={{ padding: 10 }}>
-              <Text style={styles.popularItemsName}>Plats populaires</Text>
-              <Text style={styles.price}>50 MAD</Text>
-              <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <Ionicons name="star" size={20} color="#d8ce0c" />
-                <Text style={{ paddingHorizontal: 5, fontSize: 15 }}>4.8</Text>
-                <View style={{ flexDirection: "row", marginLeft: 15 }}>
-                  <Ionicons name="locate" size={20} color="#9d9d9d" />
-                  <Text style={styles.location}>Hey Al-Qods Oujda</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.popular}>
-          <View style={styles.popularItems}>
-            <Image source={tacos} style={styles.popularItemsImage} />
-            <View style={{ padding: 10 }}>
-              <Text style={styles.popularItemsName}>Plats populaires</Text>
-              <Text style={styles.price}>50 MAD</Text>
-              <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <Ionicons name="star" size={20} color="#d8ce0c" />
-                <Text style={{ paddingHorizontal: 5, fontSize: 15 }}>4.8</Text>
-                <View style={{ flexDirection: "row", marginLeft: 15 }}>
-                  <Ionicons name="locate" size={20} color="#9d9d9d" />
-                  <Text style={styles.location}>Hey Al-Qods Oujda</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.popular}>
-          <View style={styles.popularItems}>
-            <Image source={tacos} style={styles.popularItemsImage} />
-            <View style={{ padding: 10 }}>
-              <Text style={styles.popularItemsName}>Plats populaires</Text>
-              <Text style={styles.price}>50 MAD</Text>
-              <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <Ionicons name="star" size={20} color="#d8ce0c" />
-                <Text style={{ paddingHorizontal: 5, fontSize: 15 }}>4.8</Text>
-                <View style={{ flexDirection: "row", marginLeft: 15 }}>
-                  <Ionicons name="locate" size={20} color="#9d9d9d" />
-                  <Text style={styles.location}>Hey Al-Qods Oujda</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+      <Text style={styles.title}>Populaire</Text>
+      <TouchableOpacity style={styles.seeAllButton}>
+        <Text style={styles.seeAllText}>Voir tout</Text>
+      </TouchableOpacity>
     </View>
+    <ScrollView horizontal={true}>
+      {popularData.map((item, index) => (
+        <View style={styles.popular} key={index}>
+          <View style={styles.popularItems}>
+            <Image source={item.image} style={styles.popularItemsImage} />
+            <View style={{ padding: 10 }}>
+              <Text style={styles.popularItemsName}>{item.name}</Text>
+              <Text style={styles.price}>{item.price}</Text>
+              <View style={{ flexDirection: "row", marginBottom: 5 }}>
+                <Ionicons name="star" size={20} color="#d8ce0c" />
+                <Text style={{ paddingHorizontal: 5, fontSize: 15 }}>{item.rating}</Text>
+                <View style={{ flexDirection: "row", marginLeft: 15 }}>
+                  <Ionicons name="locate" size={20} color="#9d9d9d" />
+                  <Text style={styles.location}>{item.location}</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      ))}
+    </ScrollView>
+  </View>
   );
 }
 
