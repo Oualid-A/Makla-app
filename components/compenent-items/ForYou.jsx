@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const forYouData = [
   { name: "Kentucky Fried Chicken", logo: require("../../assets/KFC_logo.svg.png") },
@@ -16,6 +17,10 @@ const forYouData = [
 ];
 
 export default function ForYou() {
+  const navigation = useNavigation();
+  const ShowMenu = () => {
+    navigation.navigate("Menu");
+  }
   return (
     <View>
       <View style={styles.vue}>
@@ -36,6 +41,7 @@ export default function ForYou() {
               </View>
               <View>
                 <Ionicons
+                onPress={ShowMenu}
                   name="arrow-forward-circle-sharp"
                   size={40}
                   color={"rgba(250, 74, 12, 100)"}

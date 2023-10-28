@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const popularData = [
   {
@@ -26,11 +27,15 @@ const popularData = [
   },
 ]
 export default function Popular() {
+  const navigation = useNavigation();
+  const ShowSnack = () => {
+    navigation.navigate("Snack");
+  }
   return (
     <View>
     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
       <Text style={styles.title}>Populaire</Text>
-      <TouchableOpacity style={styles.seeAllButton}>
+      <TouchableOpacity style={styles.seeAllButton} onPress={ShowSnack}>
         <Text style={styles.seeAllText}>Voir tout</Text>
       </TouchableOpacity>
     </View>

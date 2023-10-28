@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,11 +9,13 @@ import Menu from './components/Menu';
 import Informations from './components/Informations';
 import Map from './components/Map';
 import Details from './components/Details';
+import Cart from './components/Cart';
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [cart, setCart] = React.useState([]);
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Menu">
@@ -24,6 +26,7 @@ export default function App() {
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Map" component={Map} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="Cart">{() => <Cart cartItems={cart} />}</Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

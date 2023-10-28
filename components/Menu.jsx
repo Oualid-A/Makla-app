@@ -25,7 +25,7 @@ export default function Menu() {
         name: "Burger",
         image: burger,
         price: 45,
-        description: "Description of the burger burger burger burger Description of the burger burger burger burger Description of the burger burger burger burger",
+        description: "Description of the burger burger burger burger Description of the burger burger burger burger",
         location: "Hey Al-Qods Oujda",
         rating: 4.8,
         quantity:2,
