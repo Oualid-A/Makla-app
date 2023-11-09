@@ -19,6 +19,7 @@ import Popular from "./compenent-items/Popular";
 import Categories from "./compenent-items/Categories";
 import ForYou from "./compenent-items/ForYou";
 import Footer from "./compenent-items/Footer";
+import HeaderHome from "./compenent-items/HeaderHome";
 
 export default function LandingPage() {
   const navigation = useNavigation();
@@ -28,7 +29,8 @@ export default function LandingPage() {
   };
   return (
     <View style={styles.root}>
-      <StatusBar hidden/>
+      <StatusBar hidden />
+      <HeaderHome/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.welcome}>
           BIENVENUE À{" "}
@@ -36,10 +38,9 @@ export default function LandingPage() {
         </Text>
         <TextInput
           style={styles.searchInput}
-          placeholder="cherche pour un plat..."
+          placeholder={` cherche pour un plat...`}
         >
-          {" "}
-          <Ionicons name="search" size={30} color="gray" />{" "}
+          {/* ${<Ionicons name="search" size={30} color="gray" />} */}
         </TextInput>
         <Categories />
         <Popular />
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   welcome: {
-    marginTop: "5%",
+    marginTop: "1%",
     fontSize: 24,
     fontWeight: "700",
     textAlign: "center",

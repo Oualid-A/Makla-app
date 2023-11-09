@@ -26,7 +26,7 @@ export default function Footer() {
         <TouchableOpacity onPress={handleCartPress} ><Ionicons name="cart-outline" size={30} color="black" /></TouchableOpacity>
         <TouchableOpacity onPress={handleMapPress}  ><Ionicons name="map-outline" size={30} color="black" /></TouchableOpacity>
         <TouchableOpacity  onPress={handleHomePress} ><Ionicons name="home-outline" size={30} color="black" /></TouchableOpacity>
-        <TouchableOpacity  onPress={handleSnackPress}><Ionicons name="fast-food-outline" size={30} color="black" /></TouchableOpacity>
+        {/* <TouchableOpacity  onPress={handleSnackPress}><Ionicons name="fast-food-outline" size={30} color="black" /></TouchableOpacity> */}
         <TouchableOpacity  onPress={handleInfoPress}><Ionicons name="person-outline" size={30} color="black" /></TouchableOpacity>
       </View>
   )
@@ -40,11 +40,15 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor:"white",
         shadowOffset:{width:1,height:2},
-        elevation:2,     
-        borderTopWidth:.2, 
+        borderWidth:.6, 
         bottom:0,  
         right:0,
         left:0,
+        // borderTopEndRadius:30,
+        // borderTopStartRadius:30,
+        width:"100%",
+        alignSelf:"center",
+        borderColor:"#ccc"
     },
     map:{
         borderTopWidth:.2,

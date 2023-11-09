@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  StatusBar,
 } from "react-native";
 import { Appbar, Button, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +15,7 @@ import plat_india from "../assets/plat_india.jpg";
 import logo1 from "../assets/KFC_logo.svg.png";
 import Footer from "./compenent-items/Footer";
 import burger from "../assets/burger.png";
+import HeaderHome from "./compenent-items/HeaderHome";
 
 export default function Menu() {
   const navigation = useNavigation();
@@ -71,12 +73,8 @@ export default function Menu() {
 
   return (
     <>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={_goBack} />
-        <Appbar.Content title="Menu" />
-        <Appbar.Action icon="magnify" onPress={_handleSearch} />
-        <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
-      </Appbar.Header>
+    <StatusBar></StatusBar>
+      <HeaderHome/>
       <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4 }}>
         {menuItems.map((menuItem, index) => (
           <View style={styles.container} key={index}>

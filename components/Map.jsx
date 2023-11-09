@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
 import Footer from "./compenent-items/Footer";
+import HeaderHome from "./compenent-items/HeaderHome";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -43,6 +44,7 @@ const Map = () => {
 
   return (
     <>
+        <HeaderHome/>
       <View style={styles.container}>
         {initialRegion && (
           <MapView style={styles.map} initialRegion={initialRegion}>

@@ -31,7 +31,7 @@ export default function ForYou() {
       </View>
       <ScrollView>
         {forYouData.map((item, index) => (
-          <View style={{ marginTop: 5, marginBottom: 5 }} key={index}>
+          <View style={{ marginTop: 2, marginBottom: 2 }} key={index}>
             <View style={styles.contenair}>
               <View style={styles.coverContainer}>
                 <Image source={item.logo} style={styles.coverImage} />
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 20,
+    fontSize: 17,
     marginLeft: "5%",
     fontWeight: "700",
     marginTop: "2%",

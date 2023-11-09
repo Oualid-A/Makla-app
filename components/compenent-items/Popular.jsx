@@ -66,7 +66,7 @@ export default function Popular() {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 20,
+    fontSize: 17,
     marginLeft: "5%",
     fontWeight: "700",
     marginTop: "2%",

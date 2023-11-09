@@ -12,7 +12,7 @@ const categoryData = [
 export default function Categories() {
   return (
     <View>
-      <Text style={{ fontSize: 20, marginLeft: "5%", fontWeight: "700" }}>
+      <Text style={{ fontSize: 17, marginLeft: "5%", fontWeight: "700" }}>
         Cuisine
       </Text>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -20,7 +20,7 @@ export default function Categories() {
         {categoryData.map((category, index) => (
           <View style={styles.cuisineItems} key={index}>
             <Image source={category.image} style={styles.cuisineImage} />
-            <Text style={{ fontSize: 18, marginHorizontal: 10, fontWeight: 400 }}>
+            <Text style={{ fontSize: 15, marginHorizontal: 10, fontWeight: 400 }}>
               {category.name}
             </Text>
           </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0.5, height: 1 },
     shadowOpacity: 1.8,
     shadowRadius: 2,
-    marginTop: 5,
+    marginTop: "0%",
   },
   cuisineItems: {
     flex: 1,
