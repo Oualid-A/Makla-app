@@ -15,7 +15,7 @@ export default function Categories() {
       <Text style={{ fontSize: 20, marginLeft: "5%", fontWeight: "700" }}>
         Cuisine
       </Text>
-      <ScrollView horizontal={true}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <View style={styles.cuisine}>
         {categoryData.map((category, index) => (
           <View style={styles.cuisineItems} key={index}>

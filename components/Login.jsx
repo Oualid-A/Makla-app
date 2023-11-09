@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo_makla.png";
 import { TextInput, Text } from "react-native-paper";
 import { Button } from "react-native-paper";
 import PhoneInput from "react-native-phone-input";
@@ -224,8 +224,9 @@ const styles = StyleSheet.create({
   logo: {
     marginTop: "10%",
     marginBottom: "10%",
-    width: "40%",
+    width: "100%",
     height: "50%",
+    marginLeft:15
   },
   half: {
     width: "100%",

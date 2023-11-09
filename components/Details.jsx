@@ -1,4 +1,4 @@
-import React , { useState }from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   ImageBackground,
@@ -7,9 +7,8 @@ import {
   View,
   Image,
 } from "react-native";
-import Footer from "./compenent-items/Footer";
 import { IconButton, Button } from "react-native-paper";
-import Carousel from "react-native-snap-carousel";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import table from "../assets/food_bg.jpg";
 import { Checkbox } from "react-native-paper";
@@ -35,8 +34,8 @@ export default function Details({ route }) {
     };
     setCart([...cart, itemToAdd]);
     setQuantity(1);
+  };
 
-  }
   const incrementQuantity = () => {
     setQuantity(quantity + 1);
   };
@@ -51,19 +50,33 @@ export default function Details({ route }) {
   const [toppingTomatoes, setToppingTomatoes] = React.useState(false);
   const [toppingOnion, setToppingOnion] = React.useState(false);
   const [toppingLaiture, setToppingLaiture] = React.useState(false);
+  const [activeSlide, setActiveSlide] = React.useState(0); // Pour suivre l'index de l'image actuellement visible
 
+  const onSnapToItem = (index) => {
+    setActiveSlide(index);
+  };  
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.detail}>
           <ImageBackground source={table} style={styles.background}>
-            <Carousel
+          <Carousel
               data={product.images}
               renderItem={({ item }) => (
                 <ImageBackground source={item} style={styles.pics} />
               )}
-              sliderWidth={360}
+              sliderWidth={410}
               itemWidth={350}
+              onSnapToItem={onSnapToItem} // Appel de la fonction onSnapToItem lorsqu'une image est visible
+            />
+            <Pagination
+              dotsLength={product.images.length}
+              activeDotIndex={activeSlide}
+              containerStyle={styles.paginationContainer}
+              dotStyle={styles.paginationDot}
+              inactiveDotStyle={styles.paginationDotInactive}
+              inactiveDotOpacity={0.6}
+              inactiveDotScale={1.6}
             />
           </ImageBackground>
         </View>
@@ -163,25 +176,25 @@ export default function Details({ route }) {
             />
           </ScrollView>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-            bottom:-20,
-          }}
-        >
-          <Text style={styles.totalPrice}>{product.price * quantity} MAD</Text>
-          <Button
-            style={styles.add_cart}
-            mode="text"
-            textColor="white"
-            onPress={addToCart}           
-          >
-            <Ionicons name="cart" size={22} color="black" /> Ajouter au panier
-          </Button>
-        </View>
       </ScrollView>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-around",
+          bottom: 0,
+        }}
+      >
+        <Text style={styles.totalPrice}>{product.price * quantity} MAD</Text>
+        <Button
+          style={styles.add_cart}
+          mode="text"
+          textColor="white"
+          onPress={addToCart}
+        >
+          <Ionicons name="cart" size={22} color="black" /> Ajouter au panier
+        </Button>
+      </View>
       {/* <Footer /> */}
     </View>
   );
@@ -274,5 +287,22 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: -10,
     marginBottom: -10,
+  },
+  paginationContainer: {
+    paddingVertical: 10,
+  },
+  paginationDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 8,
+    backgroundColor: 'white', 
+    bottom: 25,
+
+  },
+  bottomBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
   },
 });

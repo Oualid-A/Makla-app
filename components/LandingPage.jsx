@@ -29,7 +29,7 @@ export default function LandingPage() {
   return (
     <View style={styles.root}>
       <StatusBar hidden/>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.welcome}>
           BIENVENUE À{" "}
           <Text style={{ color: "rgba(250, 74, 12, 1)" }}>MAKLA</Text>
@@ -53,6 +53,7 @@ export default function LandingPage() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor:"#f2f6fc"
   },
   searchInput: {
     borderWidth: 0,

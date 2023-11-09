@@ -39,7 +39,7 @@ export default function Popular() {
         <Text style={styles.seeAllText}>Voir tout</Text>
       </TouchableOpacity>
     </View>
-    <ScrollView horizontal={true}>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       {popularData.map((item, index) => (
         <View style={styles.popular} key={index}>
           <View style={styles.popularItems}>
