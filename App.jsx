@@ -10,6 +10,7 @@ import Informations from './components/Informations';
 import Map from './components/Map';
 import Details from './components/Details';
 import Cart from './components/Cart';
+import Test from './components/Test';
 
 
 const Stack = createStackNavigator();
@@ -18,11 +19,12 @@ export default function App() {
   const [cart, setCart] = React.useState([]);
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Menu">
+      <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Login">
+        <Stack.Screen name="Informations" component={Informations} /> 
+        <Stack.Screen name="Test" component={Test} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Snack" component={Snack} />
         <Stack.Screen name="Menu" component={Menu} />
-        <Stack.Screen name="Informations" component={Informations} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Map" component={Map} />
         <Stack.Screen name="Details" component={Details} />

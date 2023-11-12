@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     padding:5,
     color:"#fff",
     marginBottom:10,
+    marginTop:10,
     width:"50%",
     alignSelf:"center"
   },

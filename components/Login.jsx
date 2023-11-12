@@ -1,17 +1,41 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import logo from "../assets/logo_makla.png";
-import { TextInput, Text } from "react-native-paper";
+import { TextInput, Text, Snackbar } from "react-native-paper";
 import { Button } from "react-native-paper";
 import PhoneInput from "react-native-phone-input";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { login, registerUser, getUserByEmail } from "./services/AuthService";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginForm = () => {
   const navigation = useNavigation();
-  const handleLoginPress = () => {
-    navigation.navigate("LandingPage"); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLoginPress = async () => {
+    const isAuthenticated = await login(email, password);
+    console.log(isAuthenticated);
+    if (isAuthenticated !== null) {
+      const authHeader = isAuthenticated.headers.get("authorization");
+      const token = authHeader.split(" ")[1]; 
+      console.log("Token after login:", token);
+      const getUser = await getUserByEmail(email, token);
+      console.log("users", getUser);
+      await AsyncStorage.setItem('userData', JSON.stringify(getUser));
+      await AsyncStorage.setItem('token', token);
+
+      // navigation.navigate("Informations");
+       navigation.navigate("LandingPage");
+    }
   };
+
   return (
     <ScrollView
       contentContainerStyle={{
@@ -21,16 +45,14 @@ const LoginForm = () => {
         justifyContent: "space-between",
       }}
     >
-      <PhoneInput
-        style={styles.phone}
-        ref={(ref) => {
-          this.phone = ref;
-        }}
-        initialCountry={"ma"}
-        initialValue="13178675309"
-        textProps={{
-          placeholder: "Enter a phone number...",
-        }}
+      <TextInput
+        label="Email"
+        mode="outlined"
+        type="email"
+        outlineColor="gray"
+        style={styles.default}
+        activeOutlineColor="gray"
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         outlineColor="gray"
@@ -39,6 +61,7 @@ const LoginForm = () => {
         mode="outlined"
         secureTextEntry={true}
         style={styles.default}
+        onChangeText={(text) => setPassword(text)}
       />
 
       <Button
@@ -49,33 +72,30 @@ const LoginForm = () => {
       >
         Se connecter
       </Button>
-      <View style={styles.icons}>
-        <Icon.Button
-          name="facebook"
-          backgroundColor="rgba(235, 117, 117, 1)"
-          borderRadius={100}
-          style={styles.icon}
-        />
-        <Text>{"\t"}</Text>
-        <Icon.Button
-          name="google"
-          backgroundColor="rgba(235, 117, 117, 1)"
-          borderRadius={100}
-          style={styles.icon}
-        />
-        <Text>{"\t"}</Text>
-        <Icon.Button
-          name="apple"
-          backgroundColor="rgba(235, 117, 117, 1)"
-          borderRadius={100}
-          style={styles.icon}
-        />
-      </View>
     </ScrollView>
   );
 };
 
 const SignupForm = () => {
+  const [userData, setUserData] = useState({
+    nom: "",
+    prenom: "",
+    email: "",
+    password: "",
+    tel: "",
+    // ... other fields
+  });
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+
+  const handleSignUpPress = async () => {
+    const response = await registerUser(userData);
+
+    if (response.ok) {
+      console.log("succes");
+      setSnackbarVisible(true); // Display the snack bar
+    }
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{
@@ -90,6 +110,7 @@ const SignupForm = () => {
         mode="outlined"
         outlineColor="gray"
         activeOutlineColor="gray"
+        onChangeText={(text) => setUserData({ ...userData, nom: text })}
       />
       <TextInput
         label="Prénom"
@@ -97,6 +118,7 @@ const SignupForm = () => {
         outlineColor="gray"
         style={styles.default}
         activeOutlineColor="gray"
+        onChangeText={(text) => setUserData({ ...userData, prenom: text })}
       />
       <TextInput
         label="Email"
@@ -105,6 +127,7 @@ const SignupForm = () => {
         outlineColor="gray"
         style={styles.default}
         activeOutlineColor="gray"
+        onChangeText={(text) => setUserData({ ...userData, email: text })}
       />
       <PhoneInput
         style={styles.phone2}
@@ -116,6 +139,7 @@ const SignupForm = () => {
         textProps={{
           placeholder: "Enter a phone number...",
         }}
+        onChangeText={(text) => setUserData({ ...userData, tel: text })}
       />
 
       <TextInput
@@ -125,44 +149,41 @@ const SignupForm = () => {
         mode="outlined"
         secureTextEntry={true}
         style={styles.default}
+        onChangeText={(text) => setUserData({ ...userData, password: text })}
       />
 
       <Button
         style={styles.button}
         mode="elevated"
         textColor="white"
-        onPress={() => console.log("Connexion")}
+        onPress={handleSignUpPress}
       >
         S'inscrire
       </Button>
-      <View style={styles.icons}>
-        <Icon.Button
-          name="facebook"
-          backgroundColor="rgba(235, 117, 117, 1)"
-          borderRadius={100}
-          style={styles.icon}
-        />
-        <Text>{"\t"}</Text>
-        <Icon.Button
-          name="google"
-          backgroundColor="rgba(235, 117, 117, 1)"
-          borderRadius={100}
-          style={styles.icon}
-        />
-        <Text>{"\t"}</Text>
-        <Icon.Button
-          name="apple"
-          backgroundColor="rgba(235, 117, 117, 1)"
-          borderRadius={100}
-          style={styles.icon}
-        />
-      </View>
+      <Snackbar
+        visible={snackbarVisible}
+        onDismiss={() => setSnackbarVisible(false)}
+        duration={3000}
+        action={{
+          label: "OK",
+          onPress: () => {
+            setUserData({
+              nom: "",
+              prenom: "",
+              email: "",
+              password: "",
+              tel: "",
+            });
+          },
+        }}
+      >
+        Inscription réussie !
+      </Snackbar>
     </ScrollView>
   );
 };
 
 export default function Login() {
-  
   const [activeTab, setActiveTab] = useState("login");
 
   return (
@@ -173,22 +194,18 @@ export default function Login() {
       <View style={styles.half}></View>
       <View style={styles.form}>
         <View style={styles.tabs}>
-          <Button
-            mode="text"
-            textColor="black"
+          <TouchableOpacity
             onPress={() => setActiveTab("login")}
-            color={activeTab === "login" ? "black" : "gray"}
+            style={styles.clicked}
           >
-            Se connecter
-          </Button>
-          <Button
-            mode="text"
-            textColor="black"
+            <Text>Se connecter</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => setActiveTab("signup")}
-            color={activeTab === "signup" ? "black" : "gray"}
+            style={styles.clicked}
           >
-            S'inscrire
-          </Button>
+            <Text>S'inscrire</Text>
+          </TouchableOpacity>
         </View>
         <ScrollView>
           <View style={styles.login}>
@@ -219,14 +236,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: "50%",
-    backgroundColor: "rgba(235, 117, 117, 1)",
+    // backgroundColor: "rgba(20, 117, 117, 1)",
+    backgroundColor: "#a7c957",
   },
   logo: {
     marginTop: "10%",
     marginBottom: "10%",
     width: "100%",
     height: "50%",
-    marginLeft:15
+    marginLeft: 15,
   },
   half: {
     width: "100%",
@@ -242,7 +260,7 @@ const styles = StyleSheet.create({
     overflow: "scroll",
     position: "absolute",
     bottom: "20%",
-    zIndex:1,
+    zIndex: 1,
     marginLeft: "5%",
     backgroundColor: "rgba(255, 255, 255, 1)",
     borderTopLeftRadius: 6,
@@ -254,7 +272,7 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,    
+    shadowRadius: 3.84,
     elevation: 5,
   },
   tabs: {
@@ -262,7 +280,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: "0%",
     padding: 10,
-    justifyContent: "center",
+    justifyContent: "space-around",
     borderBottomWidth: 2,
     borderBottomColor: "rgba(239, 239, 244, 1)",
     width: "100%",
@@ -271,7 +289,7 @@ const styles = StyleSheet.create({
   login: {
     marginTop: 5,
     overflow: "scroll",
-    zIndex:2
+    zIndex: 2,
   },
   nb: {
     fontSize: 11,
@@ -302,11 +320,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: "25%",
     marginBottom: 10,
-    backgroundColor: "rgba(235, 117, 117, 1)",
+    backgroundColor: "#a7c957",
     borderWidth: 1,
     borderRadius: 3,
   },
   default: {
     marginTop: 8,
+  },
+  clicked: {
+    padding: 7,
   },
 });
