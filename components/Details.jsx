@@ -148,8 +148,19 @@ export default function Details({ route }) {
           </Text>
           <Text style={styles.description}>{product.description}</Text>
         </View>
+        <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "700",
+              marginLeft: 15,
+              marginTop: 0,
+              marginBottom: 10,
+            }}
+          >
+            Personnalisé
+          </Text>
         <View style={styles.choices}>
-          <ScrollView horizontal>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <CustomToggleButton
               label="Cheese"
               status={toppingCheese ? "checked" : "unchecked"}

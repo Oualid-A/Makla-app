@@ -78,6 +78,7 @@ export default function Menu() {
       <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4 }}>
         {menuItems.map((menuItem, index) => (
           <View style={styles.container} key={index}>
+              <TouchableOpacity style={styles.header} onPress={handleDetails}>
             <View style={styles.header}>
               <View style={styles.coverContainer}>
                 <Image source={menuItem.image} style={styles.coverImage} />
@@ -86,13 +87,12 @@ export default function Menu() {
                 <Text style={styles.title}>{menuItem.title}</Text>
                 <Text style={styles.price}>{menuItem.price}</Text>
               </View>
-              <TouchableOpacity onPress={handleDetails}>
                 <View style={styles.logoContainer}>
                   <Image source={menuItem.logo} style={styles.logoImage} />
                 </View>
-              </TouchableOpacity>
             </View>
-            <View style={styles.cardBtn}>
+              </TouchableOpacity>
+            {/* <View style={styles.cardBtn}>
               <View style={styles.cardbtn_div}>
                 <IconButton
                   style={styles.iconButton}
@@ -118,7 +118,7 @@ export default function Menu() {
                   Ajouter au Panier
                 </Button>
               </View>
-            </View>
+            </View> */}
           </View>
         ))}
       </ScrollView>
