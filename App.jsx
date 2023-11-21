@@ -11,6 +11,7 @@ import Map from './components/Map';
 import Details from './components/Details';
 import Cart from './components/Cart';
 import Test from './components/Test';
+import Footer from './components/compenent-items/Footer';
 
 
 const Stack = createStackNavigator();
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="Cart">{() => <Cart cartItems={cart} />}</Stack.Screen>
       </Stack.Navigator>
+      {/* <Footer/> */}
     </NavigationContainer>
   );
 }

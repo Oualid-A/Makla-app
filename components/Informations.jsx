@@ -9,7 +9,7 @@ import {
 import React, { useState, useEffect } from "react";
 import Footer from "./compenent-items/Footer";
 import { useNavigation } from "@react-navigation/native";
-import avatar from "../assets/ilyass.jpg";
+import avatar from "../assets/ilyass.png";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";

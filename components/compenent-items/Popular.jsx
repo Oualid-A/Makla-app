@@ -12,16 +12,16 @@ import { useNavigation } from "@react-navigation/native";
 
 const popularData = [
   {
-    name: "Plats populaires",
-    image: require("../../assets/plat_india.jpg"),
-    price: "50 MAD",
+    name: "Cheese Burger",
+    image: require("../../assets/burger3.jpg"),
+    price: "40 MAD",
     rating: 4.8,
     location: "Hey Al-Qods Oujda",
   },
   {
-    name: "Plats populaires",
-    image: require("../../assets/plat_india.jpg"),
-    price: "50 MAD",
+    name: "Pizza Dinde",
+    image: require("../../assets/pizzaL.jpg"),
+    price: "55 MAD",
     rating: 4.8,
     location: "Hey Al-Qods Oujda",
   },

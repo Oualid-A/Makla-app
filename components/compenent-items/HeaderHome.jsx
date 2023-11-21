@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import Ionicons from "@expo/vector-icons/Ionicons";
-import avatar from "../../assets/ilyass.jpg";
+import avatar from "../../assets/ilyass.png";
 import { useNavigation } from '@react-navigation/native';
 
 export default function HeaderHome() {

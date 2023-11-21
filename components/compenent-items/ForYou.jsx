@@ -42,7 +42,7 @@ export default function ForYou() {
               <View>
                 <Ionicons
                 onPress={ShowMenu}
-                  name="arrow-forward-circle-sharp"
+                  name="arrow-forward-circle-outline"
                   size={40}
                   color={"rgba(250, 74, 12, 100)"}
                 ></Ionicons>
