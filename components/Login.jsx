@@ -1,40 +1,40 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   View,
   StyleSheet,
   Image,
   ScrollView,
   TouchableOpacity,
-} from "react-native";
-import logo from "../assets/logo_makla.png";
-import { TextInput, Text, Snackbar } from "react-native-paper";
-import { Button } from "react-native-paper";
-import PhoneInput from "react-native-phone-input";
-import { useNavigation } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { login, registerUser, getUserByEmail } from "./services/AuthService";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from "react-native"
+import logo from "../assets/logo_makla.png"
+import { TextInput, Text, Snackbar } from "react-native-paper"
+import { Button } from "react-native-paper"
+import PhoneInput from "react-native-phone-input"
+import { useNavigation } from "@react-navigation/native"
+import Icon from "react-native-vector-icons/FontAwesome"
+import { login, registerUser, getUserByEmail } from "./services/AuthService"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LoginForm = () => {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigation = useNavigation()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const handleLoginPress = async () => {
-    const isAuthenticated = await login(email, password);
-    console.log(isAuthenticated);
+    const isAuthenticated = await login(email, password)
+    console.log(isAuthenticated)
     if (isAuthenticated !== null) {
-      const authHeader = isAuthenticated.headers.get("authorization");
-      const token = authHeader.split(" ")[1]; 
-      console.log("Token after login:", token);
-      const getUser = await getUserByEmail(email, token);
-      console.log("users", getUser);
-      await AsyncStorage.setItem('userData', JSON.stringify(getUser));
-      await AsyncStorage.setItem('token', token);
+      const authHeader = isAuthenticated.headers.get("authorization")
+      const token = authHeader.split(" ")[1] 
+      console.log("Token after login:", token)
+      const getUser = await getUserByEmail(email, token)
+      console.log("users", getUser)
+      await AsyncStorage.setItem('userData', JSON.stringify(getUser))
+      await AsyncStorage.setItem('token', token)
 
-      // navigation.navigate("Informations");
-       navigation.navigate("LandingPage");
+      // navigation.navigate("Informations")
+       navigation.navigate("LandingPage")
     }
-  };
+  }
 
   return (
     <ScrollView
@@ -73,8 +73,8 @@ const LoginForm = () => {
         Se connecter
       </Button>
     </ScrollView>
-  );
-};
+  )
+}
 
 const SignupForm = () => {
   const [userData, setUserData] = useState({
@@ -84,17 +84,17 @@ const SignupForm = () => {
     password: "",
     tel: "",
     // ... other fields
-  });
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  })
+  const [snackbarVisible, setSnackbarVisible] = useState(false)
 
   const handleSignUpPress = async () => {
-    const response = await registerUser(userData);
+    const response = await registerUser(userData)
 
     if (response.ok) {
-      console.log("succes");
-      setSnackbarVisible(true); // Display the snack bar
+      console.log("succes")
+      setSnackbarVisible(true) // Display the snack bar
     }
-  };
+  }
 
   return (
     <ScrollView
@@ -132,7 +132,7 @@ const SignupForm = () => {
       <PhoneInput
         style={styles.phone2}
         ref={(ref) => {
-          this.phone = ref;
+          this.phone = ref
         }}
         initialCountry={"ma"}
         initialValue="13178675309"
@@ -173,18 +173,18 @@ const SignupForm = () => {
               email: "",
               password: "",
               tel: "",
-            });
+            })
           },
         }}
       >
         Inscription réussie !
       </Snackbar>
     </ScrollView>
-  );
-};
+  )
+}
 
 export default function Login() {
-  const [activeTab, setActiveTab] = useState("login");
+  const [activeTab, setActiveTab] = useState("login")
 
   return (
     <View style={styles.root}>
@@ -217,7 +217,7 @@ export default function Login() {
         </ScrollView>
       </View>
     </View>
-  );
+  )
 }
 const styles = StyleSheet.create({
   root: {
@@ -330,4 +330,4 @@ const styles = StyleSheet.create({
   clicked: {
     padding: 7,
   },
-});
+})

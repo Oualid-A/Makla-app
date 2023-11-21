@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React from "react"
+import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native"
 
 const CustomToggleButton = ({ label, status, onPress, image }) => {
   return (
@@ -9,8 +9,8 @@ const CustomToggleButton = ({ label, status, onPress, image }) => {
         <Text style={styles.label}>{label}</Text>
       </View>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-});
+})
 
-export default CustomToggleButton;
+export default CustomToggleButton

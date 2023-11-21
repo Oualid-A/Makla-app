@@ -5,10 +5,10 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-} from "react-native";
-import React from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
+} from "react-native"
+import React from "react"
+import Ionicons from "@expo/vector-icons/Ionicons"
+import { useNavigation } from "@react-navigation/native"
 
 const popularData = [
   {
@@ -27,9 +27,9 @@ const popularData = [
   },
 ]
 export default function Popular() {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
   const ShowSnack = () => {
-    navigation.navigate("Snack");
+    navigation.navigate("Snack")
   }
   return (
     <View>
@@ -61,7 +61,7 @@ export default function Popular() {
       ))}
     </ScrollView>
   </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
     marginRight:10,
     marginTop:10
   },
-});
+})

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   ScrollView,
   ImageBackground,
@@ -6,23 +6,23 @@ import {
   Text,
   View,
   Image,
-} from "react-native";
-import { IconButton, Button } from "react-native-paper";
-import Carousel, { Pagination } from "react-native-snap-carousel";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import table from "../assets/food_bg.jpg";
-import { Checkbox } from "react-native-paper";
-import cheese from "../assets/cheese.png";
-import tomatoesImage from "../assets/tomate.png";
-import onion from "../assets/onion.png";
-import laiture from "../assets/laiture.png";
-import CustomToggleButton from "./compenent-items/CustomToggleButton";
-import { useNavigation } from "@react-navigation/native";
+} from "react-native"
+import { IconButton, Button } from "react-native-paper"
+import Carousel, { Pagination } from "react-native-snap-carousel"
+import Ionicons from "@expo/vector-icons/Ionicons"
+import table from "../assets/food_bg.jpg"
+import { Checkbox } from "react-native-paper"
+import cheese from "../assets/cheese.png"
+import tomatoesImage from "../assets/tomate.png"
+import onion from "../assets/onion.png"
+import laiture from "../assets/laiture.png"
+import CustomToggleButton from "./compenent-items/CustomToggleButton"
+import { useNavigation } from "@react-navigation/native"
 
 export default function Details({ route }) {
-  const [quantity, setQuantity] = React.useState(1);
-  const [cart, setCart] = useState([]);
-  const navigation = useNavigation();
+  const [quantity, setQuantity] = React.useState(1)
+  const [cart, setCart] = useState([])
+  const navigation = useNavigation()
 
   const addToCart = () => {
     const itemToAdd = {
@@ -31,30 +31,30 @@ export default function Details({ route }) {
       price: product.price,
       quantity,
       // Add other product details if needed
-    };
-    setCart([...cart, itemToAdd]);
-    setQuantity(1);
-  };
+    }
+    setCart([...cart, itemToAdd])
+    setQuantity(1)
+  }
 
   const incrementQuantity = () => {
-    setQuantity(quantity + 1);
-  };
+    setQuantity(quantity + 1)
+  }
 
   const decrementQuantity = () => {
     if (quantity > 1) {
-      setQuantity(quantity - 1);
+      setQuantity(quantity - 1)
     }
-  };
-  const { product } = route.params;
-  const [toppingCheese, setToppingCheese] = React.useState(false);
-  const [toppingTomatoes, setToppingTomatoes] = React.useState(false);
-  const [toppingOnion, setToppingOnion] = React.useState(false);
-  const [toppingLaiture, setToppingLaiture] = React.useState(false);
-  const [activeSlide, setActiveSlide] = React.useState(0); // Pour suivre l'index de l'image actuellement visible
+  }
+  const { product } = route.params
+  const [toppingCheese, setToppingCheese] = React.useState(false)
+  const [toppingTomatoes, setToppingTomatoes] = React.useState(false)
+  const [toppingOnion, setToppingOnion] = React.useState(false)
+  const [toppingLaiture, setToppingLaiture] = React.useState(false)
+  const [activeSlide, setActiveSlide] = React.useState(0) // Pour suivre l'index de l'image actuellement visible
 
   const onSnapToItem = (index) => {
-    setActiveSlide(index);
-  };  
+    setActiveSlide(index)
+  }  
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -208,7 +208,7 @@ export default function Details({ route }) {
       </View>
       {/* <Footer /> */}
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -316,4 +316,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
   },
-});
+})

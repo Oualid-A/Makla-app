@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import Ionicons from "@expo/vector-icons/Ionicons"
+import { useNavigation } from "@react-navigation/native"
 
 export default function Footer() {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   const handleHomePress = () => {
-    navigation.navigate("LandingPage");
-  };
+    navigation.navigate("LandingPage")
+  }
   const handleSnackPress = () => {
-    navigation.navigate("Snack");
-  };
+    navigation.navigate("Snack")
+  }
   const handleInfoPress = () => {
-    navigation.navigate("Informations");
-  };
+    navigation.navigate("Informations")
+  }
   const handleMapPress = () => {
-    navigation.navigate("Map");
-  };
+    navigation.navigate("Map")
+  }
   const handleCartPress = () => {
-    navigation.navigate("Cart");
+    navigation.navigate("Cart")
   }
   return (
     <View style={styles.footer}>

@@ -1,13 +1,13 @@
-import React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React from "react"
+import { View, StyleSheet, Text, Image } from "react-native"
+import { ScrollView } from "react-native-gesture-handler"
 
 const categoryData = [
   { name: "Burger", image: require("../../assets/burger.png") },
   { name: "Pizza", image: require("../../assets/pizza_log.png") },
   { name: "Salade", image: require("../../assets/salad.png") },
   { name: "Soda", image: require("../../assets/soda.png") },
-];
+]
 
 export default function Categories() {
   return (
@@ -28,7 +28,7 @@ export default function Categories() {
         </View>
       </ScrollView>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     fontWeight: 400,
   },
-});
+})

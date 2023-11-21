@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import LandingPage from './components/LandingPage';
-import Login from './components/Login';
-import Snack from './components/Snack';
-import Menu from './components/Menu';
-import Informations from './components/Informations';
-import Map from './components/Map';
-import Details from './components/Details';
-import Cart from './components/Cart';
-import Test from './components/Test';
-import Footer from './components/compenent-items/Footer';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import LandingPage from './components/LandingPage'
+import Login from './components/Login'
+import Snack from './components/Snack'
+import Menu from './components/Menu'
+import Informations from './components/Informations'
+import Map from './components/Map'
+import Details from './components/Details'
+import Cart from './components/Cart'
+import Test from './components/Test'
+import Footer from './components/compenent-items/Footer'
 
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 export default function App() {
-  const [cart, setCart] = React.useState([]);
+  const [cart, setCart] = React.useState([])
+  useEffect(() => {
+    const storedData = localStorage.getItem('userData')
+    if (storedData) {
+      navigation.navigate('LandingPage')
+    } else {
+      navigation.navigate('Login')
+    }
+  }, [])
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Login">
@@ -31,9 +39,8 @@ export default function App() {
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="Cart">{() => <Cart cartItems={cart} />}</Stack.Screen>
       </Stack.Navigator>
-      {/* <Footer/> */}
     </NavigationContainer>
-  );
+  )
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})

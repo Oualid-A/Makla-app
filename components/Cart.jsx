@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { ScrollView } from "react-native-gesture-handler";
-import table from "../assets/burger.png";
-import {  Button } from "react-native-paper";
+import { StyleSheet, Text, View, Image } from "react-native"
+import React from "react"
+import { StatusBar } from "expo-status-bar"
+import { ScrollView } from "react-native-gesture-handler"
+import table from "../assets/burger.png"
+import {  Button } from "react-native-paper"
 
 const cartItems = [
   {
@@ -27,7 +27,7 @@ const cartItems = [
     quantity: 3,
     totalPrice: 8.5 * 3,
   },
-];
+]
 
 export default function Cart() {
   return (
@@ -105,7 +105,7 @@ export default function Cart() {
         </Button>
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -202,4 +202,4 @@ const styles = StyleSheet.create({
     marginBottom:-5,
     marginTop:13,
   },
-});
+})

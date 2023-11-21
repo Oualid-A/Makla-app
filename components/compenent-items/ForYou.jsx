@@ -5,21 +5,21 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-} from "react-native";
-import React from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
+} from "react-native"
+import React from "react"
+import Ionicons from "@expo/vector-icons/Ionicons"
+import { useNavigation } from "@react-navigation/native"
 
 const forYouData = [
   { name: "Kentucky Fried Chicken", logo: require("../../assets/KFC_logo.svg.png") },
   { name: "McDonald's", logo: require("../../assets/pizzaHut.png") },
   { name: "Pizza Hut", logo: require("../../assets/macdo.png") },
-];
+]
 
 export default function ForYou() {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
   const ShowMenu = () => {
-    navigation.navigate("Menu");
+    navigation.navigate("Menu")
   }
   return (
     <View>
@@ -42,7 +42,7 @@ export default function ForYou() {
               <View>
                 <Ionicons
                 onPress={ShowMenu}
-                  name="arrow-forward-circle-outline"
+                  name="chevron-forward"
                   size={40}
                   color={"rgba(250, 74, 12, 100)"}
                 ></Ionicons>
@@ -52,7 +52,7 @@ export default function ForYou() {
         ))}
       </ScrollView>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(250, 74, 12, 1)",
     borderWidth: 0,
   },
-});
+})

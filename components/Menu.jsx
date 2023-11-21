@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   StyleSheet,
   Text,
@@ -7,19 +7,20 @@ import {
   View,
   Image,
   StatusBar,
-} from "react-native";
-import { Appbar, Button, IconButton } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import logo from "../assets/pizza1.jpg";
-import plat_india from "../assets/plat_india.jpg";
-import logo1 from "../assets/KFC_logo.svg.png";
-import Footer from "./compenent-items/Footer";
-import burger from "../assets/burger.png";
-import HeaderHome from "./compenent-items/HeaderHome";
+} from "react-native"
+import { Appbar, Button, IconButton } from "react-native-paper"
+import { useNavigation } from "@react-navigation/native"
+import logo from "../assets/pizza1.jpg"
+import plat_india from "../assets/plat_india.jpg"
+import logo1 from "../assets/KFC_logo.svg.png"
+import Footer from "./compenent-items/Footer"
+import burger from "../assets/burger.png"
+import HeaderHome from "./compenent-items/HeaderHome"
+import SearchBar from "./compenent-items/SearchBar"
 
 export default function Menu() {
-  const navigation = useNavigation();
-  const [quantities, setQuantities] = useState([0, 0]);
+  const navigation = useNavigation()
+  const [quantities, setQuantities] = useState([0, 0])
 
   const handleDetails = () => {
     navigation.navigate("Details", {
@@ -33,28 +34,28 @@ export default function Menu() {
         quantity:2,
         images: [burger, burger, burger],
       },
-    });
-  };
+    })
+  }
 
-  const _goBack = () => navigation.navigate("Snack");
+  const _goBack = () => navigation.navigate("Snack")
 
-  const _handleSearch = () => console.log("Searching");
+  const _handleSearch = () => console.log("Searching")
 
-  const _handleMore = () => console.log("Shown more");
+  const _handleMore = () => console.log("Shown more")
 
   const incrementQuantity = (index) => {
-    const newQuantities = [...quantities];
-    newQuantities[index] += 1;
-    setQuantities(newQuantities);
-  };
+    const newQuantities = [...quantities]
+    newQuantities[index] += 1
+    setQuantities(newQuantities)
+  }
 
   const decrementQuantity = (index) => {
     if (quantities[index] > 0) {
-      const newQuantities = [...quantities];
-      newQuantities[index] -= 1;
-      setQuantities(newQuantities);
+      const newQuantities = [...quantities]
+      newQuantities[index] -= 1
+      setQuantities(newQuantities)
     }
-  };
+  }
 
   const menuItems = [
     {
@@ -69,14 +70,22 @@ export default function Menu() {
       image: plat_india,
       logo: logo1,
     },
-  ];
+  ]
+   const [searchPhrase, setSearchPhrase] = useState("")
+   const filteredMenuItems = menuItems.filter((menuItem) =>
+   menuItem.title.toLowerCase().includes(searchPhrase.toLowerCase())
+ )
 
   return (
     <>
     <StatusBar></StatusBar>
       <HeaderHome/>
+      <SearchBar
+        searchPhrase={searchPhrase}
+        setSearchPhrase={setSearchPhrase}
+      />
       <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4 }}>
-        {menuItems.map((menuItem, index) => (
+        {filteredMenuItems.map((menuItem, index) => (
           <View style={styles.container} key={index}>
               <TouchableOpacity style={styles.header} onPress={handleDetails}>
             <View style={styles.header}>
@@ -92,39 +101,13 @@ export default function Menu() {
                 </View>
             </View>
               </TouchableOpacity>
-            {/* <View style={styles.cardBtn}>
-              <View style={styles.cardbtn_div}>
-                <IconButton
-                  style={styles.iconButton}
-                  icon="minus"
-                  onPress={() => decrementQuantity(index)}
-                  iconColor="white"
-                />
-                <Text style={styles.quantity}>{quantities[index]}</Text>
-                <IconButton
-                  style={styles.iconButton}
-                  icon="plus"
-                  onPress={() => incrementQuantity(index)}
-                  iconColor="white"
-                />
-              </View>
-              <View width={"35%"}></View>
-              <View>
-                <Button
-                  onPress={() => console.log("Add to Cart")}
-                  style={styles.addToCartButton}
-                  textColor="white"
-                >
-                  Ajouter au Panier
-                </Button>
-              </View>
-            </View> */}
+           
           </View>
         ))}
       </ScrollView>
       <Footer />
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -230,4 +213,4 @@ const styles = StyleSheet.create({
     width: "10%",
     height: "auto",
   },
-});
+})

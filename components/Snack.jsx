@@ -5,27 +5,27 @@ import {
   TouchableOpacity,
   Image,
   View,
-} from "react-native";
-import * as React from "react";
-import { useNavigation } from "@react-navigation/native";
-import { Appbar, Avatar, Button, Card, IconButton } from "react-native-paper";
-import logo from "../assets/KFC_logo.svg.png";
-import logo2 from "../assets/macdo.png";
-import logo3 from "../assets/brimo.jpg";
-import logo4 from "../assets/pizzaHut.png";
-import Footer from "./compenent-items/Footer";
+} from "react-native"
+import * as React from "react"
+import { useNavigation } from "@react-navigation/native"
+import { Appbar, Avatar, Button, Card, IconButton } from "react-native-paper"
+import logo from "../assets/KFC_logo.svg.png"
+import logo2 from "../assets/macdo.png"
+import logo3 from "../assets/brimo.jpg"
+import logo4 from "../assets/pizzaHut.png"
+import Footer from "./compenent-items/Footer"
 
 export default function Snack() {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
   const ShowMenu = () => {
-    navigation.navigate("Menu");
-  };
+    navigation.navigate("Menu")
+  }
 
-  const _goBack = () => navigation.navigate("Login");
+  const _goBack = () => navigation.navigate("Login")
 
-  const _handleSearch = () => console.log("Searching");
+  const _handleSearch = () => console.log("Searching")
 
-  const _handleMore = () => console.log("Shown more");
+  const _handleMore = () => console.log("Shown more")
   return (
     <>
       <Appbar.Header>
@@ -110,7 +110,7 @@ export default function Snack() {
       </ScrollView>
       <Footer/>
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -166,4 +166,4 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(250, 74, 12, 1)",
     borderWidth: 0,
   },
-});
+})

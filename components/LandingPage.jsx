@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   View,
   StyleSheet,
@@ -7,26 +7,26 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-} from "react-native";
-import background from "../assets/bg.jpg";
-import logo from "../assets/logo.png";
-import burger from "../assets/macdo.png";
-import { useNavigation } from "@react-navigation/native";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
-import { Header } from "react-native-elements";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import Popular from "./compenent-items/Popular";
-import Categories from "./compenent-items/Categories";
-import ForYou from "./compenent-items/ForYou";
-import Footer from "./compenent-items/Footer";
-import HeaderHome from "./compenent-items/HeaderHome";
+} from "react-native"
+import background from "../assets/bg.jpg"
+import logo from "../assets/logo.png"
+import burger from "../assets/macdo.png"
+import { useNavigation } from "@react-navigation/native"
+import { ScrollView, TextInput } from "react-native-gesture-handler"
+import { Header } from "react-native-elements"
+import Ionicons from "@expo/vector-icons/Ionicons"
+import Popular from "./compenent-items/Popular"
+import Categories from "./compenent-items/Categories"
+import ForYou from "./compenent-items/ForYou"
+import Footer from "./compenent-items/Footer"
+import HeaderHome from "./compenent-items/HeaderHome"
 
 export default function LandingPage() {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   const handleLoginPress = () => {
-    navigation.navigate("Login");
-  };
+    navigation.navigate("Login")
+  }
   return (
     <View style={styles.root}>
       <StatusBar hidden />
@@ -48,7 +48,7 @@ export default function LandingPage() {
       </ScrollView>
       <Footer />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
-});
+})

@@ -5,20 +5,20 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import Footer from "./compenent-items/Footer";
-import { useNavigation } from "@react-navigation/native";
-import avatar from "../assets/ilyass.png";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { ScrollView } from "react-native-gesture-handler";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Dialog, Portal, PaperProvider, TextInput, Button } from "react-native-paper";
-import { updateInfos } from "./services/AuthService";
+} from "react-native"
+import React, { useState, useEffect } from "react"
+import Footer from "./compenent-items/Footer"
+import { useNavigation } from "@react-navigation/native"
+import avatar from "../assets/ilyass.png"
+import Ionicons from "@expo/vector-icons/Ionicons"
+import { ScrollView } from "react-native-gesture-handler"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { Dialog, Portal, PaperProvider, TextInput, Button } from "react-native-paper"
+import { updateInfos } from "./services/AuthService"
 
 export default function Informations() {
-  const [storedData, setStoredData] = useState({});
-  const navigation = useNavigation();
+  const [storedData, setStoredData] = useState({})
+  const navigation = useNavigation()
   const [userData, setUserData] = useState({
     nom: "",
     prenom: "",
@@ -27,39 +27,39 @@ export default function Informations() {
     tel: "",
     cin: "",
     id: null,
-  });
-  const [visible, setVisible] = React.useState(false);
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
+  })
+  const [visible, setVisible] = React.useState(false)
+  const showDialog = () => setVisible(true)
+  const hideDialog = () => setVisible(false)
 
   const getStoredData = async () => {
-      const storedData = await AsyncStorage.getItem("userData");
+      const storedData = await AsyncStorage.getItem("userData")
       if (storedData !== null) {
-        const parsedData = JSON.parse(storedData);
-        setStoredData(parsedData);
+        const parsedData = JSON.parse(storedData)
+        setStoredData(parsedData)
       } 
-  };
+  }
 
   const UpdateUser = async () => {
-    const token = await AsyncStorage.getItem("token");
-    const response = await updateInfos(userData, token);
+    const token = await AsyncStorage.getItem("token")
+    const response = await updateInfos(userData, token)
     if (response !== null) {
-      alert("Votre info modifié");
+      alert("Votre info modifié")
     }
-  };
+  }
 
   const handleMap = async () => {
-    navigation.navigate("Map");
-  };
+    navigation.navigate("Map")
+  }
 
   const logOut = async () => {
-    await AsyncStorage.removeItem("userData");
-    navigation.replace("Login");
-  };
+    await AsyncStorage.removeItem("userData")
+    navigation.replace("Login")
+  }
 
   useEffect(() => {
-    getStoredData();
-  }, []);
+    getStoredData()
+  }, [])
 
 
   return (
@@ -82,7 +82,7 @@ export default function Informations() {
                 </View>
                 <TouchableOpacity onPress={showDialog}>
                   <Ionicons
-                    name="document-text-outline"
+                    name="create-outline"
                     size={30}
                     color="rgba(250, 74, 12, 1)"
                     paddingHorizontal={10}
@@ -182,7 +182,7 @@ export default function Informations() {
         </Portal>
       </PaperProvider>
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -244,4 +244,4 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-});
+})
