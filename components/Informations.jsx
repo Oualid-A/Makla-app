@@ -67,7 +67,7 @@ export default function Informations() {
       <PaperProvider>
         <View style={{ flex: 1 }}>
           <StatusBar />
-          <ScrollView>
+          <ScrollView style={{backgroundColor:"white"}}>
             <View style={styles.contenair}>
               <View style={styles.image}>
                 <Image source={avatar} style={styles.avatar} />
@@ -133,7 +133,7 @@ export default function Informations() {
               </TouchableOpacity>
             </View>
           </ScrollView>
-          <Footer />
+          
         </View>
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog} >
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     width: "94%",
     padding: 10,
     height: "auto",
+    elevation:1
   },
   card: {
     flexDirection: "row",

@@ -1,64 +1,83 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import Ionicons from "@expo/vector-icons/Ionicons"
-import { useNavigation } from "@react-navigation/native"
+import React, { useState } from 'react';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Footer() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const [activeButton, setActiveButton] = useState(null);
 
   const handleHomePress = () => {
-    navigation.navigate("LandingPage")
-  }
+    navigation.navigate("LandingPage");
+    setActiveButton("home");
+  };
+
   const handleSnackPress = () => {
-    navigation.navigate("Snack")
-  }
+    navigation.navigate("Snack");
+    setActiveButton("snack");
+  };
+
   const handleInfoPress = () => {
-    navigation.navigate("Informations")
-  }
+    navigation.navigate("Informations");
+    setActiveButton("person");
+  };
+
   const handleMapPress = () => {
-    navigation.navigate("Map")
-  }
+    navigation.navigate("Map");
+    setActiveButton("map");
+  };
+
   const handleCartPress = () => {
-    navigation.navigate("Cart")
-  }
+    navigation.navigate("Cart");
+    setActiveButton("cart");
+  };
+
+  const getIconName = (buttonName) => {
+    return activeButton === buttonName ? `${buttonName}-sharp` : `${buttonName}-outline`;
+  };
+
   return (
     <View style={styles.footer}>
-        <TouchableOpacity onPress={handleCartPress} ><Ionicons name="cart-outline" size={30} color="black" /></TouchableOpacity>
-        <TouchableOpacity onPress={handleMapPress}  ><Ionicons name="map-outline" size={30} color="black" /></TouchableOpacity>
-        <TouchableOpacity  onPress={handleHomePress} ><Ionicons name="home-outline" size={30} color="black" /></TouchableOpacity>
-        {/* <TouchableOpacity  onPress={handleSnackPress}><Ionicons name="fast-food-outline" size={30} color="black" /></TouchableOpacity> */}
-        <TouchableOpacity  onPress={handleInfoPress}><Ionicons name="person-outline" size={30} color="black" /></TouchableOpacity>
-      </View>
-  )
+      <TouchableOpacity onPress={handleCartPress} style={styles.footerButton}>
+        <Ionicons name={getIconName("cart")} size={30} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleMapPress} style={styles.footerButton}>
+        <Ionicons name={getIconName("map")} size={30} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleHomePress} style={styles.footerButton}>
+        <Ionicons name={getIconName("home")} size={30} color="black" />
+      </TouchableOpacity>
+      {/* Uncomment the following block if you have the "Snack" navigation route */}
+      {/* <TouchableOpacity onPress={handleSnackPress} style={styles.footerButton}>
+        <Ionicons name={getIconName("fast-food")} size={30} color="black" />
+      </TouchableOpacity> */}
+      <TouchableOpacity onPress={handleInfoPress} style={styles.footerButton}>
+        <Ionicons name={getIconName("person")} size={30} color="black" />
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    footer:{
-        flexDirection:"row",
-        justifyContent: "space-around",
-        alignItems: "center",
-        height: 50,
-        backgroundColor:"white",
-        shadowOffset:{width:1,height:2},
-        borderWidth:.6, 
-        bottom:0,  
-        right:0,
-        left:0,
-        // borderTopEndRadius:30,
-        // borderTopStartRadius:30,
-        width:"100%",
-        alignSelf:"center",
-        borderColor:"#ccc"
-    },
-    map:{
-        borderTopWidth:.2,
-        borderLeftWidth:.2,
-        padding:5,
-        borderRadius:999999999,
-        alignItems:"center",
-        width:60,
-        height:60,
-        backgroundColor:"white",
-        marginBottom:45,
-    }
-})
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: 50,
+    backgroundColor: "white",
+    shadowOffset: { width: 1, height: 2 },
+    borderWidth: 0.6,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    width: "100%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+  },
+  footerButton: {
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 10,
+  },
+});

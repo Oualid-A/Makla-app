@@ -61,7 +61,7 @@ const Map = () => {
         )}
         {/* Rest of your code */}
       </View>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }

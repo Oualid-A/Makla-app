@@ -19,6 +19,7 @@ const LoginForm = () => {
   const navigation = useNavigation()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  
   const handleLoginPress = async () => {
     const isAuthenticated = await login(email, password)
     console.log(isAuthenticated)

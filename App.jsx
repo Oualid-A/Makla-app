@@ -11,15 +11,17 @@ import Map from './components/Map'
 import Details from './components/Details'
 import Cart from './components/Cart'
 import Test from './components/Test'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Footer from './components/compenent-items/Footer'
+import ViewPropTypes from 'deprecated-react-native-prop-types';
 
 
 const Stack = createStackNavigator()
 
 export default function App() {
   const [cart, setCart] = React.useState([])
-  useEffect(() => {
-    const storedData = localStorage.getItem('userData')
+  useEffect(async () => {
+    const storedData = await  AsyncStorage.getItem('userData')
     if (storedData) {
       navigation.navigate('LandingPage')
     } else {
@@ -28,7 +30,7 @@ export default function App() {
   }, [])
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Login">
+      <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Informations">
         <Stack.Screen name="Informations" component={Informations} /> 
         <Stack.Screen name="Test" component={Test} />
         <Stack.Screen name="Login" component={Login} />
@@ -39,6 +41,7 @@ export default function App() {
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="Cart">{() => <Cart cartItems={cart} />}</Stack.Screen>
       </Stack.Navigator>
+      <Footer/>
     </NavigationContainer>
   )
 }

@@ -4,17 +4,9 @@ import {
   StyleSheet,
   Text,
   StatusBar,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
 } from "react-native"
-import background from "../assets/bg.jpg"
-import logo from "../assets/logo.png"
-import burger from "../assets/macdo.png"
 import { useNavigation } from "@react-navigation/native"
 import { ScrollView, TextInput } from "react-native-gesture-handler"
-import { Header } from "react-native-elements"
-import Ionicons from "@expo/vector-icons/Ionicons"
 import Popular from "./compenent-items/Popular"
 import Categories from "./compenent-items/Categories"
 import ForYou from "./compenent-items/ForYou"
@@ -46,7 +38,7 @@ export default function LandingPage() {
         <Popular />
         <ForYou />
       </ScrollView>
-      <Footer />
+      {/* <Footer /> */}
     </View>
   )
 }
@@ -54,7 +46,8 @@ export default function LandingPage() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor:"#f2f6fc"
+    backgroundColor:"#fff"
+    // backgroundColor:"#f2f6fc"
   },
   searchInput: {
     borderWidth: 0,

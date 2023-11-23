@@ -105,7 +105,6 @@ export default function Menu() {
           </View>
         ))}
       </ScrollView>
-      <Footer />
     </>
   )
 }

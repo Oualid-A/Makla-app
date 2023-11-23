@@ -93,9 +93,10 @@ const styles = StyleSheet.create({
   },
   popularItemsImage: {
     resizeMode: "contain",
-    width: 250,
-    height: 200,
-    borderRadius: 10,
+    width: 220,
+    height: 150,
+    borderRadius: 0,
+    alignSelf:"center"
   },
   popularItemsName: {
     fontSize: 15,

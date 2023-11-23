@@ -1,34 +1,47 @@
-import React from "react"
-import { View, StyleSheet, Text, Image } from "react-native"
-import { ScrollView } from "react-native-gesture-handler"
+import React, { useState } from "react";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const categoryData = [
   { name: "Burger", image: require("../../assets/burger.png") },
   { name: "Pizza", image: require("../../assets/pizza_log.png") },
   { name: "Salade", image: require("../../assets/salad.png") },
   { name: "Soda", image: require("../../assets/soda.png") },
-]
+];
 
 export default function Categories() {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleCategoryPress = (index) => {
+    setSelectedCategory(index);
+  };
+
   return (
     <View>
       <Text style={{ fontSize: 17, marginLeft: "5%", fontWeight: "700" }}>
         Cuisine
       </Text>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      <View style={styles.cuisine}>
-        {categoryData.map((category, index) => (
-          <View style={styles.cuisineItems} key={index}>
-            <Image source={category.image} style={styles.cuisineImage} />
-            <Text style={{ fontSize: 15, marginHorizontal: 10, fontWeight: 400 }}>
-              {category.name}
-            </Text>
-          </View>
-        ))}
+        <View style={styles.cuisine}>
+          {categoryData.map((category, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.cuisineItems,
+                selectedCategory === index && { backgroundColor: "#f77f00" },
+              ]}
+              onPress={() => handleCategoryPress(index)}
+            >
+              <Image source={category.image} style={styles.cuisineImage} />
+              <Text style={{ fontSize: 15, marginHorizontal: 10, fontWeight: 400 }}>
+                {category.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -68,4 +81,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     fontWeight: 400,
   },
-})
+});
