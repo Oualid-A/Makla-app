@@ -78,13 +78,16 @@ export default function Menu() {
 
   return (
     <>
+    <View style={{flex:1,  backgroundColor:"white"}}>
+
+    
     <StatusBar></StatusBar>
       <HeaderHome/>
       <SearchBar
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
       />
-      <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4, }}>
         {filteredMenuItems.map((menuItem, index) => (
           <View style={styles.container} key={index}>
               <TouchableOpacity style={styles.header} onPress={handleDetails}>
@@ -105,6 +108,7 @@ export default function Menu() {
           </View>
         ))}
       </ScrollView>
+      </View>
     </>
   )
 }

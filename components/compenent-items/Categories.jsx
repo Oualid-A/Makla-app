@@ -28,7 +28,7 @@ export default function Categories() {
               key={index}
               style={[
                 styles.cuisineItems,
-                selectedCategory === index && { backgroundColor: "#f77f00" },
+                selectedCategory === index && { backgroundColor: "#e2eafc" },
               ]}
               onPress={() => handleCategoryPress(index)}
             >

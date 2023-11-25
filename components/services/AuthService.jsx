@@ -1,4 +1,6 @@
-const BASE_URL = "http://192.168.56.1:8082"
+import { environment } from "../../environnement"
+
+const BASE_URL = environment.url_api;
 
 // login
 export const login = async (email, password) => {

@@ -5,6 +5,7 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  ViewPropTypes
 } from "react-native"
 import React, { useState, useEffect } from "react"
 import Footer from "./compenent-items/Footer"
@@ -16,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Dialog, Portal, PaperProvider, TextInput, Button } from "react-native-paper"
 import { updateInfos } from "./services/AuthService"
 
-export default function Informations() {
+const Informations = ({ customStyle }) => {
   const [storedData, setStoredData] = useState({})
   const navigation = useNavigation()
   const [userData, setUserData] = useState({
@@ -65,7 +66,7 @@ export default function Informations() {
   return (
     <>
       <PaperProvider>
-        <View style={{ flex: 1 }}>
+        <View  style={[styles.container1, customStyle]}>
           <StatusBar />
           <ScrollView style={{backgroundColor:"white"}}>
             <View style={styles.contenair}>
@@ -184,8 +185,15 @@ export default function Informations() {
     </>
   )
 }
+export default Informations;
+Informations.propTypes = {
+  customStyle: ViewPropTypes.style, 
+};
 
 const styles = StyleSheet.create({
+  container1:{
+flex:1
+  },
   avatar: {
     width: 80,
     height: 80,
@@ -245,4 +253,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
+  
 })

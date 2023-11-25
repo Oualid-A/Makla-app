@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar"
 import { ScrollView } from "react-native-gesture-handler"
 import table from "../assets/burger.png"
 import {  Button } from "react-native-paper"
+import { useNavigation } from "@react-navigation/native"
 
 const cartItems = [
   {
@@ -30,6 +31,13 @@ const cartItems = [
 ]
 
 export default function Cart() {
+  const navigation = useNavigation()
+  const handlePay = ()=>
+  {
+    navigation.navigate("Stripe")
+  }
+  
+  
   return (
     <View style={styles.container}>
       <StatusBar hidden />
@@ -100,6 +108,7 @@ export default function Cart() {
           style={styles.orderNow}
           mode="text"
           textColor="white"
+          onPress={handlePay}
         >
            Envoyer la commande
         </Button>
