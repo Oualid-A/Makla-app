@@ -21,7 +21,7 @@ export default function Snack() {
     navigation.navigate("Menu")
   }
 
-  const _goBack = () => navigation.navigate("Login")
+  const _goBack = () => navigation.navigate("LandingPage")
 
   const _handleSearch = () => console.log("Searching")
 
@@ -124,35 +124,34 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     marginBottom: 2,
-    borderRadius: 20,
+    borderRadius: 10,
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 10,
+    padding: 5,
     marginLeft:10,
     marginRight:10,
     marginTop:10
   },
   coverContainer: {
-    width: "20%",
+    width: "15%",
     aspectRatio: 1,
-    borderRadius: 99999,
+    borderRadius: 0,
     overflow: "hidden",
-    borderWidth: 0.5,
-    borderColor: "gray",
+    // borderWidth: 0.5,
   },
   coverImage: {
     flex: 1,
-    resizeMode: "cover",
+    resizeMode: "contain",
     width: "100%",
     height: "100%",
   },
 
   title: {
-    fontSize: 20,
+    fontSize: 17,
     color: "#000",
-    fontWeight: "bold",
+    fontWeight: "600",
   },
   snack: {
     flex: 1,
@@ -164,5 +163,6 @@ const styles = StyleSheet.create({
   addToCartButton: {
     backgroundColor: "rgba(250, 74, 12, 1)",
     borderWidth: 0,
+    borderRadius:0,
   },
 })

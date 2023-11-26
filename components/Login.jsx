@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   View,
   StyleSheet,
@@ -36,7 +36,8 @@ const LoginForm = () => {
        navigation.navigate("LandingPage")
     }
   }
-
+  
+ 
   return (
     <ScrollView
       contentContainerStyle={{
@@ -186,6 +187,20 @@ const SignupForm = () => {
 
 export default function Login() {
   const [activeTab, setActiveTab] = useState("login")
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    const checkAsyncStorage = async () => {
+      const userData = await AsyncStorage.getItem("userData");
+      //const token = await AsyncStorage.getItem("token");
+      console.log(userData);
+      if (userData != null) {
+        navigation.navigate("LandingPage");
+      } 
+    };
+
+    checkAsyncStorage();
+  }, []);
 
   return (
     <View style={styles.root}>

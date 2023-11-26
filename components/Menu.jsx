@@ -17,6 +17,7 @@ import Footer from "./compenent-items/Footer"
 import burger from "../assets/burger.png"
 import HeaderHome from "./compenent-items/HeaderHome"
 import SearchBar from "./compenent-items/SearchBar"
+import Ionicons from "@expo/vector-icons/Ionicons"
 
 export default function Menu() {
   const navigation = useNavigation()
@@ -70,27 +71,76 @@ export default function Menu() {
       image: plat_india,
       logo: logo1,
     },
+    {
+      title: "Tacos Indian",
+      price: "39 MAD",
+      image: plat_india,
+      logo: logo1,
+    },
+    {
+      title: "Tacos Indian",
+      price: "39 MAD",
+      image: plat_india,
+      logo: logo1,
+    },
+    {
+      title: "Tacos Indian",
+      price: "39 MAD",
+      image: plat_india,
+      logo: logo1,
+    },
+    {
+      title: "Tacos Indian",
+      price: "39 MAD",
+      image: plat_india,
+      logo: logo1,
+    },
+    {
+      title: "Tacos Indian",
+      price: "39 MAD",
+      image: plat_india,
+      logo: logo1,
+    },
+    {
+      title: "Tacos Indian",
+      price: "39 MAD",
+      image: plat_india,
+      logo: logo1,
+    },
+    {
+      title: "Tacos Indian",
+      price: "39 MAD",
+      image: plat_india,
+      logo: logo1,
+    },
   ]
    const [searchPhrase, setSearchPhrase] = useState("")
    const filteredMenuItems = menuItems.filter((menuItem) =>
    menuItem.title.toLowerCase().includes(searchPhrase.toLowerCase())
  )
+ const handlRestaurant = ()=>{
+  navigation.navigate("Snack")
+ }
 
   return (
     <>
     <View style={{flex:1,  backgroundColor:"white"}}>
 
     
-    <StatusBar></StatusBar>
-      <HeaderHome/>
+    {/* <StatusBar></StatusBar> */}
+
+      <View style={{flexDirection:"row", alignItems:"center", marginTop:10, width:"60%", justifyContent:"space-between"}}>
+        <Ionicons name="chevron-back" size={40} color="black" style={{marginLeft:10, }} onPress={handlRestaurant}/>
+        <Text style={{fontWeight:"600", fontSize:17}}>Votre Menu</Text>
+      </View>
       <SearchBar
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
       />
-      <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4, }}>
+      <ScrollView contentContainerStyle={{ marginBottom: 20, marginTop: 0, }} showsVerticalScrollIndicator={false}>
         {filteredMenuItems.map((menuItem, index) => (
           <View style={styles.container} key={index}>
-              <TouchableOpacity style={styles.header} onPress={handleDetails}>
+              <TouchableOpacity style={styles.header} onPress={handleDetails} >
             <View style={styles.header}>
               <View style={styles.coverContainer}>
                 <Image source={menuItem.image} style={styles.coverImage} />
@@ -125,18 +175,18 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     marginBottom: 2,
-    borderRadius: 20,
+    borderRadius: 10,
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-around",
-    padding: 15,
+    padding: 7,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,
   },
   coverContainer: {
-    width: "20%",
+    width: "17%",
     aspectRatio: 1,
     borderRadius: 99999,
     overflow: "hidden",
@@ -150,9 +200,9 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   title: {
-    fontSize: 20,
+    fontSize: 17,
     color: "#000",
-    fontWeight: "bold",
+    fontWeight: "500",
   },
   snack: {
     flex: 1,
@@ -175,9 +225,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   price: {
-    fontSize: 20,
+    fontSize: 17,
     color: "rgba(250, 74, 12, 1)",
-    fontWeight: "bold",
+    fontWeight: "500",
   },
   iconButton: {
     padding: 0,

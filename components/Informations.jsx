@@ -5,21 +5,27 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
-  ViewPropTypes
-} from "react-native"
-import React, { useState, useEffect } from "react"
-import Footer from "./compenent-items/Footer"
-import { useNavigation } from "@react-navigation/native"
-import avatar from "../assets/ilyass.png"
-import Ionicons from "@expo/vector-icons/Ionicons"
-import { ScrollView } from "react-native-gesture-handler"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Dialog, Portal, PaperProvider, TextInput, Button } from "react-native-paper"
-import { updateInfos } from "./services/AuthService"
+  ViewPropTypes,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import Footer from "./compenent-items/Footer";
+import { useNavigation } from "@react-navigation/native";
+import avatar from "../assets/ilyass.png";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { ScrollView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  Dialog,
+  Portal,
+  PaperProvider,
+  TextInput,
+  Button,
+} from "react-native-paper";
+import { updateInfos } from "./services/AuthService";
 
 const Informations = ({ customStyle }) => {
-  const [storedData, setStoredData] = useState({})
-  const navigation = useNavigation()
+  const [storedData, setStoredData] = useState({});
+  const navigation = useNavigation();
   const [userData, setUserData] = useState({
     nom: "",
     prenom: "",
@@ -28,54 +34,53 @@ const Informations = ({ customStyle }) => {
     tel: "",
     cin: "",
     id: null,
-  })
-  const [visible, setVisible] = React.useState(false)
-  const showDialog = () => setVisible(true)
-  const hideDialog = () => setVisible(false)
+  });
+  const [visible, setVisible] = React.useState(false);
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
 
   const getStoredData = async () => {
-      const storedData = await AsyncStorage.getItem("userData")
-      if (storedData !== null) {
-        const parsedData = JSON.parse(storedData)
-        setStoredData(parsedData)
-      } 
-  }
+    const storedData = await AsyncStorage.getItem("userData");
+    if (storedData !== null) {
+      const parsedData = JSON.parse(storedData);
+      setStoredData(parsedData);
+    }
+  };
 
   const UpdateUser = async () => {
-    const token = await AsyncStorage.getItem("token")
-    const response = await updateInfos(userData, token)
+    const token = await AsyncStorage.getItem("token");
+    const response = await updateInfos(userData, token);
     if (response !== null) {
-      alert("Votre info modifié")
+      alert("Votre info modifié");
     }
-  }
+  };
 
   const handleMap = async () => {
-    navigation.navigate("Map")
-  }
+    navigation.navigate("Map");
+  };
 
   const logOut = async () => {
-    await AsyncStorage.removeItem("userData")
-    navigation.replace("Login")
-  }
+    await AsyncStorage.removeItem("userData");
+    navigation.replace("Login");
+  };
 
   useEffect(() => {
-    getStoredData()
-  }, [])
-
+    getStoredData();
+  }, [storedData]);
 
   return (
     <>
       <PaperProvider>
-        <View  style={[styles.container1, customStyle]}>
+        <View style={[styles.container1, customStyle]}>
           <StatusBar />
-          <ScrollView style={{backgroundColor:"white"}}>
+          <ScrollView style={{ backgroundColor: "white" }}>
             <View style={styles.contenair}>
               <View style={styles.image}>
                 <Image source={avatar} style={styles.avatar} />
                 <View style={styles.info}>
                   <Text style={styles.name}>
                     {storedData.nom ? storedData.nom : "inconnu"}{" "}
-                    {storedData.prenom ? storedData.prenom : "inconnu"}
+                    {storedData.prenom ? storedData.prenom : ""}
                   </Text>
                   <Text style={styles.role}>
                     {storedData.role ? storedData.role : "Rôle inconnu"}
@@ -134,10 +139,9 @@ const Informations = ({ customStyle }) => {
               </TouchableOpacity>
             </View>
           </ScrollView>
-          
         </View>
         <Portal>
-          <Dialog visible={visible} onDismiss={hideDialog} >
+          <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>Modifier vos Informations</Dialog.Title>
             <Dialog.Content>
               <TextInput
@@ -183,16 +187,16 @@ const Informations = ({ customStyle }) => {
         </Portal>
       </PaperProvider>
     </>
-  )
-}
+  );
+};
 export default Informations;
 Informations.propTypes = {
-  customStyle: ViewPropTypes.style, 
+  customStyle: ViewPropTypes.style,
 };
 
 const styles = StyleSheet.create({
-  container1:{
-flex:1
+  container1: {
+    flex: 1,
   },
   avatar: {
     width: 80,
@@ -211,7 +215,7 @@ flex:1
     width: "94%",
     padding: 10,
     height: "auto",
-    elevation:1
+    elevation: 1,
   },
   card: {
     flexDirection: "row",
@@ -253,5 +257,4 @@ flex:1
     justifyContent: "space-around",
     alignItems: "center",
   },
-  
-})
+});

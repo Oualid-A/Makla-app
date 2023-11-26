@@ -17,6 +17,7 @@ import ViewPropTypes from "deprecated-react-native-prop-types";
 import Stripe from "./components/Stripe";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { environment } from "./environnement";
+import Promotion from "./components/compenent-items/Promotion";
 
 const Stack = createStackNavigator();
 
@@ -28,10 +29,11 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="Login"
+          initialRouteName="LandingPage"
         >
           <Stack.Screen name="Informations" component={Informations} />
           <Stack.Screen name="Test" component={Test} />
+          <Stack.Screen name="Promotion" component={Promotion} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Snack" component={Snack} />
           <Stack.Screen name="Menu" component={Menu} />
@@ -43,7 +45,7 @@ export default function App() {
             {() => <Cart cartItems={cart} />}
           </Stack.Screen>
         </Stack.Navigator>
-        <Footer />
+        {/* <Footer /> */}
       </NavigationContainer>
     </StripeProvider>
   );

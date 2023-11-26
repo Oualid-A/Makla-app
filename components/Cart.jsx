@@ -5,7 +5,7 @@ import { ScrollView } from "react-native-gesture-handler"
 import table from "../assets/burger.png"
 import {  Button } from "react-native-paper"
 import { useNavigation } from "@react-navigation/native"
-
+import Ionicons from 'react-native-vector-icons/Ionicons'
 const cartItems = [
   {
     name: "Chicken Tikka Masala",
@@ -36,14 +36,35 @@ export default function Cart() {
   {
     navigation.navigate("Stripe")
   }
-  
+  const handleHome = ()=>
+  {
+    navigation.navigate("LandingPage")
+  }
   
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <View>
+      <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 10,
+                  width: "57%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Ionicons
+                  name="chevron-back"
+                  size={40}
+                  color="black"
+                  style={{ marginLeft: 10 }}
+                  onPress={handleHome}
+                />
+                <Text style={styles.title}>Panier</Text>
+              </View>
+      {/* <View>
         <Text style={styles.title}>Your cart</Text>
-      </View>
+      </View> */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.cart}>
           {cartItems.map((item, index) => (
@@ -124,7 +145,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    marginTop: 25,
+    marginTop: 10,
     textAlign: "center",
     color: "#4a4a4a",
     fontWeight: "bold",

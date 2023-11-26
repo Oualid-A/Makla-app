@@ -44,14 +44,14 @@ export default function Popular() {
         <View style={styles.popular} key={index}>
           <View style={styles.popularItems}>
             <Image source={item.image} style={styles.popularItemsImage} />
-            <View style={{ padding: 10 }}>
+            <View style={{ paddingLeft: 5, paddingTop:5 }}>
               <Text style={styles.popularItemsName}>{item.name}</Text>
               <Text style={styles.price}>{item.price}</Text>
-              <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                <Ionicons name="star" size={20} color="#d8ce0c" />
+              <View style={{ flexDirection: "row", marginBottom: 5}}>
+                <Ionicons name="star" size={17} color="#d8ce0c" />
                 <Text style={{ paddingHorizontal: 5, fontSize: 15 }}>{item.rating}</Text>
-                <View style={{ flexDirection: "row", marginLeft: 15 }}>
-                  <Ionicons name="locate" size={20} color="#9d9d9d" />
+                <View style={{ flexDirection: "row", marginLeft: 15, alignItems:"center" }}>
+                  <Ionicons name="locate" size={15} color="#9d9d9d" />
                   <Text style={styles.location}>{item.location}</Text>
                 </View>
               </View>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     width: 220,
     height: 150,
-    borderRadius: 0,
+    borderRadius: 5,
     alignSelf:"center"
   },
   popularItemsName: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   location: {
     paddingHorizontal: 5,
-    fontSize: 14,
+    fontSize: 12,
     color: "#9d9d9d",
   },
   seeAllButton: {

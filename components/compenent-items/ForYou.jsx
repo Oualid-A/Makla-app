@@ -21,29 +21,32 @@ export default function ForYou() {
   const ShowMenu = () => {
     navigation.navigate("Menu")
   }
+  const handleSnacks = () => {
+    navigation.navigate("Snack")
+  }
   return (
     <View>
       <View style={styles.vue}>
         <Text style={styles.title}>Pour Vous</Text>
-        <TouchableOpacity style={styles.seeAllButton}>
+        <TouchableOpacity style={styles.seeAllButton} onPress={handleSnacks}>
           <Text style={styles.seeAllText}>Voir tout</Text>
         </TouchableOpacity>
       </View>
       <ScrollView>
         {forYouData.map((item, index) => (
           <View style={{ marginTop: 2, marginBottom: 2 }} key={index}>
-            <View style={styles.contenair}>
+            <View style={styles.contenair} >
               <View style={styles.coverContainer}>
                 <Image source={item.logo} style={styles.coverImage} />
               </View>
               <View style={styles.snack}>
-                <Text style={styles.title2}>{item.name}</Text>
+                <Text style={styles.title2} onPress={ShowMenu}>{item.name}</Text>
               </View>
               <View>
                 <Ionicons
                 onPress={ShowMenu}
                   name="chevron-forward"
-                  size={40}
+                  size={30}
                   color={"rgba(250, 74, 12, 100)"}
                 ></Ionicons>
               </View>
@@ -84,26 +87,20 @@ const styles = StyleSheet.create({
   contenair: {
     backgroundColor: "white",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 5,
     marginBottom: 2,
-    borderRadius: 20,
+    borderRadius: 10,
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 10,
+    padding: 5,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,
   },
   coverContainer: {
-    width: "20%",
+    width: "12%",
     aspectRatio: 1,
     borderRadius: 99999,
     overflow: "hidden",
@@ -112,15 +109,15 @@ const styles = StyleSheet.create({
   },
   coverImage: {
     flex: 1,
-    resizeMode: "cover",
+    resizeMode: "contain",
     width: "100%",
     height: "100%",
   },
 
   title2: {
-    fontSize: 20,
+    fontSize: 17,
     color: "#000",
-    fontWeight: "bold",
+    fontWeight: "500",
   },
   snack: {
     flex: 1,

@@ -1,6 +1,10 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { LiteCreditCardInput, CreditCardInput } from 'react-native-credit-card-input';
+import React from "react";
+import { StyleSheet, View , Text} from "react-native";
+import {
+  LiteCreditCardInput,
+  CreditCardInput,
+} from "react-native-credit-card-input";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const USE_LITE_CREDIT = false;
 
@@ -14,58 +18,62 @@ const Stripe = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {USE_LITE_CREDIT ? (
-        <LiteCreditCardInput
-          onChange={_onChange}
-          onFocus={_onFocus}
-          inputStyle={styles.inputStyle}
+    <>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginTop: 10,
+          width: "57%",
+          justifyContent: "space-between",
+        }}
+      >
+        <Ionicons
+          name="chevron-back"
+          size={40}
+          color="black"
+          style={{ marginLeft: 10 }}
+          onPress={() => {}}
         />
-      ) : (
-        <CreditCardInput
-          onChange={_onChange}
-          onFocus={_onFocus}
-          inputStyle={styles.inputStyle}
-          
-        />
-      )}
-    </View>
+        <Text style={{ fontWeight: "600", fontSize: 17 }}>Payement</Text>
+      </View>
+      <View style={styles.container}>
+        {USE_LITE_CREDIT ? (
+          <LiteCreditCardInput
+            onChange={_onChange}
+            onFocus={_onFocus}
+            inputStyle={styles.inputStyle}
+          />
+        ) : (
+          <CreditCardInput
+            onChange={_onChange}
+            onFocus={_onFocus}
+            inputStyle={styles.inputStyle}
+          />
+        )}
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding:10
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor:"white"
   },
-//   inputStyle: {
-//     width: '80%', // Adjust the width as needed
-//     marginVertical: 10, // Adjust the vertical margin as needed
-//     flexDirection:"column",
-//     borderWidth: 1,
-//     borderRadius: 5,
-//   },
+  //   inputStyle: {
+  //     width: '80%', // Adjust the width as needed
+  //     marginVertical: 10, // Adjust the vertical margin as needed
+  //     flexDirection:"column",
+  //     borderWidth: 1,
+  //     borderRadius: 5,
+  //   },
 });
 
 export default Stripe;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { StyleSheet, Text, TextInput } from "react-native";
 // import React, { useState } from "react";

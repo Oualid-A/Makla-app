@@ -22,7 +22,7 @@ export default function HeaderHome() {
         width: "100%",
         paddingHorizontal:20,
     }}>
-        <TouchableOpacity ><Ionicons name="menu-sharp" size={30} color="black" /></TouchableOpacity>
+        <TouchableOpacity ><Ionicons name="menu-outline" size={30} color="black" /></TouchableOpacity>
         <TouchableOpacity onPress={handleCart}><Ionicons name="cart-sharp" size={30} color="black" /></TouchableOpacity>
         {/* <Image source={avatar} style={styles.avatar} /> */}
     </View>
