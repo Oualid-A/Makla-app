@@ -14,26 +14,62 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { login, registerUser, getUserByEmail } from "./services/AuthService";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Cookies from "js-cookie";
+import axios from 'axios';
 const LoginForm = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLoginPress = async () => {
-    const isAuthenticated = await login(email, password);
-    console.log(isAuthenticated);
-    if (isAuthenticated !== null) {
-      const authHeader = isAuthenticated.headers.get("authorization");
-      const token = authHeader.split(" ")[1]; 
-      console.log("Token after login:", token);
-      const getUser = await getUserByEmail(email, token);
-      console.log("users", getUser);
-      await AsyncStorage.setItem('userData', JSON.stringify(getUser));
-      await AsyncStorage.setItem('token', token);
 
+  const handleLoginPress = async () => {
+    try {
+      const isAuthenticated = await login(email, password);
+      console.log(isAuthenticated);
+
+      if (isAuthenticated !== null) {
+        const authHeader = isAuthenticated.headers.get("authorization");
+        const token = authHeader.split(" ")[1];
+
+        // Include parameters in the URL for a GET request
+        const response = await axios.get(
+          `http://192.168.1.109:8081/user/ByEmail?email=${encodeURIComponent(email)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Response data:", response.data.id);
+
+
+      // console.log("Token after login:", token);
+    //  const getUser = await getUserByEmail(email, token);
+    //  console.log("users", getUser);
+     await AsyncStorage.setItem('userData', JSON.stringify(response.data));
+      AsyncStorage.clear;
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('id',JSON.stringify(response.data.id));
+      
+      if(response.data.role==='client'){
+        navigation.navigate("Informations");
+      }else if(response.data.role==='restaurant'){
+        const response2 = await axios.get(`http://192.168.1.109:8081/admin/getIdRestaurant/${response.data.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      await AsyncStorage.setItem('idd',JSON.stringify(response2.data));
+        
+        navigation.navigate("RestaurantPage");
+      }
+      // await Cookies.set('token', token);
       // navigation.navigate("Informations");
-       navigation.navigate("LandingPage");
+      //  navigation.navigate("RestaurantPage");
     }
+   } catch (error) {
+    console.error("Error during login:", error);
+  }
   };
 
   return (

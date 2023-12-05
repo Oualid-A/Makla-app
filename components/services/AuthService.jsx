@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.56.1:8082";
+const BASE_URL = "http://192.168.1.109:8081";
 
 // login
 export const login = async (email, password) => {
@@ -36,8 +36,8 @@ export const getUserByEmail = async (email, token) => {
     const formData = new FormData();
     formData.append("email", email);
 
-    const response = await fetch(`${BASE_URL}/user/byEmail`, {
-      method: "POST",
+    const response = await fetch(`${BASE_URL}/user/ByEmail`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
