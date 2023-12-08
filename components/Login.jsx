@@ -14,16 +14,30 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { login, registerUser, getUserByEmail } from "./services/AuthService";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Cookies from "js-cookie";
+import * as Location from 'expo-location';
 import axios from 'axios';
 const LoginForm = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [location, setLocation] = useState(null);
 
   const handleLoginPress = async () => {
     try {
+
+// Request location permissions
+let { status } = await Location.requestForegroundPermissionsAsync();
+if (status !== 'granted') {
+  console.error('Permission to access location was denied');
+  return;
+}
+
+// Get current location
+let location = await Location.getCurrentPositionAsync({});
+setLocation(location);
+    
       const isAuthenticated = await login(email, password);
+      console.log(email);
       console.log(isAuthenticated);
 
       if (isAuthenticated !== null) {
@@ -40,20 +54,35 @@ const LoginForm = () => {
           }
         );
 
+        const formDataObject = {
+          id: response.data.id,
+          lat: location.coords.latitude.toString(),
+          longi: location.coords.longitude.toString(),
+        };
+
+        const responsee = await axios.put(`http://192.168.1.109:8081/user/updatecordonner`, formDataObject, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+
         console.log("Response data:", response.data.id);
 
 
       // console.log("Token after login:", token);
     //  const getUser = await getUserByEmail(email, token);
     //  console.log("users", getUser);
+    AsyncStorage.clear;
      await AsyncStorage.setItem('userData', JSON.stringify(response.data));
-      AsyncStorage.clear;
       await AsyncStorage.setItem('token', token);
       await AsyncStorage.setItem('id',JSON.stringify(response.data.id));
       
       if(response.data.role==='client'){
         navigation.navigate("Informations");
-      }else if(response.data.role==='restaurant'){
+      }else if(response.data.role==='livreur'){
+        navigation.navigate("InformationsL");
+      }else if
+      (response.data.role==='restaurant'){
         const response2 = await axios.get(`http://192.168.1.109:8081/admin/getIdRestaurant/${response.data.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,9 +92,7 @@ const LoginForm = () => {
         
         navigation.navigate("RestaurantPage");
       }
-      // await Cookies.set('token', token);
-      // navigation.navigate("Informations");
-      //  navigation.navigate("RestaurantPage");
+      
     }
    } catch (error) {
     console.error("Error during login:", error);

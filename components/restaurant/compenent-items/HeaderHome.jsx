@@ -2,6 +2,7 @@ import {  View } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,6 +11,10 @@ export default function HeaderHome() {
     const handleCart= () =>{
         navigation.navigate("Cart")
     }
+    const logOut = async () => {
+      await AsyncStorage.removeItem("userData");
+      navigation.replace("Login");
+    };
   return (
 
     <View style={{
@@ -22,7 +27,11 @@ export default function HeaderHome() {
         width: "100%",
         paddingHorizontal:20,
     }}>
-        <TouchableOpacity ><Ionicons name="menu-sharp" size={30} color="black" /></TouchableOpacity>
+        <TouchableOpacity onPress={logOut} ><Ionicons
+                  name="log-out-outline"
+                  size={30}
+                  color="black"
+                /></TouchableOpacity>
        
         
     </View>

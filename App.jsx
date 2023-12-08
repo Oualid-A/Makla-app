@@ -18,6 +18,10 @@ import RestaurantPage from './components/restaurant/component/RestaurantPage';
 import PhotoUploadForm from './components/restaurant/compenent-items/PhotoUploadForm';
 import Photo from './components/restaurant/compenent-items/Photo';
 import UpPhoto from './components/restaurant/compenent-items/UpPhoto';
+import InformationsL from './components/Livreur/compenent/InformationsL';
+import Demandes from './components/Livreur/compenent/Demandes';
+
+import MapL from './components/Livreur/compenent/MapL';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -26,8 +30,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown : false}} initialRouteName="Login">
         <Stack.Screen name="Informations" component={Informations} /> 
+        <Stack.Screen name="InformationsL" component={InformationsL} /> 
         <Stack.Screen name="Test" component={Test} />
         <Stack.Screen name="Login" component={Login} />
+  
         <Stack.Screen name="Snack" component={Snack} />
         <Stack.Screen name="PlatForm" component={PlatForm} />
         <Stack.Screen name="Snack_R" component={Snack_R} />
@@ -37,8 +43,10 @@ export default function App() {
         <Stack.Screen name="SuperSlider" component={SuperSlider} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="MapL" component={MapL} />
         <Stack.Screen name="UpPhoto" component={UpPhoto} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="Demandes" component={Demandes} />
         <Stack.Screen name="RestaurantPage" component={RestaurantPage} />
         <Stack.Screen name="Cart">{() => <Cart cartItems={cart} />}</Stack.Screen>
       </Stack.Navigator>

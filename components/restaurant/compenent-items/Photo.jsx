@@ -91,7 +91,7 @@ const Photo = props => {
             <Text style={styles.uploadBtn}>Upload Profile Image</Text>
           )}
         </TouchableOpacity>
-        <Text style={styles.skip}>Skip</Text>
+        
         {profileImage ? (
           <Text
             onPress={uploadProfileImage}

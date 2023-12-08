@@ -7,18 +7,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import Footer from "./compenent-items/Footer";
+import Footer from "./Footer";
 import { useNavigation } from "@react-navigation/native";
-import avatar from "../assets/avatar.png";
+import avatar from "../../../assets/avatar.png";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dialog, Portal, PaperProvider, TextInput, Button } from "react-native-paper";
-import { updateInfos } from "./services/AuthService";
+
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 
-export default function Informations() {
+export default function InformationsL() {
   const [storedData, setStoredData] = useState({});
   const navigation = useNavigation();
   const [userData, setUserData] = useState({
@@ -55,6 +55,8 @@ export default function Informations() {
 
       if (responses2.data !== 'null') {
         setLilli(responses2.data);
+      }else{
+        setLilli(null);
       }
     } catch (error) {
       console.error('Error fetching profile image:', error);
@@ -116,7 +118,7 @@ export default function Informations() {
 
   const UpdateUser = async () => {
     const token = await AsyncStorage.getItem("token");
-    const response = await updateInfos(userData, token);
+   // const response = await updateInfos(userData, token);
     if (response !== null) {
       alert("Votre info modifié");
     }
@@ -127,7 +129,7 @@ export default function Informations() {
   };
 
   const logOut = async () => {
-    await AsyncStorage.removeItem("userData");
+    AsyncStorage.clear;
     navigation.replace("Login");
   };
 
@@ -143,6 +145,8 @@ export default function Informations() {
           <StatusBar />
           <ScrollView>
             <View style={styles.contenair}>
+              
+            <Text style={styles.title}>espace Livreur</Text>
 
            
               <View style={styles.image}>
@@ -272,11 +276,21 @@ export default function Informations() {
           </Dialog>
         </Portal>
       </PaperProvider>
+        
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    marginLeft: "7%",
+    marginBottom:"7%",
+    alignItems: "center",
+    textAlign:"center",
+    fontWeight: "700",
+    marginTop: "6%",
+  },
   avatar: {
     width: 80,
     height: 80,
