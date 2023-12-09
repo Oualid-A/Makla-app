@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View, Image } from "react-native"
-import React from "react"
-import { StatusBar } from "expo-status-bar"
-import { ScrollView } from "react-native-gesture-handler"
-import table from "../assets/burger.png"
-import {  Button } from "react-native-paper"
-import { useNavigation } from "@react-navigation/native"
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import { StyleSheet, Text, View, Image, Modal, Dimensions, ImageBackground } from "react-native";
+import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { ScrollView } from "react-native-gesture-handler";
+import table from "../assets/burger.png";
+import pay_back from "../assets/back_image/pay_back.png";
+import { Button } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import Stripe from "./Stripe";
 const cartItems = [
   {
     name: "Chicken Tikka Masala",
@@ -28,114 +30,138 @@ const cartItems = [
     quantity: 3,
     totalPrice: 8.5 * 3,
   },
-]
+];
 
+const screenHeight = Dimensions.get("window").height;
 export default function Cart() {
-  const navigation = useNavigation()
-  const handlePay = ()=>
-  {
-    navigation.navigate("Stripe")
-  }
-  const handleHome = ()=>
-  {
-    navigation.navigate("LandingPage")
-  }
-  
+  const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const handlePay = () => {
+    setModalVisible(true); // Show the modal
+    // existing navigation code can be removed or modified as needed
+  };
+
+  const handleHome = () => {
+    navigation.navigate("LandingPage");
+  };
+
   return (
-    <View style={styles.container}>
-      <StatusBar hidden />
-      <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginTop: 10,
-                  width: "57%",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Ionicons
-                  name="chevron-back"
-                  size={40}
-                  color="black"
-                  style={{ marginLeft: 10 }}
-                  onPress={handleHome}
-                />
-                <Text style={styles.title}>Panier</Text>
-              </View>
-      {/* <View>
-        <Text style={styles.title}>Your cart</Text>
-      </View> */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.cart}>
-          {cartItems.map((item, index) => (
-            <View style={styles.cart_items} key={index}>
-              <View style={styles.content}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <View style={{}}>
-                    <Image
-                      style={{ resizeMode: "contain", width: 60, height: 60 }}
-                      source={table}
-                    />
-                  </View>
-                  <View style={{ paddingHorizontal: 14 }}>
-                    <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.price}>{item.price}</Text>
-                    <Text style={styles.locate}>{item.restaurant}</Text>
-                  </View>
-                </View>
-                <View>
-                  <Text style={styles.quantity}>{item.quantity} pièces</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  marginTop: 10,
-                }}
-              >
-                <Text style={styles.totalPrice}>
-                  Total Price ${item.totalPrice.toFixed(2)}
-                </Text>
-                <Text style={styles.delete_btn}>supprimer</Text>
-              </View>
-            </View>
-          ))}
-        </View>
-        <View style={styles.total}>
-              <Text style={styles.locate}>Résumé de paiement</Text>
-              <View  style={styles.detail} >
-                <Text style={styles.service}>Total de plats</Text>
-                <Text style={styles.totalPrice}> 59.87 MAD</Text>
-              </View>
-              <View style={styles.detail} >
-                <Text style={styles.service}>Prix de livraison</Text>
-                <Text style={styles.totalPrice}> 59.87 MAD</Text>
-              </View>
-              <View style={styles.detail} >
-                <Text style={styles.service}>Fraix de restaurant</Text>
-                <Text style={styles.totalPrice}> 59.87 MAD</Text>
-              </View>
-              <View style={styles.separator}></View>
-              <View style={styles.detail} >
-                <Text style={styles.service}>Total</Text>
-                <Text style={styles.totalPrice}> 59.87 MAD</Text>
-              </View>
-        </View>
-      </ScrollView>
-      <View>
-      <Button
-          style={styles.orderNow}
-          mode="text"
-          textColor="white"
-          onPress={handlePay}
+    <>
+      <View style={styles.container}>
+        <StatusBar hidden />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 10,
+            width: "57%",
+            justifyContent: "space-between",
+          }}
         >
-           Envoyer la commande
-        </Button>
+          <Ionicons
+            name="chevron-back"
+            size={40}
+            color="black"
+            style={{ marginLeft: 10 }}
+            onPress={handleHome}
+          />
+          <Text style={styles.title}>Panier</Text>
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.cart}>
+            {cartItems.map((item, index) => (
+              <View style={styles.cart_items} key={index}>
+                <View style={styles.content}>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <View style={{}}>
+                      <Image
+                        style={{ resizeMode: "contain", width: 60, height: 60 }}
+                        source={table}
+                      />
+                    </View>
+                    <View style={{ paddingHorizontal: 14 }}>
+                      <Text style={styles.name}>{item.name}</Text>
+                      <Text style={styles.price}>{item.price}</Text>
+                      <Text style={styles.locate}>{item.restaurant}</Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Text style={styles.quantity}>{item.quantity} pièces</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    marginTop: 10,
+                  }}
+                >
+                  <Text style={styles.totalPrice}>
+                    Total Price ${item.totalPrice.toFixed(2)}
+                  </Text>
+                  <Text style={styles.delete_btn}>supprimer</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+          <View style={styles.total}>
+            <Text style={styles.locate}>Résumé de paiement</Text>
+            <View style={styles.detail}>
+              <Text style={styles.service}>Total de plats</Text>
+              <Text style={styles.totalPrice}> 59.87 MAD</Text>
+            </View>
+            <View style={styles.detail}>
+              <Text style={styles.service}>Prix de livraison</Text>
+              <Text style={styles.totalPrice}> 59.87 MAD</Text>
+            </View>
+            <View style={styles.detail}>
+              <Text style={styles.service}>Fraix de restaurant</Text>
+              <Text style={styles.totalPrice}> 59.87 MAD</Text>
+            </View>
+            <View style={styles.separator}></View>
+            <View style={styles.detail}>
+              <Text style={styles.service}>Total</Text>
+              <Text style={styles.totalPrice}> 59.87 MAD</Text>
+            </View>
+          </View>
+        </ScrollView>
+        <View>
+          <Button
+            style={styles.orderNow}
+            mode="text"
+            textColor="white"
+            onPress={handlePay}
+          >
+            Envoyer la commande
+          </Button>
+        </View>
       </View>
-    </View>
-  )
+      <Modal
+        animationType="slide"
+        style={styles.modalView}
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => {
+          setModalVisible(!isModalVisible);
+        }}
+      >
+        <View style={styles.modalView}>
+        <ImageBackground source={pay_back} style={{flex:1, resizeMode:"contain"}}>
+            <Ionicons
+            name="close"
+            size={33}
+            color="black"
+            onPress={() => setModalVisible(false)}
+            style={{ marginLeft: 10, fontWeight:"700", marginTop:10 }}
+          />
+          <Stripe />
+        </ImageBackground>
+        </View>
+      </Modal>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -202,34 +228,48 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#f00",
   },
-  orderNow:{
-    backgroundColor:"black",
-    padding:5,
-    color:"#fff",
-    marginBottom:10,
-    marginTop:10,
-    width:"50%",
-    alignSelf:"center"
+  orderNow: {
+    backgroundColor: "black",
+    padding: 5,
+    color: "#fff",
+    marginBottom: 10,
+    marginTop: 10,
+    width: "50%",
+    alignSelf: "center",
   },
-  detail:{
-    flex:1,
-    flexWrap:'wrap',
-    flexDirection:'row',
-    justifyContent:"space-between",
-    marginTop:15
-  
+  detail: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
   },
-  total:{
-    padding:10,
-    backgroundColor:"#fff",
-    marginTop:10,
-    elevation:2
+  total: {
+    padding: 10,
+    backgroundColor: "#fff",
+    marginTop: 10,
+    elevation: 2,
   },
   separator: {
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
     borderBottomWidth: 1,
     marginVertical: 5,
-    marginBottom:-5,
-    marginTop:13,
+    marginBottom: -5,
+    marginTop: 13,
   },
-})
+  modalView: {
+    justifyContent: "center",
+    backgroundColor: "white",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 0,
+    height: screenHeight * 0.50,
+    width: "98%",
+    // marginTop: "70%",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    marginLeft: "1%",
+    position:"absolute",
+    bottom:0,
+  },
+});

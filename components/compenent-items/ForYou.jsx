@@ -25,7 +25,7 @@ export default function ForYou() {
     navigation.navigate("Snack")
   }
   return (
-    <View>
+    <View style={{marginBottom:10}}>
       <View style={styles.vue}>
         <Text style={styles.title}>Pour Vous</Text>
         <TouchableOpacity style={styles.seeAllButton} onPress={handleSnacks}>

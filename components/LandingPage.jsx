@@ -25,10 +25,12 @@ export default function LandingPage() {
   const handleInfo = () => {
     navigation.navigate("Informations");
   };
+  const handleMap = () => {
+    navigation.navigate("Map");
+  };
   return (
     <View style={styles.root}>
       <StatusBar hidden />
-
       <View
         style={{
           flexDirection: "row",
@@ -50,8 +52,7 @@ export default function LandingPage() {
           color="black"
           style={{ marginRight: 10 }}
           onPress={handleCart}
-        >
-        </Ionicons>
+        ></Ionicons>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.welcome}>
@@ -63,14 +64,13 @@ export default function LandingPage() {
           placeholder={` cherche pour un plat...`}
         ></TextInput>
         <Categories />
-        {/* <ScrollView > */}
-
         <Promotion />
-        {/* </ScrollView> */}
         <Popular />
         <ForYou />
       </ScrollView>
-      {/* <Footer /> */}
+      <View style={styles.map}>
+        <Ionicons name="map" size={30} onPress={handleMap}/>
+      </View>
     </View>
   );
 }
@@ -98,5 +98,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "700",
     textAlign: "center",
+  },
+  map: {
+    position: "absolute",
+    width: "auto",
+    backgroundColor: "white",
+    borderRadius: 500,
+    padding: 8,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    elevation: 4,
+    shadowRadius: 4,
+    bottom: 10,
+    marginTop: 10,
+    right:10,
+    borderWidth:1,
   },
 });
