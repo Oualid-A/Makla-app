@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, Image, Modal, Dimensions, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Modal,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native-gesture-handler";
@@ -33,10 +41,13 @@ const cartItems = [
 ];
 
 const screenHeight = Dimensions.get("window").height;
+
 export default function Cart() {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const prixDilevery = 20;
+  const prixPlat = 200;
+  // const prixDilevery = 20;
   const handlePay = () => {
     setModalVisible(true); // Show the modal
     // existing navigation code can be removed or modified as needed
@@ -99,7 +110,7 @@ export default function Cart() {
                   }}
                 >
                   <Text style={styles.totalPrice}>
-                    Total Price ${item.totalPrice.toFixed(2)}
+                    Prix Total ${item.totalPrice.toFixed(2)}
                   </Text>
                   <Text style={styles.delete_btn}>supprimer</Text>
                 </View>
@@ -110,20 +121,19 @@ export default function Cart() {
             <Text style={styles.locate}>Résumé de paiement</Text>
             <View style={styles.detail}>
               <Text style={styles.service}>Total de plats</Text>
-              <Text style={styles.totalPrice}> 59.87 MAD</Text>
+              <Text style={styles.totalPrice}> {prixPlat} MAD</Text>
             </View>
             <View style={styles.detail}>
               <Text style={styles.service}>Prix de livraison</Text>
-              <Text style={styles.totalPrice}> 59.87 MAD</Text>
-            </View>
-            <View style={styles.detail}>
-              <Text style={styles.service}>Fraix de restaurant</Text>
-              <Text style={styles.totalPrice}> 59.87 MAD</Text>
+              <Text style={styles.totalPrice}> {prixDilevery} MAD</Text>
             </View>
             <View style={styles.separator}></View>
             <View style={styles.detail}>
               <Text style={styles.service}>Total</Text>
-              <Text style={styles.totalPrice}> 59.87 MAD</Text>
+              <Text style={styles.totalPrice}>
+                {" "}
+                {prixPlat + prixDilevery} MAD
+              </Text>
             </View>
           </View>
         </ScrollView>
@@ -148,16 +158,19 @@ export default function Cart() {
         }}
       >
         <View style={styles.modalView}>
-        <ImageBackground source={pay_back} style={{flex:1, resizeMode:"contain"}}>
+          <ImageBackground
+            source={pay_back}
+            style={{ flex: 1, resizeMode: "contain" }}
+          >
             <Ionicons
-            name="close"
-            size={33}
-            color="black"
-            onPress={() => setModalVisible(false)}
-            style={{ marginLeft: 10, fontWeight:"700", marginTop:10 }}
-          />
-          <Stripe />
-        </ImageBackground>
+              name="close"
+              size={33}
+              color="black"
+              onPress={() => setModalVisible(false)}
+              style={{ marginLeft: 10, fontWeight: "700", marginTop: 10 }}
+            />
+            <Stripe />
+          </ImageBackground>
         </View>
       </Modal>
     </>
@@ -263,13 +276,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 0,
-    height: screenHeight * 0.50,
+    height: screenHeight * 0.5,
     width: "98%",
     // marginTop: "70%",
     borderWidth: 1,
     borderColor: "#ddd",
     marginLeft: "1%",
-    position:"absolute",
-    bottom:0,
+    position: "absolute",
+    bottom: 0,
   },
 });

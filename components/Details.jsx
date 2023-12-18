@@ -18,21 +18,60 @@ import onion from "../assets/onion.png";
 import laiture from "../assets/laiture.png";
 import CustomToggleButton from "./compenent-items/CustomToggleButton";
 import { useNavigation } from "@react-navigation/native";
+import { environment } from "../environnement";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const BASE_URL = environment.url_api;
 export default function Details({ route }) {
   const [quantity, setQuantity] = React.useState(1);
   const [cart, setCart] = useState([]);
   const navigation = useNavigation();
-
+  const { product } = route.params;
+  const id = product.restaurantId;
+  console.log(product.restaurantId);
+  const token =  AsyncStorage.getItem("token");
+  console.log(token);
   const addToCart = () => {
     const itemToAdd = {
-      id: product.id,
+      plat_id: product.id,
       name: product.name,
       price: product.price,
-      quantity,
+      restaurant_id : id,
+      nombre: quantity,
+      toppings: {
+        cheese: toppingCheese,
+        tomatoes: toppingTomatoes,
+        laiture: toppingLaiture,
+        onion: toppingOnion,
+      },
     };
-    setCart([...cart, itemToAdd]);
+    fetch(`${BASE_URL}/panier/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // You may need to include an authorization header if required
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(itemToAdd),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the server if needed
+        console.log('Item added to cart:', data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error adding item to cart:', error);
+      });
+  
+    // Reset quantity and topping states after adding to cart
     setQuantity(1);
+    setToppingCheese(false);
+    setToppingTomatoes(false);
+    setToppingLaiture(false);
+    setToppingOnion(false);
+    // setCart([...cart, itemToAdd]);
+    // setQuantity(1);
   };
 
   const incrementQuantity = () => {
@@ -44,18 +83,19 @@ export default function Details({ route }) {
       setQuantity(quantity - 1);
     }
   };
-  const { product } = route.params;
+  
+  
   const [toppingCheese, setToppingCheese] = React.useState(false);
   const [toppingTomatoes, setToppingTomatoes] = React.useState(false);
   const [toppingOnion, setToppingOnion] = React.useState(false);
   const [toppingLaiture, setToppingLaiture] = React.useState(false);
-  const [activeSlide, setActiveSlide] = React.useState(0); // Pour suivre l'index de l'image actuellement visible
+  const [activeSlide, setActiveSlide] = React.useState(0); 
 
   const onSnapToItem = (index) => {
     setActiveSlide(index);
   };
   const handleMenu = ()=>{
-    navigation.navigate('Menu');
+    navigation.navigate('Menu', {id});
   }
   return (
     <>
@@ -88,7 +128,7 @@ export default function Details({ route }) {
                 )}
                 sliderWidth={410}
                 itemWidth={350}
-                onSnapToItem={onSnapToItem} // Appel de la fonction onSnapToItem lorsqu'une image est visible
+                onSnapToItem={onSnapToItem} 
               />
               <Pagination
                 dotsLength={product.images.length}
@@ -204,19 +244,19 @@ export default function Details({ route }) {
                 label="Tomatoes"
                 status={toppingTomatoes ? "checked" : "unchecked"}
                 onPress={() => setToppingTomatoes(!toppingTomatoes)}
-                image={tomatoesImage} // Provide the image for tomatoes
+                image={tomatoesImage} 
               />
               <CustomToggleButton
                 label="Laiture"
                 status={toppingLaiture ? "checked" : "unchecked"}
                 onPress={() => setToppingLaiture(!toppingLaiture)}
-                image={laiture} // Provide the image for tomatoes
+                image={laiture} 
               />
               <CustomToggleButton
                 label="Onion"
                 status={toppingOnion ? "checked" : "unchecked"}
                 onPress={() => setToppingOnion(!toppingOnion)}
-                image={onion} // Provide the image for tomatoes
+                image={onion} 
               />
             </ScrollView>
           </View>
@@ -226,7 +266,7 @@ export default function Details({ route }) {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-around",
-            bottom: 0,
+            bottom: 0, 
           }}
         >
           <Text style={styles.totalPrice}>{product.price * quantity} MAD</Text>

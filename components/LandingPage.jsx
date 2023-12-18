@@ -5,12 +5,9 @@ import { ScrollView, TextInput } from "react-native-gesture-handler";
 import Popular from "./compenent-items/Popular";
 import Categories from "./compenent-items/Categories";
 import ForYou from "./compenent-items/ForYou";
-import Footer from "./compenent-items/Footer";
 import avatar from "../assets/ilyass.png";
-import logo from "../assets/Makla.png";
 import Ionicons from "@expo/vector-icons/Feather";
 import { Image } from "react-native-elements";
-import { Badge } from "react-native-paper";
 import Promotion from "./compenent-items/Promotion";
 
 export default function LandingPage() {
@@ -102,7 +99,7 @@ const styles = StyleSheet.create({
   map: {
     position: "absolute",
     width: "auto",
-    backgroundColor: "white",
+    backgroundColor: "rgba(250, 110, 17, 1)",
     borderRadius: 500,
     padding: 8,
     shadowColor: "black",
@@ -113,6 +110,6 @@ const styles = StyleSheet.create({
     bottom: 10,
     marginTop: 10,
     right:10,
-    borderWidth:1,
+    borderWidth:0.2,
   },
 });

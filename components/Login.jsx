@@ -1,43 +1,105 @@
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
   Image,
   ScrollView,
   TouchableOpacity,
-} from "react-native"
-import logo from "../assets/logo_makla.png"
-import { TextInput, Text, Snackbar } from "react-native-paper"
-import { Button } from "react-native-paper"
-import PhoneInput from "react-native-phone-input"
-import { useNavigation } from "@react-navigation/native"
-import Icon from "react-native-vector-icons/FontAwesome"
-import { login, registerUser, getUserByEmail } from "./services/AuthService"
-import AsyncStorage from '@react-native-async-storage/async-storage'
+} from "react-native";
+import logo from "../assets/logo_makla.png";
+import { TextInput, Text, Snackbar } from "react-native-paper";
+import { Button } from "react-native-paper";
+import PhoneInput from "react-native-phone-input";
+import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { login, registerUser, getUserByEmail } from "./services/AuthService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Location from "expo-location";
+import axios from "axios";
+import { environment } from "../environnement";
 
+const BASE_URL = environment.url_api;
 const LoginForm = () => {
-  const navigation = useNavigation()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  
-  const handleLoginPress = async () => {
-    const isAuthenticated = await login(email, password)
-    console.log(isAuthenticated)
-    if (isAuthenticated !== null) {
-      const authHeader = isAuthenticated.headers.get("authorization")
-      const token = authHeader.split(" ")[1] 
-      console.log("Token after login:", token)
-      const getUser = await getUserByEmail(email, token)
-      console.log("users", getUser)
-      await AsyncStorage.setItem('userData', JSON.stringify(getUser))
-      await AsyncStorage.setItem('token', token)
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [location, setLocation] = useState(null);
 
-      // navigation.navigate("Informations")
-       navigation.navigate("LandingPage")
+  const handleLoginPress = async () => {
+    console.log("ghu ch ¡ ihajha ");
+    // // Request location permissions
+    // let { status } = await Location.requestForegroundPermissionsAsync();
+
+    // Get current location
+    // let location = await Location.getCurrentPositionAsync({});
+    // setLocation(location);
+
+    const isAuthenticated = await login(email, password);
+    console.log("ghu ch ¡ ihajha hhhhhhhh ");
+
+    console.log(email);
+    console.log(isAuthenticated);
+
+    if (isAuthenticated !== null) {
+      const authHeader = isAuthenticated.headers.get("authorization");
+      const token = authHeader.split(" ")[1];
+
+      // Include parameters in the URL for a GET request
+      const response = await getUserByEmail(email, token);
+      console.log("response", response);
+
+      // const userData = JSON.parse(response);
+      console.log("userData  =  ",response);
+      console.log("users", response);
+      // const formDataObject = {
+      //   id: userData.id,
+      //   lat: location.coords.latitude.toString(),
+      //   longi: location.coords.longitude.toString(),
+      // };
+
+      // const responsee = await axios.put(
+      //   `${BASE_URL}/user/updatecordonner`,
+      //   formDataObject,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+
+      console.log("Response data:", response.id);
+
+      // console.log("Token after login:", token);
+      //  const getUser = await getUserByEmail(email, token);
+      //  console.log("users", getUser);
+      AsyncStorage.clear;
+      await AsyncStorage.setItem("response", JSON.stringify(response));
+      await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("id", JSON.stringify(response.id));
+      console.log("response.role = ",response.role);
+      if (response.role === "client") {
+        navigation.navigate("LandingPage");
+      } else if (response.role === "livreur") {
+        navigation.navigate("Demandes");
+      } else if (response.role === "restaurant") {
+        const response2 = await axios.get(
+          `${BASE_URL}/admin/getIdRestaurant/${response.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        await AsyncStorage.setItem("idd", JSON.stringify(response2.data));
+
+        navigation.navigate("RestaurantPage");
+      }
+    }else{
+      console.log("--------------------------------");
+      alert('Votre email ou mot de passe est incorrect');
     }
-  }
-  
- 
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{
@@ -75,8 +137,8 @@ const LoginForm = () => {
         Se connecter
       </Button>
     </ScrollView>
-  )
-}
+  );
+};
 
 const SignupForm = () => {
   const [userData, setUserData] = useState({
@@ -86,17 +148,17 @@ const SignupForm = () => {
     password: "",
     tel: "",
     // ... other fields
-  })
-  const [snackbarVisible, setSnackbarVisible] = useState(false)
+  });
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
 
   const handleSignUpPress = async () => {
-    const response = await registerUser(userData)
+    const response = await registerUser(userData);
 
     if (response.ok) {
-      console.log("succes")
-      setSnackbarVisible(true) // Display the snack bar
+      console.log("succes");
+      setSnackbarVisible(true); // Display the snack bar
     }
-  }
+  };
 
   return (
     <ScrollView
@@ -134,7 +196,7 @@ const SignupForm = () => {
       <PhoneInput
         style={styles.phone2}
         ref={(ref) => {
-          this.phone = ref
+          this.phone = ref;
         }}
         initialCountry={"ma"}
         initialValue="13178675309"
@@ -175,32 +237,37 @@ const SignupForm = () => {
               email: "",
               password: "",
               tel: "",
-            })
+            });
           },
         }}
       >
         Inscription réussie !
       </Snackbar>
     </ScrollView>
-  )
-}
+  );
+};
 
 export default function Login() {
-  const [activeTab, setActiveTab] = useState("login")
-  const navigation = useNavigation()
+  const [activeTab, setActiveTab] = useState("login");
+  const navigation = useNavigation();
 
   useEffect(() => {
     const checkAsyncStorage = async () => {
-      const userData = await AsyncStorage.getItem("userData");
-      //const token = await AsyncStorage.getItem("token");
-      console.log(userData);
-      if (userData != null) {
-        navigation.navigate("LandingPage");
-      } 
+      const userDataString = await AsyncStorage.getItem("response");
+      console.log(userDataString);
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        if (userData.role === "client") {
+          navigation.navigate("LandingPage");
+        } else if (userData.role === "restaurant") {
+          navigation.navigate("RestaurantPage");
+        } else if (userData.role === "livreur") {
+          navigation.navigate("Demandes");
+        }
+      }
     };
-
     checkAsyncStorage();
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.root}>
@@ -233,7 +300,7 @@ export default function Login() {
         </ScrollView>
       </View>
     </View>
-  )
+  );
 }
 const styles = StyleSheet.create({
   root: {
@@ -346,4 +413,4 @@ const styles = StyleSheet.create({
   clicked: {
     padding: 7,
   },
-})
+});

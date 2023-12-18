@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -5,59 +6,89 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-} from "react-native"
-import React from "react"
-import Ionicons from "@expo/vector-icons/Ionicons"
-import { useNavigation } from "@react-navigation/native"
+} from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
+import { environment } from "../../environnement";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const forYouData = [
-  { name: "Kentucky Fried Chicken", logo: require("../../assets/KFC_logo.svg.png") },
-  { name: "McDonald's", logo: require("../../assets/pizzaHut.png") },
-  { name: "Pizza Hut", logo: require("../../assets/macdo.png") },
-]
+const BASE_URL = environment.url_api;
 
 export default function ForYou() {
-  const navigation = useNavigation()
-  const ShowMenu = () => {
-    navigation.navigate("Menu")
-  }
+  const [forYouData, setForYouData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    // Fetch data from the API 
+    const fetchData = async () => {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.get(`${BASE_URL}/admin/Allrestaurants`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); 
+ 
+      console.log("response ", response.data[2]);
+      setForYouData(response.data);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const ShowMenu = (restaurantId) => {
+    navigation.navigate("Menu", { restaurantId });
+  };
+
   const handleSnacks = () => {
-    navigation.navigate("Snack")
-  }
+    navigation.navigate("Snack");
+  };
+
   return (
-    <View style={{marginBottom:10}}>
+    <View style={{ marginBottom: 10 }}>
       <View style={styles.vue}>
         <Text style={styles.title}>Pour Vous</Text>
         <TouchableOpacity style={styles.seeAllButton} onPress={handleSnacks}>
           <Text style={styles.seeAllText}>Voir tout</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView>
-        {forYouData.map((item, index) => (
-          <View style={{ marginTop: 2, marginBottom: 2 }} key={index}>
-            <View style={styles.contenair} >
-              <View style={styles.coverContainer}>
-                <Image source={item.logo} style={styles.coverImage} />
-              </View>
-              <View style={styles.snack}>
-                <Text style={styles.title2} onPress={ShowMenu}>{item.name}</Text>
-              </View>
-              <View>
-                <Ionicons
-                onPress={ShowMenu}
-                  name="chevron-forward"
-                  size={30}
-                  color={"rgba(250, 74, 12, 100)"}
-                ></Ionicons>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <ScrollView>
+          {forYouData.map((item, index) => (
+            <View style={{ marginTop: 2, marginBottom: 2 }} key={index}>
+              <View style={styles.contenair}>
+                <View style={styles.coverContainer}>
+                  <Image
+                    source={{ uri: item.logo }}
+                    style={styles.coverImage}
+                  />
+                </View>
+                <View style={styles.snack}>
+                  <Text style={styles.title2} onPress={() => ShowMenu(item.id)}>
+                    {item.restaurantt}
+                  </Text>
+                </View>
+                <View>
+                  <Ionicons
+                    onPress={() => ShowMenu(item.id)}
+                    name="chevron-forward"
+                    size={30}
+                    color={"rgba(250, 74, 12, 100)"}
+                  ></Ionicons>
+                </View>
               </View>
             </View>
-          </View>
-        ))}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      )}
     </View>
-  )
+  );
 }
-
 const styles = StyleSheet.create({
   seeAllButton: {
     backgroundColor: "transparent",
@@ -130,4 +161,4 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(250, 74, 12, 1)",
     borderWidth: 0,
   },
-})
+});

@@ -31,28 +31,32 @@ export const registerUser = async (userData) => {
 
   return response
 }
+
 // getUser by email and token
 export const getUserByEmail = async (email, token) => {
-  let user = null
+  let user = null;
   try {
-    const formData = new FormData()
-    formData.append("email", email)
-
-    const response = await fetch(`${BASE_URL}/user/byEmail`, {
-      method: "POST",
+    const response = await fetch(`${BASE_URL}/user/ByEmail`, {
+    method: "POST",
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: formData,
-    })
+      body: JSON.stringify({ email: email }),
+    });
 
-    if (!response.ok) throw new Error("Error")
-    user = await response.json()
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server responded with status ${response.status}: ${errorText}`);
+    }
+
+    user = await response.json();
   } catch (error) {
-    console.error("Error getting user by email:", error)
+    console.error("Error getting user by email:", error.message);
   }
-  return user
-}
+  return user;
+};
+
 
 // edit infos
 export const updateInfos = async (infos, token) => {

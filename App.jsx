@@ -11,13 +11,21 @@ import Map from "./components/Map";
 import Details from "./components/Details";
 import Cart from "./components/Cart";
 import Test from "./components/Test";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Footer from "./components/compenent-items/Footer";
-import ViewPropTypes from "deprecated-react-native-prop-types";
 import Stripe from "./components/Stripe";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { environment } from "./environnement";
 import Promotion from "./components/compenent-items/Promotion";
+import InformationsL from "./components/livreur/compenent/InformationsL";
+import PlatForm from "./components/restaurant/compenent-items/PlatForm";
+import Snack_R from "./components/restaurant/compenent-items/Snack_R";
+import PhotoUploadForm from "./components/restaurant/compenent-items/PhotoUploadForm";
+import Photo from "./components/restaurant/compenent-items/Photo";
+import SuperSlider from "./components/restaurant/compenent-items/SuperSlider";
+import MapL from "./components/livreur/compenent/MapL";
+import UpPhoto from "./components/restaurant/compenent-items/UpPhoto";
+import Demandes from "./components/livreur/compenent/Demandes";
+import RestaurantPage from "./components/restaurant/component/RestaurantPage";
+
 
 const Stack = createStackNavigator();
 
@@ -29,9 +37,9 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
-          initialRouteName="LandingPage"
+          initialRouteName="Login"
         >
-          <Stack.Screen name="Informations" component={Informations} />
+          {/* <Stack.Screen name="Informations" component={Informations} />
           <Stack.Screen name="Test" component={Test} />
           <Stack.Screen name="Promotion" component={Promotion} />
           <Stack.Screen name="Login" component={Login} />
@@ -43,9 +51,29 @@ export default function App() {
           <Stack.Screen name="Stripe" component={Stripe} />
           <Stack.Screen name="Cart">
             {() => <Cart cartItems={cart} />}
-          </Stack.Screen>
+          </Stack.Screen> */}
+          <Stack.Screen name="Promotion" component={Promotion} />
+          <Stack.Screen name="Informations" component={Informations} /> 
+        <Stack.Screen name="InformationsL" component={InformationsL} /> 
+        <Stack.Screen name="Test" component={Test} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Stripe" component={Stripe} />
+        <Stack.Screen name="Snack" component={Snack} />
+        <Stack.Screen name="PlatForm" component={PlatForm} />
+        <Stack.Screen name="Snack_R" component={Snack_R} />
+        <Stack.Screen name="PhotoUploadForm" component={PhotoUploadForm} />
+        <Stack.Screen name="Photo" component={Photo} />
+        <Stack.Screen name="Menu" component={Menu} />
+        <Stack.Screen name="SuperSlider" component={SuperSlider} />
+        <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="MapL" component={MapL} />
+        <Stack.Screen name="UpPhoto" component={UpPhoto} />
+        <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="Demandes" component={Demandes} />
+        <Stack.Screen name="RestaurantPage" component={RestaurantPage} />
+        <Stack.Screen name="Cart">{() => <Cart cartItems={cart} />}</Stack.Screen>
         </Stack.Navigator>
-        {/* <Footer /> */}
       </NavigationContainer>
     </StripeProvider>
   );

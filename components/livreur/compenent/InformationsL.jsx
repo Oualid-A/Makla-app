@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import Footer from "./compenent-items/Footer";
+import Footer from "./Footer";
 import { useNavigation } from "@react-navigation/native";
-import avatar from "../assets/avatar.png";
+import avatar from "../../../assets/avatar.png";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,13 +20,13 @@ import {
   TextInput,
   Button,
 } from "react-native-paper";
-import { updateInfos } from "./services/AuthService";
+
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-import { environment } from "../environnement";
+import { environment } from "../../../environnement";
 
 const BASE_URL = environment.url_api;
-export default function Informations() {
+export default function InformationsL() {
   const [storedData, setStoredData] = useState({});
   const navigation = useNavigation();
   const [userData, setUserData] = useState({
@@ -47,6 +47,7 @@ export default function Informations() {
 
   useEffect(() => {
     // Fetch the profile image when the component mounts
+
     fetchProfileImage();
   }, []); // Empty dependency array means this effect runs once when the component mounts
 
@@ -66,6 +67,8 @@ export default function Informations() {
 
       if (responses2.data !== "null") {
         setLilli(responses2.data);
+      } else {
+        setLilli(null);
       }
     } catch (error) {
       console.error("Error fetching profile image:", error);
@@ -122,16 +125,18 @@ export default function Informations() {
 
   const getStoredData = async () => {
     const storedData = await AsyncStorage.getItem("response");
+    console.log("storedData", storedData);
+
     if (storedData !== null) {
       const parsedData = JSON.parse(storedData);
+      console.log("parsedData", parsedData);
       setStoredData(parsedData);
-      console.log(storedData);
     }
   };
 
   const UpdateUser = async () => {
     const token = await AsyncStorage.getItem("token");
-    const response = await updateInfos(userData, token);
+    // const response = await updateInfos(userData, token);
     if (response !== null) {
       alert("Votre info modifié");
     }
@@ -142,17 +147,14 @@ export default function Informations() {
   };
 
   const logOut = async () => {
-    await AsyncStorage.removeItem("response");
-    // AsyncStorage.clear;
+    AsyncStorage.clear;
     navigation.replace("Login");
   };
 
   useEffect(() => {
     getStoredData();
   }, []);
-  const handleHome = () => {
-    navigation.navigate("LandingPage");
-  };
+
   return (
     <>
       <PaperProvider>
@@ -169,12 +171,12 @@ export default function Informations() {
           >
             <Ionicons
               name="chevron-back"
-              size={40}
+              size={33}
               color="black"
               style={{ marginLeft: 10 }}
-              onPress={handleHome}
+              onPress={() => {}}
             />
-            <Text style={styles.title}>Profile</Text>
+            <Text style={styles.title2}>Profile</Text>
           </View>
           <ScrollView>
             <View style={styles.contenair}>
@@ -193,7 +195,7 @@ export default function Informations() {
                 <View style={styles.info}>
                   <Text style={styles.name}>
                     {storedData.nom ? storedData.nom : "inconnu"}{" "}
-                    {storedData.prenom ? storedData.prenom : "inconnu"}
+                    {storedData.prenom ? storedData.prenom : ""}
                   </Text>
                   <Text style={styles.role}>
                     {storedData.role ? storedData.role : "Rôle inconnu"}
@@ -252,7 +254,7 @@ export default function Informations() {
               </TouchableOpacity>
             </View>
           </ScrollView>
-          {/* <Footer /> */}
+          <Footer />
         </View>
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
@@ -305,6 +307,15 @@ export default function Informations() {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    marginLeft: "7%",
+    marginBottom: "7%",
+    alignItems: "center",
+    textAlign: "center",
+    fontWeight: "700",
+    marginTop: "6%",
+  },
   avatar: {
     width: 80,
     height: 80,
@@ -363,7 +374,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  title: {
+  title2: {
     fontSize: 20,
     marginTop: 10,
     textAlign: "center",

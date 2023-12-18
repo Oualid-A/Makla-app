@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState , useEffect} from "react";
 import {
   StyleSheet,
   Text,
@@ -7,162 +7,134 @@ import {
   View,
   Image,
   StatusBar,
-} from "react-native"
-import { Appbar, Button, IconButton } from "react-native-paper"
-import { useNavigation } from "@react-navigation/native"
-import logo from "../assets/pizza1.jpg"
-import plat_india from "../assets/plat_india.jpg"
-import logo1 from "../assets/KFC_logo.svg.png"
-import Footer from "./compenent-items/Footer"
-import burger from "../assets/burger.png"
-import HeaderHome from "./compenent-items/HeaderHome"
-import SearchBar from "./compenent-items/SearchBar"
-import Ionicons from "@expo/vector-icons/Ionicons"
+} from "react-native";
+import { Appbar, Button, IconButton } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import logo from "../assets/pizza1.jpg";
+import plat_india from "../assets/plat_india.jpg";
+import logo1 from "../assets/KFC_logo.svg.png";
+import Footer from "./compenent-items/Footer";
+import burger from "../assets/burger.png";
+import HeaderHome from "./compenent-items/HeaderHome";
+import SearchBar from "./compenent-items/SearchBar";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { environment } from "../environnement";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Menu() {
-  const navigation = useNavigation()
-  const [quantities, setQuantities] = useState([0, 0])
+const BASE_URL = environment.url_api;
+const Menu = ({ route }) => {
+  const navigation = useNavigation();
+  const [quantities, setQuantities] = useState([0, 0]);
+  const [menuItems, setMenuItems] = useState([]);
 
+  const { restaurantId } = route.params;
+  console.log(restaurantId);
+  const itemsMen =[...menuItems];
+  console.log(itemsMen);
+  // console.log(menuItems.nomplat);
   const handleDetails = () => {
     navigation.navigate("Details", {
       product: {
-        name: "Burger",
+        restaurantId :restaurantId,
+        // ...menuItems,
+        name: itemsMen[0]?.nomplat,
+        id_prod : itemsMen[0]?.id,
         image: burger,
-        price: 45,
-        description: "Description of the burger burger burger burger Description of the burger burger burger burger",
+        price: itemsMen[0]?.prix,
+        description:
+          "Description of the burger burger burger burger Description of the burger burger burger burger",
         location: "Hey Al-Qods Oujda",
         rating: 4.8,
-        quantity:2,
+        quantity: 2,
         images: [burger, burger, burger],
       },
-    })
-  }
+    });
+  };
 
-  const _goBack = () => navigation.navigate("Snack")
+  useEffect(() => {
+    // Fetch menu items for the selected restaurant
+    const fetchMenuItems = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await axios.get(
+          `${BASE_URL}/restaurant/platsByRestaurant/${restaurantId}`,  {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setMenuItems(response.data);
+        console.log("response.data = ", response);
+      } catch (error) {
+        console.error("Error fetching menu items:", error);
+      }
+    };
 
-  const _handleSearch = () => console.log("Searching")
+    fetchMenuItems();
+  }, [restaurantId]);
 
-  const _handleMore = () => console.log("Shown more")
-
-  const incrementQuantity = (index) => {
-    const newQuantities = [...quantities]
-    newQuantities[index] += 1
-    setQuantities(newQuantities)
-  }
-
-  const decrementQuantity = (index) => {
-    if (quantities[index] > 0) {
-      const newQuantities = [...quantities]
-      newQuantities[index] -= 1
-      setQuantities(newQuantities)
-    }
-  }
-
-  const menuItems = [
-    {
-      title: "Pizza Fruit de mer",
-      price: "59 MAD",
-      image: logo,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-    {
-      title: "Tacos Indian",
-      price: "39 MAD",
-      image: plat_india,
-      logo: logo1,
-    },
-  ]
-   const [searchPhrase, setSearchPhrase] = useState("")
-   const filteredMenuItems = menuItems.filter((menuItem) =>
-   menuItem.title.toLowerCase().includes(searchPhrase.toLowerCase())
- )
- const handlRestaurant = ()=>{
-  navigation.navigate("Snack")
- }
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const filteredMenuItems = menuItems.filter((menuItem) =>
+    menuItem.nomplat.toLowerCase().includes(searchPhrase.toLowerCase())
+  );
+  const handlRestaurant = () => {
+    navigation.navigate("LandingPage");
+  };
 
   return (
     <>
-    <View style={{flex:1,  backgroundColor:"white"}}>
-
-    
-    {/* <StatusBar></StatusBar> */}
-
-      <View style={{flexDirection:"row", alignItems:"center", marginTop:10, width:"60%", justifyContent:"space-between"}}>
-        <Ionicons name="chevron-back" size={40} color="black" style={{marginLeft:10, }} onPress={handlRestaurant}/>
-        <Text style={{fontWeight:"600", fontSize:17}}>Votre Menu</Text>
-      </View>
-      <SearchBar
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-      />
-      <ScrollView contentContainerStyle={{ marginBottom: 20, marginTop: 0, }} showsVerticalScrollIndicator={false}>
-        {filteredMenuItems.map((menuItem, index) => (
-          <View style={styles.container} key={index}>
-              <TouchableOpacity style={styles.header} onPress={handleDetails} >
-            <View style={styles.header}>
-              <View style={styles.coverContainer}>
-                <Image source={menuItem.image} style={styles.coverImage} />
-              </View>
-              <View style={styles.snack}>
-                <Text style={styles.title}>{menuItem.title}</Text>
-                <Text style={styles.price}>{menuItem.price}</Text>
-              </View>
-                <View style={styles.logoContainer}>
-                  <Image source={menuItem.logo} style={styles.logoImage} />
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 10,
+            width: "60%",
+            justifyContent: "space-between",
+          }}
+        >
+          <Ionicons
+            name="chevron-back"
+            size={40}
+            color="black"
+            style={{ marginLeft: 10 }}
+            onPress={handlRestaurant}
+          />
+          <Text style={{ fontWeight: "600", fontSize: 17 }}>Votre Menu</Text>
+        </View>
+        <SearchBar
+          searchPhrase={searchPhrase}
+          setSearchPhrase={setSearchPhrase}
+        />
+        <ScrollView
+          contentContainerStyle={{ marginBottom: 20, marginTop: 0 }}
+          showsVerticalScrollIndicator={false}
+        >
+          {filteredMenuItems.map((menuItem, index) => (
+            <View style={styles.container} key={index}>
+              <TouchableOpacity style={styles.header} onPress={()=>handleDetails(menuItem) }>
+                <View style={styles.header}>
+                  <View style={styles.coverContainer}>
+                    <Image source={menuItem.image} style={styles.coverImage} />
+                  </View>
+                  <View style={styles.snack}>
+                    <Text style={styles.title}>{menuItem.nomplat}</Text>
+                    <Text style={styles.price}>{menuItem.prix} MAD</Text>
+                  </View>
+                  <View style={styles.logoContainer}>
+                    <Image source={menuItem.logo} style={styles.logoImage} />
+                  </View>
                 </View>
-            </View>
               </TouchableOpacity>
-           
-          </View>
-        ))}
-      </ScrollView>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </>
-  )
-}
-
+  );
+};
+export default Menu;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
@@ -266,4 +238,4 @@ const styles = StyleSheet.create({
     width: "10%",
     height: "auto",
   },
-})
+});
