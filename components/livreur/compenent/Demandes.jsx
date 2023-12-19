@@ -125,7 +125,10 @@ export default function Demandes() {
       <ScrollView style={{padding:10}}>
         {commands.map((command) => renderRequest(command))}
       </ScrollView>
-      <Footer />
+      {/* <Footer /> */}
+      <View style={styles.map}>
+        <Ionicons name="map" size={30} onPress={()=>{navigation.navigate("MapL")}}/>
+      </View>
       </View>
     </>
   );
@@ -165,6 +168,22 @@ const styles = StyleSheet.create({
     color: "#4a4a4a",
     fontWeight: "bold",
     marginBottom: 10,
+  },
+  map: {
+    position: "absolute",
+    width: "auto",
+    backgroundColor: "rgba(250, 0, 0, 0)",
+    borderRadius: 500,
+    padding: 8,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    elevation: 4,
+    shadowRadius: 4,
+    bottom: 10,
+    marginTop: 10,
+    right:10,
+    borderWidth:0.2,
   },
   contenair: {
     backgroundColor: "white",

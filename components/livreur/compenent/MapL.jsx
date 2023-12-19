@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { environment } from "../../../environnement";
+import Ionicons from "@expo/vector-icons/Feather";
 
 
   const BASE_URL = environment.url_api;
@@ -14,6 +15,7 @@ const MapL = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [initialRegion, setInitialRegion] = useState(null);
   const [commands, setCommands] = useState("");
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getLocation = async () => {
@@ -115,7 +117,10 @@ const MapL = () => {
         )}
         {/* Rest of your code */}
       </View>
-      <Footer />
+      {/* <Footer /> */}
+      <View style={styles.map}>
+        <Ionicons name="home" size={30} onPress={()=>{navigation.navigate("Demandes")}}/>
+      </View>
     </>
   );
 };
@@ -129,6 +134,22 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+  },
+  map: {
+    position: "absolute",
+    width: "auto",
+    backgroundColor: "rgba(250,0, 0, 0)",
+    borderRadius: 500,
+    padding: 8,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    elevation: 4,
+    shadowRadius: 4,
+    bottom: 10,
+    marginTop: 10,
+    right:10,
+    borderWidth:0.2,
   },
 });
 

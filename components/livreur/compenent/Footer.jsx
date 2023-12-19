@@ -7,14 +7,14 @@ export default function Footer() {
   const navigation = useNavigation();
 
   const handleHomePress = () => {
-    navigation.navigate("InformationsL");
+    navigation.navigate("Demandes");
   };
   
   const handleDemandePress = () => {
     navigation.navigate("Demandes");
   };
   const handleMapPress = () => {
-    navigation.navigate("Map");
+    navigation.navigate("MapL");
   };
   
   return (

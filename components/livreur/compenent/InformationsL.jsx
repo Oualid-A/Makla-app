@@ -148,6 +148,7 @@ export default function InformationsL() {
 
   const logOut = async () => {
     AsyncStorage.clear;
+    await AsyncStorage.removeItem("response");
     navigation.replace("Login");
   };
 
@@ -174,7 +175,7 @@ export default function InformationsL() {
               size={33}
               color="black"
               style={{ marginLeft: 10 }}
-              onPress={() => {}}
+              onPress={() => {navigation.navigate("Demandes")}}
             />
             <Text style={styles.title2}>Profile</Text>
           </View>
@@ -254,7 +255,7 @@ export default function InformationsL() {
               </TouchableOpacity>
             </View>
           </ScrollView>
-          <Footer />
+          {/* <Footer /> */}
         </View>
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
