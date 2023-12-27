@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   ImageBackground,
@@ -25,53 +25,59 @@ const BASE_URL = environment.url_api;
 export default function Details({ route }) {
   const [quantity, setQuantity] = React.useState(1);
   const [cart, setCart] = useState([]);
+  const [token, setToken] = useState();
+  const [user_id, setUser_id] = useState();
   const navigation = useNavigation();
   const { product } = route.params;
   const id = product.restaurantId;
-  console.log(product.restaurantId);
-  const token =  AsyncStorage.getItem("token");
-  console.log(token);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await AsyncStorage.getItem("response");
+        const tok = await AsyncStorage.getItem("token");
+        const data = JSON.parse(result);
+        setToken(tok);
+        setUser_id(data.id);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const addToCart = () => {
-    const itemToAdd = {
-      plat_id: product.id,
-      name: product.name,
-      price: product.price,
-      restaurant_id : id,
+    const postData = {
       nombre: quantity,
-      toppings: {
-        cheese: toppingCheese,
-        tomatoes: toppingTomatoes,
-        laiture: toppingLaiture,
-        onion: toppingOnion,
+      restaurants: {
+        id: product.restaurantId,
+      },
+      platss: {
+        id: product.id_prod,
+      },
+      userss: {
+        id: user_id,
       },
     };
     fetch(`${BASE_URL}/panier/add`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        // You may need to include an authorization header if required
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(itemToAdd),
+      body: JSON.stringify(postData),
     })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the response from the server if needed
-        console.log('Item added to cart:', data);
-      })
-      .catch(error => {
-        // Handle errors
-        console.error('Error adding item to cart:', error);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Item added to cart:", data);
+        alert("Ajout succes");
       });
-  
-    // Reset quantity and topping states after adding to cart
     setQuantity(1);
     setToppingCheese(false);
     setToppingTomatoes(false);
     setToppingLaiture(false);
     setToppingOnion(false);
-    // setCart([...cart, itemToAdd]);
-    // setQuantity(1);
   };
 
   const incrementQuantity = () => {
@@ -83,26 +89,25 @@ export default function Details({ route }) {
       setQuantity(quantity - 1);
     }
   };
-  
-  
+
   const [toppingCheese, setToppingCheese] = React.useState(false);
   const [toppingTomatoes, setToppingTomatoes] = React.useState(false);
   const [toppingOnion, setToppingOnion] = React.useState(false);
   const [toppingLaiture, setToppingLaiture] = React.useState(false);
-  const [activeSlide, setActiveSlide] = React.useState(0); 
+  const [activeSlide, setActiveSlide] = React.useState(0);
 
   const onSnapToItem = (index) => {
     setActiveSlide(index);
   };
-  const handleMenu = ()=>{
-    navigation.navigate('Menu', {id});
-  }
+  const handleMenu = () => {
+    navigation.navigate("Menu", { id });
+  };
   return (
     <>
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.detail}>
-            <ImageBackground source={table} style={styles.background}>
+            <ImageBackground source={{}} style={styles.background}>
               <View
                 style={{
                   flexDirection: "row",
@@ -119,16 +124,25 @@ export default function Details({ route }) {
                   style={{ marginLeft: 10 }}
                   onPress={handleMenu}
                 />
-                <Text style={{ fontWeight: "600", fontSize: 17 }}>Détails</Text>
+                <Text
+                  style={{ fontWeight: "700", fontSize: 18, color: "#495057" }}
+                >
+                  Détails
+                </Text>
               </View>
               <Carousel
                 data={product.images}
                 renderItem={({ item }) => (
-                  <ImageBackground source={item} style={styles.pics} />
+                  <ImageBackground
+                    source={{
+                      uri: `https://firebasestorage.googleapis.com/v0/b/makla-delivery.appspot.com/o/${item}?alt=media`,
+                    }}
+                    style={styles.pics}
+                  />
                 )}
                 sliderWidth={410}
                 itemWidth={350}
-                onSnapToItem={onSnapToItem} 
+                onSnapToItem={onSnapToItem}
               />
               <Pagination
                 dotsLength={product.images.length}
@@ -160,14 +174,14 @@ export default function Details({ route }) {
             <View style={styles.about}>
               <View>
                 <Text
-                  style={{ fontSize: 25, fontWeight: "700", marginLeft: 15 }}
+                  style={{ fontSize: 20, fontWeight: "700", marginLeft: 15 }}
                 >
                   {product.name}
                 </Text>
                 <Text
                   style={{
-                    fontSize: 20,
-                    fontWeight: "700",
+                    fontSize: 17,
+                    fontWeight: "600",
                     marginLeft: 15,
                     color: "rgba(250, 100, 12, 1)",
                   }}
@@ -202,9 +216,9 @@ export default function Details({ route }) {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight: "700",
+                fontWeight: "600",
                 marginLeft: 15,
-                marginTop: 10,
+                marginTop: 7,
               }}
             >
               Description
@@ -214,7 +228,7 @@ export default function Details({ route }) {
           <Text
             style={{
               fontSize: 20,
-              fontWeight: "700",
+              fontWeight: "600",
               marginLeft: 15,
               marginTop: 0,
               marginBottom: 2,
@@ -238,25 +252,25 @@ export default function Details({ route }) {
                 label="Cheese"
                 status={toppingCheese ? "checked" : "unchecked"}
                 onPress={() => setToppingCheese(!toppingCheese)}
-                image={cheese} // Provide the image for cheese
+                image={cheese}
               />
               <CustomToggleButton
                 label="Tomatoes"
                 status={toppingTomatoes ? "checked" : "unchecked"}
                 onPress={() => setToppingTomatoes(!toppingTomatoes)}
-                image={tomatoesImage} 
+                image={tomatoesImage}
               />
               <CustomToggleButton
                 label="Laiture"
                 status={toppingLaiture ? "checked" : "unchecked"}
                 onPress={() => setToppingLaiture(!toppingLaiture)}
-                image={laiture} 
+                image={laiture}
               />
               <CustomToggleButton
                 label="Onion"
                 status={toppingOnion ? "checked" : "unchecked"}
                 onPress={() => setToppingOnion(!toppingOnion)}
-                image={onion} 
+                image={onion}
               />
             </ScrollView>
           </View>
@@ -266,7 +280,7 @@ export default function Details({ route }) {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-around",
-            bottom: 0, 
+            bottom: 0,
           }}
         >
           <Text style={styles.totalPrice}>{product.price * quantity} MAD</Text>
@@ -276,7 +290,8 @@ export default function Details({ route }) {
             textColor="white"
             onPress={addToCart}
           >
-            <Ionicons name="cart" size={22} color="black" /> Ajouter au panier
+            <Ionicons name="cart" size={22} color="white" />{" "}
+            <Text style={{ marginRight: 6 }}>Ajouter au panier</Text>
           </Button>
         </View>
         {/* <Footer /> */}
@@ -321,7 +336,8 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 100,
     width: "30%",
-    marginTop: "-5%",
+    top: "-5%",
+    position: "absolute,",
   },
   background: {
     height: "auto",
@@ -331,8 +347,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   description: {
-    fontSize: 16,
-    lineHeight: 20,
+    fontSize: 15,
+    lineHeight: 15,
     textAlign: "left",
     color: "#000",
     opacity: 0.8,
@@ -364,6 +380,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(250, 100, 12, 0.5)",
     borderColor: "gray",
     borderRadius: 10,
+    flex: 1,
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   choices: {
     flexDirection: "row",

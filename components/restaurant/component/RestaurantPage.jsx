@@ -30,7 +30,7 @@ export default function RestaurantPage() {
     <View style={styles.root}>
       <StatusBar hidden />
       <HeaderHome/>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} >
         <Text style={styles.welcome}>
           Espace{" "}
           <Text style={{ color: "rgba(250, 74, 12, 1)" }}>Restaurant</Text>
@@ -38,8 +38,14 @@ export default function RestaurantPage() {
         
         <SuperSlider />
         
+      <View style={styles.map}>
+        <Ionicons name="add" size={30} onPress={()=>{navigation.navigate("PlatForm")}}/>
+      </View>
+      <View style={styles.map2}>
+        <Ionicons name="list" size={25} onPress={()=>{navigation.navigate("Snack_R")}}/>
+      </View>
       </ScrollView>
-      <Footer />
+      {/* <Footer /> */}
     </View>
   );
 }
@@ -47,7 +53,40 @@ export default function RestaurantPage() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor:"#f2f6fc"
+    backgroundColor:"#fff"
+  },
+  map: {
+    position: "absolute",
+    width: "auto",
+    backgroundColor: "#f1faee",
+    borderRadius: 500,
+    padding: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    elevation: 4,
+    shadowRadius: 4,
+    bottom: 10,
+    marginTop: 10,
+    right:10,
+    borderWidth:0.2,
+  },
+  map2: {
+    position: "absolute",
+    width: "auto",
+    backgroundColor: "#a8dadc",
+    borderRadius: 500,
+    padding: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    elevation: 4,
+    shadowRadius: 4,
+    bottom: "10%",
+    marginTop: 10,
+    right:10,
+    borderWidth:0.2,
+    marginRight:5
   },
   searchInput: {
     borderWidth: 0,

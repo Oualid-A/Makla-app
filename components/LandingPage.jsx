@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   map: {
     position: "absolute",
     width: "auto",
-    backgroundColor: "rgba(250, 110, 17, 1)",
+    backgroundColor: "#ced4da",
     borderRadius: 500,
     padding: 8,
     shadowColor: "black",

@@ -6,6 +6,7 @@ import {
   Image,
   View,
   Alert,
+  StatusBar,
 } from "react-native";
 import * as React from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -25,6 +26,18 @@ export default function Demandes() {
   const [commands, setCommands] = useState([]);
   const [location, setLocation] = useState(null);
 
+  const requestLocationPermission = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('Permission to access location was denied');
+      return;
+    }
+  };
+  
+  const getLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+  };
   useEffect(() => {
     const fetchCommands = async () => {
       try {
@@ -54,11 +67,12 @@ export default function Demandes() {
         console.error("Error fetching commands:", error);
       }
     };
-
+    getLocation();
+    requestLocationPermission();
     fetchCommands();
-  }, []);
+  }, [ commands, commands.reponse]); 
 
-  const handleDiffuser = async (id) => {
+  const handleDiffuser = async (id) => { 
     try {
       const idLivreur = await AsyncStorage.getItem("id");
       await AsyncStorage.removeItem("demandeId");
@@ -78,6 +92,9 @@ export default function Demandes() {
         latitude: String(location.coords.latitude),
         longitude: String(location.coords.longitude),
       };
+      console.log(formDataObject.id_livreur);
+      console.log(formDataObject.latitude);
+      console.log(formDataObject.longitude);
  
       console.log(JSON.stringify(formDataObject));
       const token = await AsyncStorage.getItem("token");
@@ -91,8 +108,22 @@ export default function Demandes() {
         }
       );
 
-      console.log("Response dooooo:", response.data);
-
+       console.log("Response dooooo:", response.data);
+      // const userId = await AsyncStorage.getItem("response");
+      // const id = JSON.parse(userId)
+      // const commande = {
+     
+      //   lontitudeclient: String(location.coords.longitude),
+      //   latitudeclient : String(location.coords.latitude)
+      // };
+      // const addLocation = await fetch(`${BASE_URL}/commande/modifierCommandeByL/${id.id}`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`, // Ou tout autre header nécessaire
+      //   },
+      //   body: JSON.stringify(commande),
+      // });
       // Handle the diffuser action here
       console.log(`Diffusing request: ${id}`);
       navigation.navigate("MapL");
@@ -104,6 +135,7 @@ export default function Demandes() {
   return (
     <>
     <View style={{flex:1, backgroundColor:"white"}}>
+      <StatusBar/>
       <View
         style={{
           flexDirection: "row",

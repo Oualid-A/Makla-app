@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const USE_LITE_CREDIT = false;
 
-const Stripe = () => {
+const Stripe = ({ onPaymentSuccess }) => {
   const { createToken } = useStripe();
   const navigation = useNavigation();
   const [cardDetails, setCardDetails] = useState();
@@ -29,12 +29,12 @@ const Stripe = () => {
       return;
     }
     const response = await createToken({ card: cardDetails });
-    if (response.error) {
-      console.log('Error in token creation:', response.error);
-    } else {
+    // if (response.error) {
+    //   console.log('Error in token creation:', response.error);
+    // } else {
       console.log('Token created:', response.token);
-      navigation.navigate("Map")
-    }
+      onPaymentSuccess(response.token);
+    // }
   };
 
   return (

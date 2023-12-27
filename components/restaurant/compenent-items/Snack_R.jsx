@@ -6,16 +6,17 @@ import {
   Image,
   View,
   Alert,
-
 } from "react-native";
 import * as React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Appbar, Button, Card } from "react-native-paper";
 import axios from "axios";
-import { useState , useEffect } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Footer from "./Footer";
 import { environment } from "../../../environnement";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 const BASE_URL = environment.url_api;
 
 export default function Snack_R() {
@@ -25,48 +26,58 @@ export default function Snack_R() {
   useEffect(() => {
     const fetchCommands = async () => {
       try {
-        const id = await AsyncStorage.getItem('id');
+        const id = await AsyncStorage.getItem("id");
         // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6YWtpaWlAZ21haWwuY29tIiwiZXhwIjoxNzAxNzkyMzczfQ.aEyfx7ZV8dlGlLrAziI6DQoOKoq1Yf3TDMAsZ4cbrF_OUX1IfsUYs_OcP5FQjL0vHoFwABCjMLb1Ghy1SuhTVA'
-        const token = await AsyncStorage.getItem('token');
-        const response2 = await axios.get(`${BASE_URL}/admin/getIdRestaurant/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        const token = await AsyncStorage.getItem("token");
+        const response2 = await axios.get(
+          `${BASE_URL}/admin/getIdRestaurant/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const id2 = response2.data;
-        console.log("ddddidididi",id2);
+        console.log("ddddidididi", id2);
 
-        const response = await axios.get(`${BASE_URL}/commande/AllCommandeByRestaurantId/${id2}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("Response:", response.data[0]);
+        const response = await axios.get(
+          `${BASE_URL}/commande/AllCommandeByRestaurantId/${id2}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Response:", response.data);
 
         setCommands(response.data);
       } catch (error) {
-        console.error('Error fetching commands:', error);
+        console.error("Error fetching commands:", error);
       }
     };
 
     fetchCommands();
-  }, []);
-
+  }, [commands]);
+ 
   const handleDiffuser = async (id) => {
     Alert.alert(`Demmande de ${id}`, " est diffuser", [
       {
         text: "OK",
         onPress: async () => {
           try {
-            const token = await AsyncStorage.getItem('token');
+            const token = await AsyncStorage.getItem("token");
             // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6YWtpaWlAZ21haWwuY29tIiwiZXhwIjoxNzAxNzkyMzczfQ.aEyfx7ZV8dlGlLrAziI6DQoOKoq1Yf3TDMAsZ4cbrF_OUX1IfsUYs_OcP5FQjL0vHoFwABCjMLb1Ghy1SuhTVA';
-            const response = await axios.put(`${BASE_URL}/commande/modifierCommande/${id}`, {}, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
+            const response = await axios.put(
+              `${BASE_URL}/commande/modifierCommande/${id}`,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
             console.log("Response dooooo:", response.data);
-            
+
             // Handle the diffuser action here
             console.log(`Diffusing request: ${id}`);
           } catch (error) {
@@ -76,28 +87,49 @@ export default function Snack_R() {
       },
     ]);
   };
-  
 
   return (
     <>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginTop: 10,
+          width: "74%",
+          justifyContent: "space-between",
+        }}
+      >
+        <Ionicons
+          name="chevron-back"
+          size={40}
+          color="black"
+          style={{ marginLeft: 10 }}
+          onPress={() => {
+            navigation.navigate("RestaurantPage");
+          }}
+        />
+        <Text style={{ fontWeight: "700", fontSize: 17, color: "#2b2d42" }}>
+          Liste des Commandes
+        </Text>
+      </View>
       <ScrollView contentContainerStyle={{ paddingBottom: 0, marginTop: 4 }}>
-        <Text style={styles.title2}>Liste des Demandes</Text>
-        {commands.map(command => renderRequest(command))}
+        {/* <Text style={styles.title2}>Liste des Demandes</Text> */}
+        {commands.map((command) => renderRequest(command))}
       </ScrollView>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 
   function renderRequest(command) {
-    const {id, numerocommande, user, prixTotal, restaurants, plats } = command;
+    const { id, numerocommande, user, prixtotal, restaurants, plats } = command;
 
     return (
       <View style={styles.contenair} key={numerocommande}>
-        {/* ... your existing code */}
         <View style={styles.snack}>
-          <Text style={styles.title}>{user.nom} {user.prenom}</Text>
+          <Text style={styles.title}>{user.nom} {user.prenom}
+          </Text>
           <Text style={styles.description}>{plats.length} Plats </Text>
-<Text>{prixTotal} DH</Text>
+          <Text>{prixtotal} DH</Text>
         </View>
         <View>
           <Button
@@ -112,7 +144,6 @@ export default function Snack_R() {
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -153,7 +184,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 13,
-    marginLeft: "7%",
+    marginLeft: "2%",
     fontWeight: "700",
     marginTop: "2%",
   },
@@ -161,8 +192,8 @@ const styles = StyleSheet.create({
   title2: {
     fontSize: 30,
     marginLeft: "7%",
-    marginBottom:"7%",
-  
+    marginBottom: "7%",
+
     fontWeight: "700",
     marginTop: "9%",
   },

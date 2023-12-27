@@ -118,7 +118,7 @@ const MapL = () => {
         {/* Rest of your code */}
       </View>
       {/* <Footer /> */}
-      <View style={styles.map}>
+      <View style={styles.map2}>
         <Ionicons name="home" size={30} onPress={()=>{navigation.navigate("Demandes")}}/>
       </View>
     </>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  map: {
+  map2: {
     position: "absolute",
     width: "auto",
     backgroundColor: "rgba(250,0, 0, 0)",
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     bottom: 10,
     marginTop: 10,
-    right:10,
+    left:10,
     borderWidth:0.2,
   },
 });

@@ -27,27 +27,26 @@ const Menu = ({ route }) => {
   const navigation = useNavigation();
   const [quantities, setQuantities] = useState([0, 0]);
   const [menuItems, setMenuItems] = useState([]);
+  const [image, setImage] = useState([]);
 
   const { restaurantId } = route.params;
   console.log(restaurantId);
   const itemsMen =[...menuItems];
-  console.log(itemsMen);
+  console.log("id plat", itemsMen[0]?.id);
   // console.log(menuItems.nomplat);
-  const handleDetails = () => {
+  const handleDetails = (menuItem) => {
     navigation.navigate("Details", {
       product: {
-        restaurantId :restaurantId,
-        // ...menuItems,
-        name: itemsMen[0]?.nomplat,
-        id_prod : itemsMen[0]?.id,
+        restaurantId: restaurantId,
+        name: menuItem.nomplat,
+        id_prod: menuItem.id,
         image: burger,
-        price: itemsMen[0]?.prix,
-        description:
-          "Description of the burger burger burger burger Description of the burger burger burger burger",
-        location: "Hey Al-Qods Oujda",
+        price: menuItem.prix,
+        description: menuItem.description,
+        location: "Oujda, Hey Al-Qods", 
         rating: 4.8,
         quantity: 2,
-        images: [burger, burger, burger],
+        images: [menuItem.img_url],
       },
     });
   };
@@ -55,7 +54,7 @@ const Menu = ({ route }) => {
   useEffect(() => {
     // Fetch menu items for the selected restaurant
     const fetchMenuItems = async () => {
-      try {
+   
         const token = await AsyncStorage.getItem("token");
         const response = await axios.get(
           `${BASE_URL}/restaurant/platsByRestaurant/${restaurantId}`,  {
@@ -66,9 +65,15 @@ const Menu = ({ route }) => {
         );
         setMenuItems(response.data);
         console.log("response.data = ", response);
-      } catch (error) {
-        console.error("Error fetching menu items:", error);
-      }
+        const imgPlat = await axios.get(
+          `${BASE_URL}/image/getImage/${itemsMen[0]?.id}`,  {
+            headers: { 
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        setImage(imgPlat.data[0])
+        console.log(imgPlat.data[0]);
     };
 
     fetchMenuItems();
@@ -116,14 +121,14 @@ const Menu = ({ route }) => {
               <TouchableOpacity style={styles.header} onPress={()=>handleDetails(menuItem) }>
                 <View style={styles.header}>
                   <View style={styles.coverContainer}>
-                    <Image source={menuItem.image} style={styles.coverImage} />
+                  <Image source={{ uri: `https://firebasestorage.googleapis.com/v0/b/makla-delivery.appspot.com/o/${menuItem.img_url}?alt=media`  }} style={styles.coverImage} />
                   </View>
                   <View style={styles.snack}>
                     <Text style={styles.title}>{menuItem.nomplat}</Text>
                     <Text style={styles.price}>{menuItem.prix} MAD</Text>
                   </View>
                   <View style={styles.logoContainer}>
-                    <Image source={menuItem.logo} style={styles.logoImage} />
+                    <Image source={{ uri: `https://firebasestorage.googleapis.com/v0/b/makla-delivery.appspot.com/o/${menuItem.restaurants.image}?alt=media` }} style={styles.logoImage} />
                   </View>
                 </View>
               </TouchableOpacity>
@@ -135,6 +140,7 @@ const Menu = ({ route }) => {
   );
 };
 export default Menu;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",

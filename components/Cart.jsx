@@ -7,7 +7,7 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native-gesture-handler";
 import table from "../assets/burger.png";
@@ -16,45 +16,196 @@ import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Stripe from "./Stripe";
-const cartItems = [
-  {
-    name: "Chicken Tikka Masala",
-    price: "$12.95",
-    restaurant: "Pizza Hut",
-    quantity: 2,
-    totalPrice: 12.95 * 2,
-  },
-  {
-    name: "Margherita Pizza",
-    price: "$9.99",
-    restaurant: "Domino's",
-    quantity: 1,
-    totalPrice: 9.99,
-  },
-  {
-    name: "Caesar Salad",
-    price: "$8.50",
-    restaurant: "Salad Express",
-    quantity: 3,
-    totalPrice: 8.5 * 3,
-  },
-];
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { environment } from "../environnement";
+import * as Location from 'expo-location';
+
+const BASE_URL = environment.url_api;
 
 const screenHeight = Dimensions.get("window").height;
 
 export default function Cart() {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
-  const prixDilevery = 20;
-  const prixPlat = 200;
-  // const prixDilevery = 20;
+  const [cartData, setCartData] = useState([]);
+  const [prixPlat, setPrixPlat] = useState(0);
+  const [restaurant_id, setRest_id] = useState(0);
+  const [location, setLocation] = useState(null);
+
+  const prixDilevery = 13;
+  const fraisMakla = 2;
+  const prixTotal = (prixPlat + prixDilevery + fraisMakla).toFixed(2);
+  console.log("prixTotal sss", parseFloat(prixTotal));
+
+  const requestLocationPermission = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('Permission to access location was denied');
+      return;
+    }
+  };
+  
+  const getLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+  };
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const user = await AsyncStorage.getItem("response");
+        const token = await AsyncStorage.getItem("token");
+        const user_id = JSON.parse(user);
+
+        const response = await fetch(
+          `${BASE_URL}/panier/getByUserId/${user_id.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Erreur lors de la récupération des données du panier"
+          );
+        }
+
+        const data = await response.json();
+        let totalPlats = data.reduce((acc, item) => {
+          setRest_id(item.restaurants.id);
+          return acc + item.platss.prix * item.nombre;
+        }, 0);
+        setCartData(data);
+        setPrixPlat(totalPlats);
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
+    };
+    fetchCartData();
+    requestLocationPermission();
+      getLocation();
+    console.log("restaurants id : ", restaurant_id);
+  }, []);
+
+  const deleteItemCart = async (panierId) => {
+    const token = await AsyncStorage.getItem("token");
+
+    const response = await fetch(`${BASE_URL}/panier/remove/${panierId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la supprission des données du panier");
+    } else {
+      alert("suppression succes");
+      setCartData(cartData.filter((item) => item.id !== panierId));
+      
+      // setCartData(cartData.filter(item => item.id !== panierId));
+    }
+  };
   const handlePay = () => {
     setModalVisible(true); // Show the modal
-    // existing navigation code can be removed or modified as needed
   };
 
   const handleHome = () => {
     navigation.navigate("LandingPage");
+  };
+  const handlePaymentSuccess = async (stripeToken) => {
+    // Logique d'envoi de commande
+    // Utilisez stripeToken pour la partie paiement
+    // Envoyez les détails du panier à votre API backend
+
+    alert("Payment passé avec succés");
+    const user = await AsyncStorage.getItem("response");
+    const token = await AsyncStorage.getItem("token");
+    const user_id = JSON.parse(user);
+    const generateOrderNumber = () => {
+      return (
+        "CMD" +
+        Math.random()
+          .toString(36)
+          .substr(2, 9)
+          .toUpperCase()
+      );
+    };
+
+    console.log("prixTota kssocsocnl", prixTotal);
+  //  console.log(String(location.coords.longitude));
+  //  console.log(String(location.coords.longitude));
+    const commande = {
+      numerocommande: generateOrderNumber(),
+      plat: "",
+      nombreplat: cartData.length,
+      prixtotal: prixTotal,
+      user: {
+        id: user_id.id,
+      },
+      restaurants: {
+        id: restaurant_id,
+      },
+      plats: cartData.map((item) => ({ id: item.platss.id })),
+      lontitudeclient: String(location.coords.longitude),
+      latitudeclient : String(location.coords.latitude)
+    };
+    console.log("ids = ", commande.plats);
+    try {
+      const response1 = await fetch(`${BASE_URL}/commande/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        },
+        body: JSON.stringify(commande),
+      });
+      if (response1.ok) {
+        // Convertir la réponse en JSON
+        const jsonResponse = await response1.json();
+        await AsyncStorage.setItem('commandeId', String(jsonResponse.id));
+        console.log("Response JSON ====", jsonResponse);
+      } 
+      if (!response1.ok) {
+        throw new Error("Erreur lors de l'envoi de la commande");
+      } else {
+        alert("added");
+        
+        const response = await fetch(`${BASE_URL}/panier/clear/${user_id.id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "Erreur lors de la supprission des données du panier"
+          );
+        } else {
+          setCartData(cartData.filter((item) => item.userss.id !== user_id.id));
+          setPrixPlat(0)
+          
+          alert("Navigation vers la carte dans 5 secondes");
+
+          // Utiliser setTimeout pour retarder la navigation
+          setTimeout(() => {
+            navigation.navigate("Map");
+          }, 5000); 
+        }
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de la commande:", error);
+    }
+
+    //navigation.navigate("Map")
+
+    setModalVisible(!isModalVisible);
   };
 
   return (
@@ -81,24 +232,28 @@ export default function Cart() {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.cart}>
-            {cartItems.map((item, index) => (
+            {cartData.map((item, index) => (
               <View style={styles.cart_items} key={index}>
                 <View style={styles.content}>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <View style={{}}>
                       <Image
                         style={{ resizeMode: "contain", width: 60, height: 60 }}
-                        source={table}
+                        source={{
+                          uri: `https://firebasestorage.googleapis.com/v0/b/makla-delivery.appspot.com/o/${item.platss.img_url}?alt=media`,
+                        }}
                       />
                     </View>
                     <View style={{ paddingHorizontal: 14 }}>
-                      <Text style={styles.name}>{item.name}</Text>
-                      <Text style={styles.price}>{item.price}</Text>
-                      <Text style={styles.locate}>{item.restaurant}</Text>
+                      <Text style={styles.name}>{item.platss.nomplat}</Text>
+                      <Text style={styles.price}>{item.platss.prix} MAD</Text>
+                      <Text style={styles.locate}>
+                        {item.restaurants.restaurantt}
+                      </Text>
                     </View>
                   </View>
                   <View>
-                    <Text style={styles.quantity}>{item.quantity} pièces</Text>
+                    <Text style={styles.quantity}>{item.nombre} pièces</Text>
                   </View>
                 </View>
                 <View
@@ -110,9 +265,14 @@ export default function Cart() {
                   }}
                 >
                   <Text style={styles.totalPrice}>
-                    Prix Total ${item.totalPrice.toFixed(2)}
+                    Prix Total {item.platss.prix * item.nombre} DH
                   </Text>
-                  <Text style={styles.delete_btn}>supprimer</Text>
+                  <Text
+                    style={styles.delete_btn}
+                    onPress={() => deleteItemCart(item.id)}
+                  >
+                    supprimer
+                  </Text>
                 </View>
               </View>
             ))}
@@ -121,18 +281,22 @@ export default function Cart() {
             <Text style={styles.locate}>Résumé de paiement</Text>
             <View style={styles.detail}>
               <Text style={styles.service}>Total de plats</Text>
-              <Text style={styles.totalPrice}> {prixPlat} MAD</Text>
+              <Text style={styles.totalPrice}> {prixPlat.toFixed(2)} MAD</Text>
             </View>
             <View style={styles.detail}>
               <Text style={styles.service}>Prix de livraison</Text>
               <Text style={styles.totalPrice}> {prixDilevery} MAD</Text>
+            </View>
+            <View style={styles.detail}>
+              <Text style={styles.service}>Frais de Makla-delivery</Text>
+              <Text style={styles.totalPrice}> {fraisMakla} MAD</Text>
             </View>
             <View style={styles.separator}></View>
             <View style={styles.detail}>
               <Text style={styles.service}>Total</Text>
               <Text style={styles.totalPrice}>
                 {" "}
-                {prixPlat + prixDilevery} MAD
+                {(prixPlat + prixDilevery + fraisMakla).toFixed(2)} MAD
               </Text>
             </View>
           </View>
@@ -169,7 +333,7 @@ export default function Cart() {
               onPress={() => setModalVisible(false)}
               style={{ marginLeft: 10, fontWeight: "700", marginTop: 10 }}
             />
-            <Stripe />
+            <Stripe onPaymentSuccess={handlePaymentSuccess} />
           </ImageBackground>
         </View>
       </Modal>

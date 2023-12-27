@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, ActivityIndicator,ScrollView } from 'react-native';
-import Slider from './Slider';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { environment } from '../../../environnement';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
+import Slider from "./Slider";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { environment } from "../../../environnement";
 const BASE_URL = environment.url_api;
 
 const SuperSlider = () => {
@@ -13,8 +19,8 @@ const SuperSlider = () => {
   useEffect(() => {
     const fetchPlatIds = async () => {
       try {
-        const token = await AsyncStorage.getItem('token');
-        const id = await AsyncStorage.getItem('idd');
+        const token = await AsyncStorage.getItem("token");
+        const id = await AsyncStorage.getItem("idd");
         const response = await axios.get(`${BASE_URL}/image/findAllIds/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -23,7 +29,7 @@ const SuperSlider = () => {
         setPlatIds(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching platIds:', error);
+        console.error("Error fetching platIds:", error);
         setLoading(false);
       }
     };
@@ -32,31 +38,31 @@ const SuperSlider = () => {
   }, []);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-         <Text style={styles.title}>Mes Plats</Text>
-    <View style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" color="blue" />
-      ) : (
-        platIds.map((platId) => <Slider key={platId} platId={platId} />)
-      )}
-    </View>
+    <ScrollView showsVerticalScrollIndicator={false}  style={{padding:10}} >
+      <Text style={styles.title}>Mes Plats</Text>
+      <View style={styles.container}>
+        {loading ? (
+          <ActivityIndicator size="large" color="blue" />
+        ) : (
+          platIds.map((platId) => <Slider key={platId} platId={platId} />)
+        )}
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 17,
-        marginLeft: "7%",
-        fontWeight: "700",
-        marginTop: "6%",
-        marginBottom:"10%",
-      },
+  title: {
+    fontSize: 17,
+    marginLeft: "7%",
+    fontWeight: "700",
+    marginTop: "6%",
+    marginBottom: "10%",
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

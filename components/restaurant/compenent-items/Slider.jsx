@@ -28,9 +28,9 @@ const Slider = ({ platId }) => {
                 Authorization: `Bearer ${token}`,
               },
             });        console.log("rorororororor",response2.data);
-        setImages(response.data); // Assuming the response is an array of image URLs
-        setPrix(response2.data.prix); // Assuming the response is an array of image URLs
-        setNom(response2.data.nomplat); // Assuming the response is an array of image URLs
+        setImages(response.data); 
+        setPrix(response2.data.prix); 
+        setNom(response2.data.nomplat); 
       } catch (error) {
         console.error('Error fetching images:', error);
       }
@@ -40,7 +40,7 @@ const Slider = ({ platId }) => {
   }, [platId]);
 
   return (
-    <View style={[{ width: 380, height: 250 }, styles.container]}>
+    <View style={[{ width: 380, height: 250, paddingLeft:10, paddingRight:10, }, styles.container]}>
       {images.length > 0 ? (
      <Swiper style={ styles.wrapper} showsButtons loop={false}>
 

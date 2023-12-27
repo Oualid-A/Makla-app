@@ -8,45 +8,134 @@ import {
   Image,
 } from "react-native";
 import * as Location from "expo-location";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import  {GOOGLE_API_KEY}  from "../environnement";
+import  {GOOGLE_API_KEY, environment}  from "../environnement";
+import { useNavigation } from "@react-navigation/native";
+import MapView, { Marker, Polyline } from "react-native-maps";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import Ionicons from "@expo/vector-icons/Feather";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const ASPECT_RATIO = windowWidth / windowHeight;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const INITIAL_POSITION = {
-  latitude: 40.76711,
-  longitude: -73.979704,
-  latitudeDelta: LATITUDE_DELTA,
-  longitudeDelta: LONGITUDE_DELTA,
-};
 
-const Map = () => {
+const BASE_URL = environment.url_api;
+
+
+const Map = ({id}) => {
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [initialRegion, setInitialRegion] = useState(null);
+  const [commands, setCommands] = useState("");
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const iddemmande = await AsyncStorage.getItem("commandeId");
+        console.log("iddemmande",iddemmande);
+        const token = await AsyncStorage.getItem("token");
+
+        const response = await axios.get(
+          `${BASE_URL}/commande/${iddemmande}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Reee:", response.data.lontitudelivreur); 
+        setCommands(response.data);
+
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          console.log("Permission to access location was denied");
+          return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setCurrentLocation(location.coords);
+
+        setInitialRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        });
+      } catch (error) {
+        console.error("Error fetching commands:", error);
+      }
+    };
+
+    getLocation();
+  }, [commands]);
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={INITIAL_POSITION}
-      />
-      <View style={styles.searchContainer}>
-        <GooglePlacesAutocomplete
-          placeholder="Search"
-          styles={{ textInput: styles.input }}
-          onPress={(data, details = null) => {
-            // 'details' is provided when fetchDetails = true
-            console.log(data, details);
-          }}
-          query={{
-            key: GOOGLE_API_KEY,
-            language: "en",
-          }}
-        />
+    <>
+      <View style={styles.container}>
+        {initialRegion && (
+          <MapView style={styles.map} initialRegion={initialRegion}>
+            {currentLocation && (
+              <Marker
+                coordinate={{
+                  latitude: currentLocation.latitude,
+                  longitude: currentLocation.longitude,
+                }}
+                title="Votre Loca"
+              />
+            )}
+            {commands && commands.latitudeclient && commands.longitudeclient && (
+              <Marker
+                coordinate={{
+                 // latitude: parseFloat(commands.latitudeclient),
+                 // longitude: parseFloat(commands.longitudeclient),
+                 latitude: parseFloat(37.4220938),
+                 longitude: parseFloat(-122.083926),
+                }}
+                title="Emplacement du client"
+              />
+            )}
+            {commands && commands.latitudelivreur && commands.lontitudelivreur && (
+              <Marker
+                coordinate={{
+                  latitude: parseFloat(commands.latitudelivreur),
+                  longitude: parseFloat(commands.lontitudelivreur),
+                }}
+                title="Emplacement du livreur"
+              />
+            )}
+            {commands &&
+              commands.latitudelivreur &&
+              commands.lontitudelivreur &&
+              commands.latitudeclient &&
+              commands.longitudeclient && (
+                <Polyline
+                  coordinates={[
+                    {
+                      latitude: parseFloat(commands.latitudelivreur),
+                      longitude: parseFloat(commands.lontitudelivreur),
+                    },
+                    {
+                     // latitude: parseFloat(commands.latitudeclient),
+                     // longitude: parseFloat(commands.longitudeclient),
+                      latitude: parseFloat(37.4220938),
+                      longitude: parseFloat(-122.083926),
+                    },
+                  ]}
+                  strokeColor="#000" // Couleur de la ligne
+                  strokeWidth={2} // Largeur de la ligne
+                />
+              )}
+          </MapView>
+        )}
+        {/* Rest of your code */}
       </View>
-    </View>
+      {/* <Footer /> */}
+      <View style={styles.map2}>
+        <Ionicons name="home" size={30} onPress={()=>{navigation.navigate("LandingPage")}}/>
+      </View>
+    </>
   );
 };
 
@@ -60,23 +149,21 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  searchContainer: {
+  map2: {
     position: "absolute",
-    width: "90%",
-    backgroundColor: "white",
-    borderRadius: 5,
+    width: "auto",
+    backgroundColor: "rgba(250,0, 0, 0)",
+    borderRadius: 500,
     padding: 8,
     shadowColor: "black",
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.6,
     elevation: 4,
     shadowRadius: 4,
-    top: 0,
+    bottom: 10,
     marginTop: 10,
-  },
-  input: {
-    borderColor: "#888",
-    borderWidth: 1,
+    left:10,
+    borderWidth:0.2,
   },
 });
 

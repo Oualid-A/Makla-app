@@ -25,8 +25,9 @@ export default function ForYou() {
     // Fetch data from the API 
     const fetchData = async () => {
       const token = await AsyncStorage.getItem("token");
+      console.log("Token = ", token);
       const response = await axios.get(`${BASE_URL}/admin/Allrestaurants`, {
-        headers: {
+        headers: { 
           Authorization: `Bearer ${token}`,
         },
       }); 
@@ -64,7 +65,7 @@ export default function ForYou() {
               <View style={styles.contenair}>
                 <View style={styles.coverContainer}>
                   <Image
-                    source={{ uri: item.logo }}
+                    source={{ uri: `https://firebasestorage.googleapis.com/v0/b/makla-delivery.appspot.com/o/${item.image}?alt=media` }}
                     style={styles.coverImage}
                   />
                 </View>
@@ -72,7 +73,7 @@ export default function ForYou() {
                   <Text style={styles.title2} onPress={() => ShowMenu(item.id)}>
                     {item.restaurantt}
                   </Text>
-                </View>
+                </View> 
                 <View>
                   <Ionicons
                     onPress={() => ShowMenu(item.id)}
