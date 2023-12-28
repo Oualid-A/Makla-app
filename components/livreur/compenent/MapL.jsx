@@ -31,8 +31,9 @@ const MapL = () => {
             },
           }
         );
-        console.log("Reee:", response.data.lontitudelivreur);
-        setCommands(response.data);
+        console.log("Reee:", response.data.lontitudelivreur); 
+        console.log("Reee:", response.data);
+        setCommands(response.data); 
 
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
@@ -55,29 +56,31 @@ const MapL = () => {
     };
 
     getLocation();
-  }, []);
+    console.log(" parseFloat(commands.longitudeclient),", parseFloat(commands.lontitudeclient));
+    console.log(" parseFloat(commands.latitudeclient),", parseFloat(commands.latitudeclient));
+  }, [currentLocation]);
 
   return (
-    <>
+    <> 
       <View style={styles.container}>
         {initialRegion && (
           <MapView style={styles.map} initialRegion={initialRegion}>
             {currentLocation && (
               <Marker
-                coordinate={{
+                coordinate={{  
                   latitude: currentLocation.latitude,
                   longitude: currentLocation.longitude,
                 }}
                 title="Votre Loca"
               />
             )}
-            {commands && commands.latitudeclient && commands.longitudeclient && (
+            {commands && commands.latitudeclient && commands.lontitudeclient && (
               <Marker
                 coordinate={{
-                 // latitude: parseFloat(commands.latitudeclient),
-                 // longitude: parseFloat(commands.longitudeclient),
-                 latitude: parseFloat(37.4220938),
-                 longitude: parseFloat(-122.083926),
+                  // latitude: parseFloat(commands.latitudeclient),
+                  // longitude: parseFloat(commands.lontitudeclient),
+                  latitude: parseFloat(34.659343),
+                  longitude: parseFloat(-1.906387),
                 }}
                 title="Emplacement du client"
               />
@@ -95,7 +98,7 @@ const MapL = () => {
               commands.latitudelivreur &&
               commands.lontitudelivreur &&
               commands.latitudeclient &&
-              commands.longitudeclient && (
+              commands.lontitudeclient && (
                 <Polyline
                   coordinates={[
                     {
@@ -103,13 +106,13 @@ const MapL = () => {
                       longitude: parseFloat(commands.lontitudelivreur),
                     },
                     {
-                     // latitude: parseFloat(commands.latitudeclient),
-                     // longitude: parseFloat(commands.longitudeclient),
-                      latitude: parseFloat(37.4220938),
-                      longitude: parseFloat(-122.083926),
+                      // latitude: parseFloat(commands.latitudeclient),
+                      // longitude: parseFloat(commands.lontitudeclient),
+                       latitude: parseFloat(34.659343),
+                       longitude: parseFloat(-1.906387),
                     },
                   ]}
-                  strokeColor="#000" // Couleur de la ligne
+                  strokeColor="#fb8500" // Couleur de la ligne
                   strokeWidth={2} // Largeur de la ligne
                 />
               )}

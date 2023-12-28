@@ -137,8 +137,8 @@ export default function Cart() {
     };
 
     console.log("prixTota kssocsocnl", prixTotal);
-  //  console.log(String(location.coords.longitude));
-  //  console.log(String(location.coords.longitude));
+   console.log("longitude", String(location.coords.longitude));
+   console.log("lantitude", String(location.coords.longitude));
     const commande = {
       numerocommande: generateOrderNumber(),
       plat: "",
@@ -162,7 +162,7 @@ export default function Cart() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`, 
         },
-        body: JSON.stringify(commande),
+        body: JSON.stringify(commande), 
       });
       if (response1.ok) {
         // Convertir la réponse en JSON

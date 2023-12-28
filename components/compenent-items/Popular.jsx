@@ -12,15 +12,15 @@ import { useNavigation } from "@react-navigation/native"
 
 const popularData = [
   {
-    name: "Cheese Burger",
-    image: require("../../assets/burger3.jpg"),
+    name: "Burger",
+    image: require("../../assets/plats/burger/depositphotos_641321684-stock-photo-cheeseburger-lettuce-tomato-melted-cheese.jpg"),
     price: "40 MAD",
     rating: 4.8,
     location: "Hey Al-Qods Oujda",
   },
   {
     name: "Pizza Dinde",
-    image: require("../../assets/pizzaL.jpg"),
+    image: require("../../assets/pizza/pizza-aux-crevettes-saumon-olives.jpg"),
     price: "55 MAD",
     rating: 4.8,
     location: "Hey Al-Qods Oujda",
@@ -35,9 +35,9 @@ export default function Popular() {
     <View>
     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
       <Text style={styles.title}>Populaire</Text>
-      <TouchableOpacity style={styles.seeAllButton} onPress={ShowSnack}>
+      {/* <TouchableOpacity style={styles.seeAllButton} onPress={ShowSnack}>
         <Text style={styles.seeAllText}>Voir tout</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       {popularData.map((item, index) => (

@@ -54,7 +54,7 @@ export default function Informations() {
     try {
       const id = await AsyncStorage.getItem("id");
       const token = await AsyncStorage.getItem("token");
-
+      console.log(id);
       const responses2 = await axios.get(
         `${BASE_URL}/user/afficherPhotoProfile/${id}`,
         {
@@ -130,10 +130,23 @@ export default function Informations() {
   };
 
   const UpdateUser = async () => {
-    const token = await AsyncStorage.getItem("token");
-    const response = await updateInfos(userData, token);
-    if (response !== null) {
-      alert("Votre info modifié");
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.put(
+        `${BASE_URL}/user/update`,
+        userData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.success) {
+        alert("Votre info modifié");
+        fetchUserData(); // Refresh user data
+        hideDialog();
+      }
+    } catch (error) {
+      console.error("Error updating user info:", error);
     }
   };
 
@@ -218,28 +231,7 @@ export default function Informations() {
                   <Text style={styles.linkName}>Localisation</Text>
                 </View>
               </TouchableOpacity>
-              <View style={styles.card}>
-                <Ionicons
-                  name="notifications-outline"
-                  size={30}
-                  color="rgba(250, 74, 12, 1)"
-                />
-                <View style={styles.links}>
-                  <TouchableOpacity onPress={() => {}}>
-                    <Text style={styles.linkName}>Notifications</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.card}>
-                <Ionicons
-                  name="time-outline"
-                  size={30}
-                  color="rgba(250, 74, 12, 1)"
-                />
-                <View style={styles.links}>
-                  <Text style={styles.linkName}>Historique des ordres</Text>
-                </View>
-              </View>
+              
               <TouchableOpacity style={styles.card} onPress={logOut}>
                 <Ionicons
                   name="log-out-outline"

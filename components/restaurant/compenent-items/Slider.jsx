@@ -22,12 +22,12 @@ const Slider = ({ platId }) => {
             headers: {
                 Authorization: `Bearer ${token}`,
               },
-            });        console.log("rorororororor",response.data);
+            });        console.log("response 1",response.data);
             const response2 = await axios.get(`${BASE_URL}/plat/${platId}`,{
             headers: {
                 Authorization: `Bearer ${token}`,
               },
-            });        console.log("rorororororor",response2.data);
+            });        console.log("response 2",response2.data);
         setImages(response.data); 
         setPrix(response2.data.prix); 
         setNom(response2.data.nomplat); 
@@ -37,7 +37,7 @@ const Slider = ({ platId }) => {
     };
 
     fetchImages();
-  }, [platId]);
+  }, [nom, images]);
 
   return (
     <View style={[{ width: 380, height: 250, paddingLeft:10, paddingRight:10, }, styles.container]}>
@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
       },
   container: {
     flex: 1,
+    borderWidth:.6,
+    marginBottom:8,
+    borderRadius:10
   },
   wrapper: {
    

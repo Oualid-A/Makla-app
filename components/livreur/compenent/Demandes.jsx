@@ -68,9 +68,9 @@ export default function Demandes() {
       }
     };
     getLocation();
-    requestLocationPermission();
+    requestLocationPermission(); 
     fetchCommands();
-  }, [ commands, commands.reponse]); 
+  }, [commands]); 
 
   const handleDiffuser = async (id) => { 
     try {
@@ -109,29 +109,14 @@ export default function Demandes() {
       );
 
        console.log("Response dooooo:", response.data);
-      // const userId = await AsyncStorage.getItem("response");
-      // const id = JSON.parse(userId)
-      // const commande = {
      
-      //   lontitudeclient: String(location.coords.longitude),
-      //   latitudeclient : String(location.coords.latitude)
-      // };
-      // const addLocation = await fetch(`${BASE_URL}/commande/modifierCommandeByL/${id.id}`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`, // Ou tout autre header nécessaire
-      //   },
-      //   body: JSON.stringify(commande),
-      // });
-      // Handle the diffuser action here
       console.log(`Diffusing request: ${id}`);
       navigation.navigate("MapL");
     } catch (error) {
       console.error("Error updating command:", error);
     }
   };
-
+ 
   return (
     <>
     <View style={{flex:1, backgroundColor:"white"}}>
@@ -161,7 +146,7 @@ export default function Demandes() {
       <View style={styles.map}>
         <Ionicons name="map" size={30} onPress={()=>{navigation.navigate("MapL")}}/>
       </View>
-      </View>
+      </View> 
     </>
   );
 
@@ -171,7 +156,7 @@ export default function Demandes() {
     return (
       <View style={styles.contenair} key={numerocommande}>
         <View style={styles.snack}>
-          <Text style={styles.title}>
+          <Text style={styles.title}> 
             {user.nom} {user.prenom}
           </Text>
           <Text style={styles.description}>{plats.length} Plats </Text>

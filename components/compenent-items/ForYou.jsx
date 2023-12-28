@@ -52,9 +52,9 @@ export default function ForYou() {
     <View style={{ marginBottom: 10 }}>
       <View style={styles.vue}>
         <Text style={styles.title}>Pour Vous</Text>
-        <TouchableOpacity style={styles.seeAllButton} onPress={handleSnacks}>
+        {/* <TouchableOpacity style={styles.seeAllButton} onPress={handleSnacks}>
           <Text style={styles.seeAllText}>Voir tout</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {loading ? (
         <Text>Loading...</Text>

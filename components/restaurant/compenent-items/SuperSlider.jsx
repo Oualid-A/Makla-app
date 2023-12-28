@@ -53,16 +53,18 @@ const SuperSlider = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 17,
-    marginLeft: "7%",
+    fontSize: 20,
+    marginLeft: "2%",
     fontWeight: "700",
     marginTop: "6%",
-    marginBottom: "10%",
+    marginBottom: "5%",
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    // borderWidth:.6,
+
   },
 });
 

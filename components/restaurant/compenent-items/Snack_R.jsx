@@ -58,7 +58,7 @@ export default function Snack_R() {
 
     fetchCommands();
   }, [commands]);
- 
+
   const handleDiffuser = async (id) => {
     Alert.alert(`Demmande de ${id}`, " est diffuser", [
       {
@@ -66,7 +66,6 @@ export default function Snack_R() {
         onPress: async () => {
           try {
             const token = await AsyncStorage.getItem("token");
-            // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6YWtpaWlAZ21haWwuY29tIiwiZXhwIjoxNzAxNzkyMzczfQ.aEyfx7ZV8dlGlLrAziI6DQoOKoq1Yf3TDMAsZ4cbrF_OUX1IfsUYs_OcP5FQjL0vHoFwABCjMLb1Ghy1SuhTVA';
             const response = await axios.put(
               `${BASE_URL}/commande/modifierCommande/${id}`,
               {},
@@ -126,7 +125,8 @@ export default function Snack_R() {
     return (
       <View style={styles.contenair} key={numerocommande}>
         <View style={styles.snack}>
-          <Text style={styles.title}>{user.nom} {user.prenom}
+          <Text style={styles.title}>
+            {user.nom} {user.prenom}
           </Text>
           <Text style={styles.description}>{plats.length} Plats </Text>
           <Text>{prixtotal} DH</Text>

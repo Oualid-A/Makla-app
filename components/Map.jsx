@@ -85,13 +85,13 @@ const Map = ({id}) => {
                 title="Votre Loca"
               />
             )}
-            {commands && commands.latitudeclient && commands.longitudeclient && (
+            {commands && commands.latitudeclient && commands.lontitudeclient && (
               <Marker
                 coordinate={{
                  // latitude: parseFloat(commands.latitudeclient),
-                 // longitude: parseFloat(commands.longitudeclient),
-                 latitude: parseFloat(37.4220938),
-                 longitude: parseFloat(-122.083926),
+                 // longitude: parseFloat(commands.lontitudeclient),
+                 latitude: parseFloat(34.659343),
+                  longitude: parseFloat(-1.906387),
                 }}
                 title="Emplacement du client"
               />
@@ -109,7 +109,7 @@ const Map = ({id}) => {
               commands.latitudelivreur &&
               commands.lontitudelivreur &&
               commands.latitudeclient &&
-              commands.longitudeclient && (
+              commands.lontitudeclient && (
                 <Polyline
                   coordinates={[
                     {
@@ -118,13 +118,13 @@ const Map = ({id}) => {
                     },
                     {
                      // latitude: parseFloat(commands.latitudeclient),
-                     // longitude: parseFloat(commands.longitudeclient),
-                      latitude: parseFloat(37.4220938),
-                      longitude: parseFloat(-122.083926),
+                     // longitude: parseFloat(commands.lontitudeclient),
+                      latitude: parseFloat(34.659343),
+                      longitude: parseFloat(-1.906387),
                     },
                   ]}
-                  strokeColor="#000" // Couleur de la ligne
-                  strokeWidth={2} // Largeur de la ligne
+                  strokeColor="rgba(250, 17, 110, 1)" 
+                  strokeWidth={2} 
                 />
               )}
           </MapView>

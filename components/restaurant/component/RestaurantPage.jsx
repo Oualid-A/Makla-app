@@ -38,13 +38,13 @@ export default function RestaurantPage() {
         
         <SuperSlider />
         
+      </ScrollView>
       <View style={styles.map}>
         <Ionicons name="add" size={30} onPress={()=>{navigation.navigate("PlatForm")}}/>
       </View>
       <View style={styles.map2}>
         <Ionicons name="list" size={25} onPress={()=>{navigation.navigate("Snack_R")}}/>
       </View>
-      </ScrollView>
       {/* <Footer /> */}
     </View>
   );

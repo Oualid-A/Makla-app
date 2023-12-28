@@ -13,13 +13,14 @@ const renderCard = ({ item }) => {
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <ImageBackground
-        source={item.image}
-        style={{ height: 150, width: "100%" }}
+        source={{}}
+        style={{ height: 150, width: "100%",  }}
       >
         <View
           style={{
             ...StyleSheet.absoluteFillObject,
-            backgroundColor: "#11182789",
+            backgroundColor: "#03045e",
+            borderRadius:15,
           }}
         />
         <View
@@ -38,11 +39,20 @@ const renderCard = ({ item }) => {
               marginLeft: 20,
               // backgroundColor: "#a9bde8cc",
               borderRadius: 10,
-              padding:5
+              padding: 5,
             }}
           >
             <Text style={styles.promotionText}>{item.title}</Text>
             <Text style={styles.promotionPrice}>{item.promotion}</Text>
+            <View>
+              <TouchableOpacity style={{
+                backgroundColor:"#f4f3ee",
+                padding:10,
+                borderRadius:10,
+              }}>
+                <Text style={{fontWeight:"700"}}>Commander maintenant</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={{ marginRight: 10 }}>
             <Image
@@ -64,23 +74,23 @@ const Promotion = () => {
   const cards = [
     {
       id: 1,
-      title: "Pizza Grand Taille",
-      image: require("../../assets/pizzaL.jpg"),
-      plat: require("../../assets/salad.png"),
-      promotion: "20% off",
+      title: "Pizza Poulet",
+      image: require("../../assets/pizza/vue-laterale-pizza-au-poivre-hache-dans-ustensiles-cuisine-bord.jpg"),
+      plat: require("../../assets/pizza/pizza-aux-fruits-mer-removebg-preview.png"),
+      promotion: "20% OFF",
     },
     {
       id: 2,
-      title: "Tacos Poulet",
+      title: "Salade aux fruit de mer",
       image: require("../../assets/pizzaL.jpg"),
       plat: require("../../assets/salad.png"),
-      promotion: "Acheter 1 get 1 free",
+      promotion: "40% OFF",
     },
     {
       id: 3,
-      title: "HumBurger",
+      title: "Grand Burger",
       image: require("../../assets/pizzaL.jpg"),
-      plat: require("../../assets/salad.png"),
+      plat: require("../../assets/McDonalds/delicieux-burger-nombreux-ingredients-isoles-fond-blanc-savoureuse-sauce-splash-cheeseburger-removebg-preview.png"),
       promotion: "Special offer",
     },
   ];
@@ -155,12 +165,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
-    marginBottom: 10,
+    marginBottom: 0,
   },
-  promotionPrice:{
+  promotionPrice: {
     fontSize: 20,
     fontWeight: "bold",
     color: "rgba(250, 74, 12, 80)",
     marginBottom: 10,
-  }
+  },
 });

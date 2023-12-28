@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View,LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LandingPage from "./components/LandingPage";
@@ -32,6 +32,18 @@ const Stack = createStackNavigator();
 export default function App() {
   const [cart, setCart] = React.useState([]);
   const keyP = environment.stripe_key;
+  if (__DEV__) {
+    // Suppress only specific warnings
+    LogBox.ignoreLogs(['Warning: ...']);
+  
+    // Suppress all log warnings in the app
+    console.warn = () => {};
+  
+    // Disable yellow box warnings on the device
+    console.disableYellowBox = true; // Deprecated in favor of LogBox.ignoreAllLogs()
+    LogBox.ignoreAllLogs();
+  }
+  
   return (
     <StripeProvider publishableKey={keyP}>
       <NavigationContainer>
@@ -39,19 +51,6 @@ export default function App() {
           screenOptions={{ headerShown: false }}
           initialRouteName="Login"
         >
-          {/* <Stack.Screen name="Informations" component={Informations} />
-          <Stack.Screen name="Test" component={Test} />
-          <Stack.Screen name="Promotion" component={Promotion} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Snack" component={Snack} />
-          <Stack.Screen name="Menu" component={Menu} />
-          <Stack.Screen name="LandingPage" component={LandingPage} />
-          <Stack.Screen name="Map" component={Map} />
-          <Stack.Screen name="Details" component={Details} />
-          <Stack.Screen name="Stripe" component={Stripe} />
-          <Stack.Screen name="Cart">
-            {() => <Cart cartItems={cart} />}
-          </Stack.Screen> */}
           <Stack.Screen name="Promotion" component={Promotion} />
           <Stack.Screen name="Informations" component={Informations} /> 
         <Stack.Screen name="InformationsL" component={InformationsL} /> 
