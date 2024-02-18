@@ -33,7 +33,8 @@ const LoginForm = () => {
     // Get current location
     // let location = await Location.getCurrentPositionAsync({});
     // setLocation(location);
-
+    console.log(email);
+    console.log(password);
     const isAuthenticated = await login(email, password);
     console.log("ghu ch ¡ ihajha hhhhhhhh ");
 

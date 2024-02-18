@@ -4,15 +4,16 @@ const BASE_URL = environment.url_api;
 
 // login
 export const login = async (email, password) => {
-  const response = await fetch(`${BASE_URL}/login`, {
+  console.log(email, password)
+  const response = await fetch(`http://192.168.56.1:8082/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      email,
-      password,
-    }),
+      email: email,
+      password: password
+    })
   })
   console.log(response)
   if (response.ok) {
